@@ -17,12 +17,20 @@ export class DashboardPage extends React.Component {
     componentDidMount() {
         dispatcher.addHandler(dashboardStore);
         dispatcher.subscribe(this._onChange);
-        loadDashboardState();
+        this._reloadDashboardState();
     }
 
     componentWillUnmount() {
+        window.clearTimeout(this.reloadTimer);
         dispatcher.unsubscribe(this._onChange);
         dispatcher.removeHandler(dashboardStore);
+    }
+
+    _reloadDashboardState = () => {
+        loadDashboardState()
+            .then(() => {
+                this.reloadTimer = window.setTimeout(this._reloadDashboardState, 5000);
+            });
     }
 
     _onChange = ({data}) => {
