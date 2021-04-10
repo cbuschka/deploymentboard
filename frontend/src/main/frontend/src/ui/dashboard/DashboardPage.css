@@ -1,0 +1,38 @@
+.DashboardPage {
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+}
+
+.DashboardPage_matrix {
+    width: 100%;
+    height: 100%;
+    color: white;
+    border: 3px solid black;
+    border-collapse: separate;
+}
+
+.DashboardPage_matrix td {
+    padding: 40px;
+}
+
+.DashboardPage_environment {
+    text-transform: capitalize;
+    color: white;
+    width: 100px;
+}
+
+.DashboardPage_system {
+    text-transform: capitalize;
+    border: 3px solid black;
+    border-collapse: collapse;
+    background-color: black;
+}
+
+.DashboardPage_system_environment {
+    color: white;
+    border: 3px solid yellow;
+    border-collapse: collapse;
+    background-color: black;
+    border-radius: 5px;
+}
