@@ -1,5 +1,8 @@
 import React from 'react';
 import './DashboardPage.css';
+import {dashboardStore} from "./DashboardStore";
+import {loadDashboardState} from "./LoadDashboardStateAction";
+import {dispatcher} from "@cbuschka/flux";
 
 export class DashboardPage extends React.Component {
 
@@ -7,49 +10,25 @@ export class DashboardPage extends React.Component {
         super(props);
 
         this.state = {
-            environments: {
-                "prod": {
-                    "ui": {
-                        version: "n/a"
-                    },
-                    "backend": {
-                        version: "n/a"
-                    },
-                },
-                "fach": {
-                    "ui": {
-                        version: "n/a"
-                    },
-                    "backend": {
-                        version: "n/a"
-                    },
-                },
-                "dev": {
-                    "ui": {
-                        version: "n/a"
-                    },
-                    "backend": {
-                        version: "n/a"
-                    },
-                }
-            }
+            environments: {}
         };
     }
 
-
     componentDidMount() {
-        // dispatcher.addHandler(appStore);
-        // dispatcher.subscribe(this._onChange);
+        dispatcher.addHandler(dashboardStore);
+        dispatcher.subscribe(this._onChange);
+        loadDashboardState();
     }
 
     componentWillUnmount() {
-        // dispatcher.unsubscribe(this._onChange);
-        // dispatcher.removeHandler(appStore);
+        dispatcher.unsubscribe(this._onChange);
+        dispatcher.removeHandler(dashboardStore);
     }
 
     _onChange = ({data}) => {
-        // this.setState({});
-    }
+        const {dashboard: {state}} = data;
+        this.setState(state);
+    };
 
     render() {
 

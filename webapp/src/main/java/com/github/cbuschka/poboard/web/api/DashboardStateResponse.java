@@ -1,38 +1,34 @@
 package com.github.cbuschka.poboard.web.api;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DashboardStateResponse
 {
-	public final Map<String, List<Environment>> environments = new LinkedHashMap<>();
+	public final Map<String, Map<String, SystemEnvironment>> environments = new LinkedHashMap<>();
 
-	public static DashboardStateResponse newWithProducts(String... products)
+	public static DashboardStateResponse newWithEnvironments(String... envs)
 	{
 		DashboardStateResponse response = new DashboardStateResponse();
-		for (String product : products)
+		for (String env : envs)
 		{
-			response.environments.put(product, new ArrayList<>());
+			response.environments.put(env, new LinkedHashMap<>());
 		}
 		return response;
 	}
 
-	public DashboardStateResponse withEnvironment(String product, Environment environment)
+	public DashboardStateResponse withSystemEnvironment(String env, String system, SystemEnvironment systemEnvironment)
 	{
-		this.environments.get(product).add(environment);
+		this.environments.get(env).put(system, systemEnvironment);
 		return this;
 	}
 
-	public static class Environment
+	public static class SystemEnvironment
 	{
-		public String name;
 		public String version;
 
-		public Environment(String name, String version)
+		public SystemEnvironment(String version)
 		{
-			this.name = name;
 			this.version = version;
 		}
 	}
