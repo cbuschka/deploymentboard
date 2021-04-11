@@ -4,6 +4,8 @@
 
 ### WORK IN PROGRESS!!!
 
+![Screenshot](./doc/screenshot.png)
+
 ## License
 
 Copyright (c) 2021 by [Cornelius Buschka](https://github.com/cbuschka).
