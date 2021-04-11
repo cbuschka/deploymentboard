@@ -1,5 +1,7 @@
 package com.github.cbuschka.poboard.business.dashboard;
 
+import com.github.cbuschka.poboard.domain.issue_tracking.IssueStatus;
+
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +23,9 @@ public class DashboardStateResponse
 	public DashboardStateResponse withSystemEnvironment(String envName, String system, SystemEnvironment systemEnvironment)
 	{
 		Map<String, SystemEnvironment> env = this.environments.get(envName);
-		if( env == null ) {
-			throw new IllegalArgumentException("Unknown env "+envName+".");
+		if (env == null)
+		{
+			throw new IllegalArgumentException("Unknown env " + envName + ".");
 		}
 		env.put(system, systemEnvironment);
 		return this;
@@ -44,7 +47,8 @@ public class DashboardStateResponse
 		}
 	}
 
-	public static class Issue {
+	public static class Issue
+	{
 		public String issueNo;
 		public IssueStatus status;
 
@@ -53,10 +57,5 @@ public class DashboardStateResponse
 			this.issueNo = issueNo;
 			this.status = status;
 		}
-	}
-
-	public enum IssueStatus
-	{
-		OPEN, CLOSED, MISSING, UNKNOWN;
 	}
 }

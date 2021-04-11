@@ -5,12 +5,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProjectDomainService
 {
 	@Autowired
 	private MockDataProvider mockDataProvider;
+
+	Optional<Project> getProjectFor(String issueNo)
+	{
+		return getProjects()
+				.stream()
+				.filter((p) -> issueNo.startsWith(p.getIssuePrefix()))
+				.findFirst();
+	}
 
 	public List<Project> getProjects()
 	{

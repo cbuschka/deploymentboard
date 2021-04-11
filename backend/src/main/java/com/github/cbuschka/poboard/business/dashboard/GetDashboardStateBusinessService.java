@@ -5,6 +5,8 @@ import com.github.cbuschka.poboard.domain.deployment.DeploymentInfoDomainService
 import com.github.cbuschka.poboard.domain.deployment.EnvironmentDomainService;
 import com.github.cbuschka.poboard.domain.deployment.System;
 import com.github.cbuschka.poboard.domain.deployment.SystemDomainService;
+import com.github.cbuschka.poboard.domain.issue_tracking.IssueDomainService;
+import com.github.cbuschka.poboard.domain.issue_tracking.IssueStatus;
 import com.github.cbuschka.poboard.domain.issue_tracking.Project;
 import com.github.cbuschka.poboard.domain.issue_tracking.ProjectDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,8 @@ public class GetDashboardStateBusinessService
 	private SystemDomainService systemDomainService;
 	@Autowired
 	private ProjectDomainService projectDomainService;
+	@Autowired
+	private IssueDomainService issueDomainService;
 
 	public DashboardStateResponse getDashboardState()
 	{
@@ -67,12 +71,18 @@ public class GetDashboardStateBusinessService
 					response = response.withSystemEnvironment(env, system.getName(),
 							new DashboardStateResponse.SystemEnvironment(deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
 									deploymentInfo.getBranch(),
-									issuesOfEnv.stream().map((s) -> new DashboardStateResponse.Issue(s, DashboardStateResponse.IssueStatus.UNKNOWN)).collect(toList())
+									issuesOfEnv.stream().map((s) -> toIssue(s)).collect(toList())
 							));
 				}
 			}
 		}
 
 		return response;
+	}
+
+	private DashboardStateResponse.Issue toIssue(String issueNo)
+	{
+		IssueStatus status = this.issueDomainService.getIssueStatus(issueNo);
+		return new DashboardStateResponse.Issue(issueNo, status);
 	}
 }
