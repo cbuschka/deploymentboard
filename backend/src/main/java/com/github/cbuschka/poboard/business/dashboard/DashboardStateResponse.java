@@ -18,20 +18,28 @@ public class DashboardStateResponse
 		return response;
 	}
 
-	public DashboardStateResponse withSystemEnvironment(String env, String system, SystemEnvironment systemEnvironment)
+	public DashboardStateResponse withSystemEnvironment(String envName, String system, SystemEnvironment systemEnvironment)
 	{
-		this.environments.get(env).put(system, systemEnvironment);
+		Map<String, SystemEnvironment> env = this.environments.get(envName);
+		if( env == null ) {
+			throw new IllegalArgumentException("Unknown env "+envName+".");
+		}
+		env.put(system, systemEnvironment);
 		return this;
 	}
 
 	public static class SystemEnvironment
 	{
 		public String version;
+		public String commitish;
+		public String branch;
 		public List<Issue> issues;
 
-		public SystemEnvironment(String version, List<Issue> issues)
+		public SystemEnvironment(String version, String commitish, String branch, List<Issue> issues)
 		{
+			this.branch = branch;
 			this.version = version;
+			this.commitish = commitish;
 			this.issues = issues;
 		}
 	}
@@ -49,6 +57,6 @@ public class DashboardStateResponse
 
 	public enum IssueStatus
 	{
-		OPEN, CLOSED, MISSING;
+		OPEN, CLOSED, MISSING, UNKNOWN;
 	}
 }

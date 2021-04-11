@@ -42,6 +42,11 @@
     display: block;
 }
 
+.DashboardPage_system_environment_branchAndCommitish {
+    font-size: 0.8em;
+    display: block;
+}
+
 .DashboardPage_system_environment_issue {
     display: inline-block;
     border: 1px solid gray;
@@ -51,6 +56,12 @@
 }
 
 .DashboardPage_system_environment_issue.MISSING {
+    border: 1px solid lightgray;
+    background-color: gray;
+    color: white;
+}
+
+.DashboardPage_system_environment_issue.UNKNOWN {
     border: 1px solid lightgray;
     background-color: gray;
     color: white;

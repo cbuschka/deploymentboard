@@ -74,6 +74,7 @@ export class DashboardPage extends React.Component {
 
                                 return <td className="DashboardPage_system_environment"
                                            key={systemName + "_" + envName}><span className="DashboardPage_system_environment_version">{systemEnv.version}</span>
+                                    <span className="DashboardPage_system_environment_branchAndCommitish">{systemEnv.branch} - {systemEnv.commitish}</span>
                                     {systemEnv.issues.map(issue => {
                                         return <span key={issue.issueNo}
                                                      className={classnames("DashboardPage_system_environment_issue", issue.status)}>{issue.issueNo}</span>;
