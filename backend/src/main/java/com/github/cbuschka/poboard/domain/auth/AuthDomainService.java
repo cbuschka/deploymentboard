@@ -15,28 +15,29 @@ public class AuthDomainService
 
 	public List<UsernamePasswordCredentials> getUsernamePasswordCredentials(String username, String hostname)
 	{
-		return getCredentials(username, hostname)
+		return getCredentials(hostname)
 				.stream()
 				.filter((c) -> c instanceof UsernamePasswordCredentials)
 				.map((c) -> (UsernamePasswordCredentials) c)
+				.filter((c) -> c.getUsername() != null && c.getUsername().equalsIgnoreCase(username))
 				.collect(Collectors.toList());
 	}
 
 	public List<PrivateKeyCredentials> getPrivateKeyCredentials(String username, String hostname)
 	{
-		return getCredentials(username, hostname)
+		return getCredentials(hostname)
 				.stream()
 				.filter((c) -> c instanceof PrivateKeyCredentials)
 				.map((c) -> (PrivateKeyCredentials) c)
+				.filter((c) -> c.getUsername() != null && c.getUsername().equalsIgnoreCase(username))
 				.collect(Collectors.toList());
 	}
 
-	public List<Credentials> getCredentials(String username, String hostname)
+	public List<Credentials> getCredentials(String hostname)
 	{
 		return mockDataProvider.getMockData().credentials
 				.stream()
 				.filter((c) -> (c.getHostnames() == null || c.getHostnames().isEmpty()) || c.getHostnames().contains(hostname))
-				.filter((c) -> c.getUsername() != null && c.getUsername().equalsIgnoreCase(username))
 				.collect(Collectors.toList());
 	}
 }

@@ -5,8 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class UsernamePasswordCredentials extends Credentials
+public class AuthTokenCredentials extends Credentials
 {
-	private String username;
-	private String password;
+	private String value;
 }
