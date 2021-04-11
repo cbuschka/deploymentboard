@@ -29,7 +29,7 @@ export class DashboardPage extends React.Component {
 
     _reloadDashboardState = () => {
         loadDashboardState()
-            .then(() => {
+            .finally(() => {
                 this.reloadTimer = window.setTimeout(this._reloadDashboardState, 5000);
             });
     }
