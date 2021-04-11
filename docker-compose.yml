@@ -8,3 +8,9 @@ services:
       POSTGRES_USER: poboard
       POSTGRES_PASSWORD: asdfasdf
       POSTGRES_DB: poboard
+
+  git-server:
+    build:
+      context: ./git-server
+    ports:
+      - "10122:22"
