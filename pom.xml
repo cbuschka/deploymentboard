@@ -20,6 +20,7 @@
         <java.version>11</java.version>
     </properties>
     <modules>
+        <module>backend</module>
         <module>frontend</module>
         <module>webapp</module>
     </modules>

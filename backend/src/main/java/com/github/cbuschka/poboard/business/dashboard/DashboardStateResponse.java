@@ -1,4 +1,4 @@
-package com.github.cbuschka.poboard.web.api;
+package com.github.cbuschka.poboard.business.dashboard;
 
 import java.util.LinkedHashMap;
 import java.util.List;
