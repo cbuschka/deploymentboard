@@ -9,6 +9,30 @@ services:
       POSTGRES_PASSWORD: asdfasdf
       POSTGRES_DB: poboard
 
+  ui-prod:
+    build:
+      context: ./mock-system
+    environment:
+      VERSION_RESPONSE: '{"version":"15.11.1","commitish":"d26869e2ec5cbb2a70f8aecbb624af392b6d09de","branch":"master"}'
+    ports:
+      - "9083:80"
+
+  ui-stage:
+    build:
+      context: ./mock-system
+    environment:
+      VERSION_RESPONSE: '{"version":"15.11.2-SNAPSHOT","commitish":"8e5a5ee9f73e3d284d90abe414505f0ca622dbd1","branch":"develop"}'
+    ports:
+      - "9082:80"
+
+  ui-dev:
+    build:
+      context: ./mock-system
+    environment:
+      VERSION_RESPONSE: '{"version":"15.11.2-SNAPSHOT","commitish":"a29160932cbe928626aa73759dddcada04f6bf8d","branch":"feature/UI-11"}'
+    ports:
+      - "9081:80"
+
   git-server:
     build:
       context: ./git-server
