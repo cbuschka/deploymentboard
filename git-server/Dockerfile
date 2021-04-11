@@ -19,9 +19,6 @@ RUN useradd -u 10000 -G sudo git -m -s /bin/bash -d /home/git && \
 ADD assets/ /
 
 RUN mkdir /var/run/sshd && chmod 700 /var/run/sshd
-RUN chown -R root:root /etc/ssh && \
-	chmod 600 /etc/ssh/* && \
-	chmod 644 /etc/ssh/*.pub
 RUN chown -R git:git /home/git && \
 	chmod 600 /home/git/.ssh/* && \
 	chmod 700 /home/git/.ssh/ && \

@@ -1,4 +1,15 @@
 {
+  "credentials": [
+    {
+      "type": "privateKey",
+      "data": "-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEA2XTGkPSUWwQYsO/D4Af5T9Y9TL03ni1r3VPiK+VGX5bY8MT6\nmEDuZ3JJtyM5yAl88z7BgCLkTr56vUwLiOycB4NdhGuMqIEddle7pM/e8Q1U0yAl\nYJpb1zcTOJQN6moh6IIMgjwmwLTZKV/0eeQ8Jkp2JUxUYu1P5Qs8yc8UrTayb7K0\nVaqZcu1hpNDLEsRiOqO7DnmSV3BDIzs2+sCv9k+tZ2qp6Sh3dIMjdNZ4qHetvlTB\nyHspC++YA6FIGQM+XCs5hkKVDfIIqWXZ5YOqVxRjG9x3CGlQWoljzEMmDf4Q1Tsr\nb2ooCAXtj7XqVM5lyenrjo3i/+1s0C2Ha8PV+wIDAQABAoIBAD6LqflTf8BWA0wR\nCoPLh1gBRQxneDHU2quETw9VGNKxrqBB59oXAvtaEf3M8fepUvkb2cgjQQutGdyM\nnNy7QX2fuSw3SvPEf1bkkSIsb/FhZj57hoSsoTHbs3mYjBAairo3faWP642N9tBB\nuy28Cdjxnd3IgJUbsNkuTEO3fjj7dGTszOvk7hm4zxvJrSgvSN4Q+XbBIO8X/89r\nII5gvf64SMkHCAMkHZIh5Gx4hMh8MXVLkNTX/wNgX3MDZSUKYxK89QkHKxrVgfIF\nV1jX4uFxgynU/pGiZiw1m/r/KPkmiNOfkqHN9u5MX4TbDTxyjGRW7Jd9PyjAaPvY\n1x8IWpECgYEA/o3BVujHvTbQOLK7Ztp0tj4ltZ+sJRnJauaAR5egN9rt3Rk7YpIS\nJhbYoxag3LVaZF1TSnW3ieZK+/DFUfBCSpUEon/d3p2GBEHmFijEIZq+dcupTrcb\nPWgeEcjwg9UQ/FZhV2+Lif9LZOx6AKxb1v6xZHB7bZZ6fM0912tz7I0CgYEA2rEQ\nAWs7N7vszPe4+WT8g+d/k2lH0nFT9jRg+b4Z6wkuDM3Y/6hoaxWxzOewjbr8H3Kz\niYQiELEgkJ6mSaYOtwdjU6n1gqsxF7kFdq0/y8DB9+pQUuYVjYwMobmCOLjBmCWJ\nlrQpW0tB4ixktWDaFlG1S+Ys4NY8459IMdYcHqcCgYEAidP9VG50AAqW0axM9hLg\n0PBzgJT1I52DxqMJ4DnEIZoj4uxPkD6hHwiNwjh1Xyu+xssVVyLH/x23ihTC8mvR\nqQpo2Qe8/VVzhAieaW8nSz67U5KzmJBiamxeo6iWOft61/Z5fFtERbL6gqncIVMx\n4wZCzKxu2FZ6+eozStm+id0CgYEAhVVQ8dyEBU4RaUJbx8o3XuCE2sZkoLyxuTlk\nKsApozA8oFfcxrrRtwBKICjebvsi/rV7GwuxjUXBGgtwTRTugc8CUx8bbaicTN9k\nol+strh2SoXUpUZcu6k4hl3JNHYIqo+wXG7JjDzNFW2FlURQky0MARN8JzTXeNxD\nMwdcq58CgYBw4i5OJ8ui0+f0bMRjPoU+x9lsWXR4N6siBzbleeyH6jDMjWtv+/YC\nh9CnnjgdWjxoihIIQ/5p8oqXYsoJTWtfBI2JXkpBtJ+B6d5fSZmZhWCRw02xv1rw\nw4tSIT2/N3F0Myx0YztIxl7/T/98xH9drU3Iyc3LEpcgIgQLAdZ4zA==\n-----END RSA PRIVATE KEY-----\n"
+    },
+    {
+      "type": "password",
+      "username": "git",
+      "password": "asdfasdf"
+    }
+  ],
   "projects": [
     {
       "issuePrefix": "UI-"
@@ -14,130 +25,15 @@
     {
       "name": "ui",
       "repository": {
-        "changes": [
-          {
-            "commitish": "ui13",
-            "predecessor": "ui12",
-            "comment": "UI-11"
-          },
-          {
-            "commitish": "ui12",
-            "predecessor": "ui11",
-            "comment": null
-          },
-          {
-            "commitish": "ui11",
-            "predecessor": "ui10",
-            "comment": null
-          },
-          {
-            "commitish": "ui10",
-            "predecessor": "ui9",
-            "comment": null
-          },
-          {
-            "commitish": "ui9",
-            "predecessor": "ui8",
-            "comment": null
-          },
-          {
-            "commitish": "ui8",
-            "predecessor": "ui7",
-            "comment": null
-          },
-          {
-            "commitish": "ui7",
-            "predecessor": "ui6",
-            "comment": "UI-7"
-          },
-          {
-            "commitish": "ui6",
-            "predecessor": "ui5",
-            "comment": "UI-5"
-          },
-          {
-            "commitish": "ui5",
-            "predecessor": "ui4",
-            "comment": "UI-4"
-          },
-          {
-            "commitish": "ui3",
-            "predecessor": "ui2",
-            "comment": "UI-3"
-          }
-        ]
+        "uuid": "ui",
+        "url": "ssh://git@localhost:10122/srv/git/ui"
       }
     },
     {
       "name": "backend",
       "repository": {
-        "changes": [
-          {
-            "commitish": "be13",
-            "predecessor": "be12",
-            "comment": "BE-13"
-          },
-          {
-            "commitish": "be12",
-            "predecessor": "be11",
-            "comment": "BE-12"
-          },
-          {
-            "commitish": "be11",
-            "predecessor": "be10",
-            "comment": null
-          },
-          {
-            "commitish": "be10",
-            "predecessor": "be9",
-            "comment": null
-          },
-          {
-            "commitish": "be9",
-            "predecessor": "be8",
-            "comment": null
-          },
-          {
-            "commitish": "be8",
-            "predecessor": "be7",
-            "comment": null
-          },
-          {
-            "commitish": "be7",
-            "predecessor": "be6",
-            "comment": null
-          },
-          {
-            "commitish": "be6",
-            "predecessor": "be5",
-            "comment": null
-          },
-          {
-            "commitish": "be5",
-            "predecessor": "be4",
-            "comment": null
-          },
-          {
-            "commitish": "be4",
-            "predecessor": "be3",
-            "comment": null
-          },
-          {
-            "commitish": "be3",
-            "predecessor": "be2",
-            "comment": null
-          },
-          {
-            "commitish": "be2",
-            "predecessor": "be1",
-            "comment": null
-          },
-          {
-            "commitish": "be1",
-            "predecessor": null,
-            "comment": null
-          }
-        ]
+        "uuid": "backend",
+        "url": "ssh://git@localhost:10122/srv/git/backend"
       }
     }
   ],
@@ -150,42 +46,42 @@
     {
       "system": "ui",
       "env": "prod",
-      "commitish": "ui10",
+      "commitish": "d26869e2ec5cbb2a70f8aecbb624af392b6d09de",
       "version": "15.11.1",
       "branch": "main"
     },
     {
       "system": "ui",
       "env": "stage",
-      "commitish": "ui12",
+      "commitish": "8e5a5ee9f73e3d284d90abe414505f0ca622dbd1",
       "version": "15.11.2-SNAPSHOT",
       "branch": "main"
     },
     {
       "system": "ui",
       "env": "int",
-      "commitish": "ui13",
+      "commitish": "a29160932cbe928626aa73759dddcada04f6bf8d",
       "version": "15.11.2-SNAPSHOT",
       "branch": "feature/UI-11"
     },
     {
       "system": "backend",
       "env": "prod",
-      "commitish": "be10",
+      "commitish": "3e4996f4f68c5f73c66f59fafd77b53231e9fd84",
       "version": "15.3.1",
       "branch": "main"
     },
     {
       "system": "backend",
       "env": "stage",
-      "commitish": "be12",
+      "commitish": "8224ba8afd1d0ba38ecf28c59d98088b25deae5c",
       "version": "15.3.2-SNAPSHOT",
       "branch": "main"
     },
     {
       "system": "backend",
       "env": "int",
-      "commitish": "be13",
+      "commitish": "8224ba8afd1d0ba38ecf28c59d98088b25deae5c",
       "version": "15.3.2-SNAPSHOT",
       "branch": "feature/BE-13"
     }
