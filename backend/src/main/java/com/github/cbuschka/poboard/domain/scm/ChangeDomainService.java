@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -97,6 +98,11 @@ public class ChangeDomainService
 
 	private List<Change> listChanges(String commitish, CodeRepository codeRepository) throws Exception
 	{
+		if (commitish == null)
+		{
+			return Collections.emptyList();
+		}
+
 		File repoDir = new File(this.workspaceDir, codeRepository.getUuid() + ".git");
 
 		URIish repositoryUri = new URIish(codeRepository.getUrl());

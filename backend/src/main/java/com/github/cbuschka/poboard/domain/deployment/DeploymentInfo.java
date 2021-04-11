@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DeploymentInfo
 {
+	private DeploymentStatus status;
 	private String system;
 	private String env;
 	private String commitish;

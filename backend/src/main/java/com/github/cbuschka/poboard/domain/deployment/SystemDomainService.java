@@ -13,6 +13,13 @@ public class SystemDomainService
 	@Autowired
 	private MockDataProvider mockDataProvider;
 
+	public System getSystem(String system) {
+		return getSystems()
+				.stream()
+				.filter((s)->s.getName().equals(system))
+				.findFirst().get();
+	}
+
 	public List<System> getSystems()
 	{
 		return this.mockDataProvider.getMockData().systems;

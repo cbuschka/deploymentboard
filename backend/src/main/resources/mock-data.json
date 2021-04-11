@@ -27,6 +27,17 @@
       "repository": {
         "uuid": "ui",
         "url": "ssh://git@localhost:10122/srv/git/ui"
+      },
+      "endpoints": {
+        "int": {
+          "url": "http://localhost:9081/version.json"
+        },
+        "stage": {
+          "url": "http://localhost:9082/version.json"
+        },
+        "prod": {
+          "url": "http://localhost:9083/version.json"
+        }
       }
     },
     {
@@ -34,6 +45,17 @@
       "repository": {
         "uuid": "backend",
         "url": "ssh://git@localhost:10122/srv/git/backend"
+      },
+      "endpoints": {
+        "int": {
+          "url": "http://localhost:9084/version.json"
+        },
+        "stage": {
+          "url": "http://localhost:9085/version.json"
+        },
+        "prod": {
+          "url": "http://localhost:9086/version.json"
+        }
       }
     }
   ],
@@ -41,49 +63,5 @@
     "prod",
     "stage",
     "int"
-  ],
-  "deploymentInfos": [
-    {
-      "system": "ui",
-      "env": "prod",
-      "commitish": "d26869e2ec5cbb2a70f8aecbb624af392b6d09de",
-      "version": "15.11.1",
-      "branch": "main"
-    },
-    {
-      "system": "ui",
-      "env": "stage",
-      "commitish": "8e5a5ee9f73e3d284d90abe414505f0ca622dbd1",
-      "version": "15.11.2-SNAPSHOT",
-      "branch": "main"
-    },
-    {
-      "system": "ui",
-      "env": "int",
-      "commitish": "a29160932cbe928626aa73759dddcada04f6bf8d",
-      "version": "15.11.2-SNAPSHOT",
-      "branch": "feature/UI-11"
-    },
-    {
-      "system": "backend",
-      "env": "prod",
-      "commitish": "3e4996f4f68c5f73c66f59fafd77b53231e9fd84",
-      "version": "15.3.1",
-      "branch": "main"
-    },
-    {
-      "system": "backend",
-      "env": "stage",
-      "commitish": "8224ba8afd1d0ba38ecf28c59d98088b25deae5c",
-      "version": "15.3.2-SNAPSHOT",
-      "branch": "main"
-    },
-    {
-      "system": "backend",
-      "env": "int",
-      "commitish": "8224ba8afd1d0ba38ecf28c59d98088b25deae5c",
-      "version": "15.3.2-SNAPSHOT",
-      "branch": "feature/BE-13"
-    }
   ]
 }

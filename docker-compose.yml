@@ -25,13 +25,37 @@ services:
     ports:
       - "9082:80"
 
-  ui-dev:
+  ui-int:
     build:
       context: ./mock-system
     environment:
       VERSION_RESPONSE: '{"version":"15.11.2-SNAPSHOT","commitish":"a29160932cbe928626aa73759dddcada04f6bf8d","branch":"feature/UI-11"}'
     ports:
       - "9081:80"
+
+  backend-prod:
+    build:
+      context: ./mock-system
+    environment:
+      VERSION_RESPONSE: '{"version":"15.3.1","commitish":"3e4996f4f68c5f73c66f59fafd77b53231e9fd84","branch":"main"}'
+    ports:
+      - "9086:80"
+
+  backend-stage:
+    build:
+      context: ./mock-system
+    environment:
+      VERSION_RESPONSE: '{"version":"15.3.2-SNAPSHOT","commitish":"8224ba8afd1d0ba38ecf28c59d98088b25deae5c","branch":"main"}'
+    ports:
+      - "9085:80"
+
+  backend-int:
+    build:
+      context: ./mock-system
+    environment:
+      VERSION_RESPONSE: '{"version":"15.3.2-SNAPSHOT","commitish":"8224ba8afd1d0ba38ecf28c59d98088b25deae5c","branch":"feature/BE-13"}'
+    ports:
+      - "9084:80"
 
   git-server:
     build:
