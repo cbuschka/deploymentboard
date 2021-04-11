@@ -10,6 +10,137 @@
       "issuePrefix": "BE-"
     }
   ],
+  "systems": [
+    {
+      "name": "ui",
+      "repository": {
+        "changes": [
+          {
+            "commitish": "ui13",
+            "predecessor": "ui12",
+            "comment": "UI-11"
+          },
+          {
+            "commitish": "ui12",
+            "predecessor": "ui11",
+            "comment": null
+          },
+          {
+            "commitish": "ui11",
+            "predecessor": "ui10",
+            "comment": null
+          },
+          {
+            "commitish": "ui10",
+            "predecessor": "ui9",
+            "comment": null
+          },
+          {
+            "commitish": "ui9",
+            "predecessor": "ui8",
+            "comment": null
+          },
+          {
+            "commitish": "ui8",
+            "predecessor": "ui7",
+            "comment": null
+          },
+          {
+            "commitish": "ui7",
+            "predecessor": "ui6",
+            "comment": "UI-7"
+          },
+          {
+            "commitish": "ui6",
+            "predecessor": "ui5",
+            "comment": "UI-5"
+          },
+          {
+            "commitish": "ui5",
+            "predecessor": "ui4",
+            "comment": "UI-4"
+          },
+          {
+            "commitish": "ui3",
+            "predecessor": "ui2",
+            "comment": "UI-3"
+          }
+        ]
+      }
+    },
+    {
+      "name": "backend",
+      "repository": {
+        "changes": [
+          {
+            "commitish": "be13",
+            "predecessor": "be12",
+            "comment": "BE-13"
+          },
+          {
+            "commitish": "be12",
+            "predecessor": "be11",
+            "comment": "BE-12"
+          },
+          {
+            "commitish": "be11",
+            "predecessor": "be10",
+            "comment": null
+          },
+          {
+            "commitish": "be10",
+            "predecessor": "be9",
+            "comment": null
+          },
+          {
+            "commitish": "be9",
+            "predecessor": "be8",
+            "comment": null
+          },
+          {
+            "commitish": "be8",
+            "predecessor": "be7",
+            "comment": null
+          },
+          {
+            "commitish": "be7",
+            "predecessor": "be6",
+            "comment": null
+          },
+          {
+            "commitish": "be6",
+            "predecessor": "be5",
+            "comment": null
+          },
+          {
+            "commitish": "be5",
+            "predecessor": "be4",
+            "comment": null
+          },
+          {
+            "commitish": "be4",
+            "predecessor": "be3",
+            "comment": null
+          },
+          {
+            "commitish": "be3",
+            "predecessor": "be2",
+            "comment": null
+          },
+          {
+            "commitish": "be2",
+            "predecessor": "be1",
+            "comment": null
+          },
+          {
+            "commitish": "be1",
+            "predecessor": null,
+            "comment": null
+          }
+        ]
+      }
+    }
+  ],
   "environments": [
     "prod",
     "stage",
@@ -57,123 +188,6 @@
       "commitish": "be13",
       "version": "15.3.2-SNAPSHOT",
       "branch": "feature/BE-13"
-    }
-  ],
-  "changes": [
-    {
-      "commitish": "be13",
-      "predecessor": "be12",
-      "comment": "BE-13"
-    },
-    {
-      "commitish": "be12",
-      "predecessor": "be11",
-      "comment": "BE-12"
-    },
-    {
-      "commitish": "be11",
-      "predecessor": "be10",
-      "comment": null
-    },
-    {
-      "commitish": "be10",
-      "predecessor": "be9",
-      "comment": null
-    },
-    {
-      "commitish": "be9",
-      "predecessor": "be8",
-      "comment": null
-    },
-    {
-      "commitish": "be8",
-      "predecessor": "be7",
-      "comment": null
-    },
-    {
-      "commitish": "be7",
-      "predecessor": "be6",
-      "comment": null
-    },
-    {
-      "commitish": "be6",
-      "predecessor": "be5",
-      "comment": null
-    },
-    {
-      "commitish": "be5",
-      "predecessor": "be4",
-      "comment": null
-    },
-    {
-      "commitish": "be4",
-      "predecessor": "be3",
-      "comment": null
-    },
-    {
-      "commitish": "be3",
-      "predecessor": "be2",
-      "comment": null
-    },
-    {
-      "commitish": "be2",
-      "predecessor": "be1",
-      "comment": null
-    },
-    {
-      "commitish": "be1",
-      "predecessor": null,
-      "comment": null
-    },
-    {
-      "commitish": "ui13",
-      "predecessor": "ui12",
-      "comment": "UI-11"
-    },
-    {
-      "commitish": "ui12",
-      "predecessor": "ui11",
-      "comment": null
-    },
-    {
-      "commitish": "ui11",
-      "predecessor": "ui10",
-      "comment": null
-    },
-    {
-      "commitish": "ui10",
-      "predecessor": "ui9",
-      "comment": null
-    },
-    {
-      "commitish": "ui9",
-      "predecessor": "ui8",
-      "comment": null
-    },
-    {
-      "commitish": "ui8",
-      "predecessor": "ui7",
-      "comment": null
-    },
-    {
-      "commitish": "ui7",
-      "predecessor": "ui6",
-      "comment": "UI-7"
-    },
-    {
-      "commitish": "ui6",
-      "predecessor": "ui5",
-      "comment": "UI-5"
-    },
-    {
-      "commitish": "ui5",
-      "predecessor": "ui4",
-      "comment": "UI-4"
-    },
-    {
-      "commitish": "ui3",
-      "predecessor": "ui2",
-      "comment": "UI-3"
     }
   ]
 }

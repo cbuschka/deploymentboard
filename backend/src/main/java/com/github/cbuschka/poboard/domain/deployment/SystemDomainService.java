@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class SystemDomainService
@@ -14,14 +13,8 @@ public class SystemDomainService
 	@Autowired
 	private MockDataProvider mockDataProvider;
 
-	public List<String> getSystems()
+	public List<System> getSystems()
 	{
-		return this.mockDataProvider.getMockData().deploymentInfos
-				.stream()
-				.map(DeploymentInfo::getSystem)
-				.collect(Collectors.toSet())
-				.stream()
-				.sorted()
-				.collect(Collectors.toList());
+		return this.mockDataProvider.getMockData().systems;
 	}
 }

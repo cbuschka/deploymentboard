@@ -1,6 +1,7 @@
 package com.github.cbuschka.poboard.domain.mock;
 
 import com.github.cbuschka.poboard.domain.deployment.DeploymentInfo;
+import com.github.cbuschka.poboard.domain.deployment.System;
 import com.github.cbuschka.poboard.domain.issue_tracking.Project;
 import com.github.cbuschka.poboard.domain.scm.Change;
 
@@ -14,5 +15,5 @@ public class MockData
 
 	public List<DeploymentInfo> deploymentInfos;
 
-	public List<Change> changes;
+	public List<System> systems;
 }
