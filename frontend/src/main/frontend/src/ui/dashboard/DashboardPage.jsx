@@ -3,6 +3,7 @@ import './DashboardPage.css';
 import {dashboardStore} from "./DashboardStore";
 import {loadDashboardState} from "./LoadDashboardStateAction";
 import {dispatcher} from "@cbuschka/flux";
+import classnames from 'classnames';
 
 export class DashboardPage extends React.Component {
 
@@ -72,7 +73,11 @@ export class DashboardPage extends React.Component {
                                 const systemEnv = env[systemName];
 
                                 return <td className="DashboardPage_system_environment"
-                                           key={systemName + "_" + envName}>{systemEnv.version}</td>
+                                           key={systemName + "_" + envName}><span className="DashboardPage_system_environment_version">{systemEnv.version}</span>
+                                    {systemEnv.issues.map(issue => {
+                                        return <span key={issue.issueNo}
+                                                     className={classnames("DashboardPage_system_environment_issue", issue.status)}>{issue.issueNo}</span>;
+                                    })}</td>
                             })}
                         </tr>
                     })}

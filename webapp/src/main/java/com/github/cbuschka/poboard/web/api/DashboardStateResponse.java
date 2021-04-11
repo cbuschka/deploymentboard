@@ -1,6 +1,7 @@
 package com.github.cbuschka.poboard.web.api;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DashboardStateResponse
@@ -26,10 +27,28 @@ public class DashboardStateResponse
 	public static class SystemEnvironment
 	{
 		public String version;
+		public List<Issue> issues;
 
-		public SystemEnvironment(String version)
+		public SystemEnvironment(String version, List<Issue> issues)
 		{
 			this.version = version;
+			this.issues = issues;
 		}
+	}
+
+	public static class Issue {
+		public String issueNo;
+		public IssueStatus status;
+
+		public Issue(String issueNo, IssueStatus status)
+		{
+			this.issueNo = issueNo;
+			this.status = status;
+		}
+	}
+
+	public enum IssueStatus
+	{
+		OPEN, CLOSED, MISSING;
 	}
 }
