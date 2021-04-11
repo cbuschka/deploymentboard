@@ -45,6 +45,7 @@
 .DashboardPage_system_environment_branchAndCommitish {
     font-size: 0.8em;
     display: block;
+    text-transform: none;
 }
 
 .DashboardPage_system_environment_issue {
