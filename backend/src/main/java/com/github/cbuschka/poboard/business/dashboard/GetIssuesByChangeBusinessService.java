@@ -1,5 +1,6 @@
 package com.github.cbuschka.poboard.business.dashboard;
 
+import com.github.cbuschka.poboard.domain.issue_extraction.IssueNoExtractor;
 import com.github.cbuschka.poboard.domain.scm.Change;
 import com.github.cbuschka.poboard.domain.scm.ChangeDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,16 @@ public class GetIssuesByChangeBusinessService
 {
 	@Autowired
 	private ChangeDomainService changeDomainService;
+	@Autowired
+	private IssueNoExtractor issueNoExtractor;
 
-	public Set<String> getIssuesFor(String commitish)
+	public Set<String> getIssuesFor(Set<String> issuePrefixes, String commitish)
 	{
 		List<Change> changes = this.changeDomainService.getChangesFrom(commitish);
 		return changes.stream()
-				.map(Change::getIssueNo)
+				.map(Change::getComment)
+				.map((comment) -> issueNoExtractor.extractIssues(issuePrefixes, comment))
+				.flatMap(Set::stream)
 				.filter(Objects::nonNull)
 				.collect(Collectors.toSet());
 	}

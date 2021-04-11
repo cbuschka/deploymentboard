@@ -11,5 +11,5 @@ public class Change
 
 	private String predecessor;
 
-	private String issueNo;
+	private String comment;
 }

@@ -5,6 +5,9 @@
     },
     {
       "issuePrefix": "UIX-"
+    },
+    {
+      "issuePrefix": "BE-"
     }
   ],
   "environments": [
@@ -60,117 +63,117 @@
     {
       "commitish": "be13",
       "predecessor": "be12",
-      "issueNo": "BE-13"
+      "comment": "BE-13"
     },
     {
       "commitish": "be12",
       "predecessor": "be11",
-      "issueNo": "BE-12"
+      "comment": "BE-12"
     },
     {
       "commitish": "be11",
       "predecessor": "be10",
-      "issueNo": null
+      "comment": null
     },
     {
       "commitish": "be10",
       "predecessor": "be9",
-      "issueNo": null
+      "comment": null
     },
     {
       "commitish": "be9",
       "predecessor": "be8",
-      "issueNo": null
+      "comment": null
     },
     {
       "commitish": "be8",
       "predecessor": "be7",
-      "issueNo": null
+      "comment": null
     },
     {
       "commitish": "be7",
       "predecessor": "be6",
-      "issueNo": null
+      "comment": null
     },
     {
       "commitish": "be6",
       "predecessor": "be5",
-      "issueNo": null
+      "comment": null
     },
     {
       "commitish": "be5",
       "predecessor": "be4",
-      "issueNo": null
+      "comment": null
     },
     {
       "commitish": "be4",
       "predecessor": "be3",
-      "issueNo": null
+      "comment": null
     },
     {
       "commitish": "be3",
       "predecessor": "be2",
-      "issueNo": null
+      "comment": null
     },
     {
       "commitish": "be2",
       "predecessor": "be1",
-      "issueNo": null
+      "comment": null
     },
     {
       "commitish": "be1",
       "predecessor": null,
-      "issueNo": null
+      "comment": null
     },
     {
       "commitish": "ui13",
       "predecessor": "ui12",
-      "issueNo": "UI-11"
+      "comment": "UI-11"
     },
     {
       "commitish": "ui12",
       "predecessor": "ui11",
-      "issueNo": null
+      "comment": null
     },
     {
       "commitish": "ui11",
       "predecessor": "ui10",
-      "issueNo": null
+      "comment": null
     },
     {
       "commitish": "ui10",
       "predecessor": "ui9",
-      "issueNo": null
+      "comment": null
     },
     {
       "commitish": "ui9",
       "predecessor": "ui8",
-      "issueNo": null
+      "comment": null
     },
     {
       "commitish": "ui8",
       "predecessor": "ui7",
-      "issueNo": null
+      "comment": null
     },
     {
       "commitish": "ui7",
       "predecessor": "ui6",
-      "issueNo": "UI-7"
+      "comment": "UI-7"
     },
     {
       "commitish": "ui6",
       "predecessor": "ui5",
-      "issueNo": "UI-5"
+      "comment": "UI-5"
     },
     {
       "commitish": "ui5",
       "predecessor": "ui4",
-      "issueNo": "UI-4"
+      "comment": "UI-4"
     },
     {
       "commitish": "ui3",
       "predecessor": "ui2",
-      "issueNo": "UI-3"
+      "comment": "UI-3"
     }
   ]
 }

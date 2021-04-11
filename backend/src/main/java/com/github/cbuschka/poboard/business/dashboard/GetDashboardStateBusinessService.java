@@ -4,6 +4,8 @@ import com.github.cbuschka.poboard.domain.deployment.DeploymentInfo;
 import com.github.cbuschka.poboard.domain.deployment.DeploymentInfoDomainService;
 import com.github.cbuschka.poboard.domain.deployment.EnvironmentDomainService;
 import com.github.cbuschka.poboard.domain.deployment.SystemDomainService;
+import com.github.cbuschka.poboard.domain.issue_tracking.Project;
+import com.github.cbuschka.poboard.domain.issue_tracking.ProjectDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -28,11 +31,14 @@ public class GetDashboardStateBusinessService
 	private GetIssuesByChangeBusinessService getIssuesByChangeBusinessService;
 	@Autowired
 	private SystemDomainService systemDomainService;
+	@Autowired
+	private ProjectDomainService projectDomainService;
 
 	public DashboardStateResponse getDashboardState()
 	{
 		List<String> envs = this.environmentDomainService.getEnvironments();
 		List<String> systems = this.systemDomainService.getSystems();
+		Set<String> issuePrefixes = projectDomainService.getProjects().stream().map(Project::getIssuePrefix).collect(Collectors.toSet());
 
 		DashboardStateResponse response = DashboardStateResponse.newWithEnvironments(envs.toArray(new String[0]));
 
@@ -43,7 +49,7 @@ public class GetDashboardStateBusinessService
 			for (String env : envs)
 			{
 				DeploymentInfo deploymentInfo = deploymentInfosByEnv.get(env);
-				Set<String> issues = this.getIssuesByChangeBusinessService.getIssuesFor(deploymentInfo.getCommitish());
+				Set<String> issues = this.getIssuesByChangeBusinessService.getIssuesFor(issuePrefixes, deploymentInfo.getCommitish());
 				if (issuesOfProd == null)
 				{
 					response = response.withSystemEnvironment(env, system,
