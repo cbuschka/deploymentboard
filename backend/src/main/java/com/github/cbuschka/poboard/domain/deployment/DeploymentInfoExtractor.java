@@ -1,43 +1,28 @@
 package com.github.cbuschka.poboard.domain.deployment;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @Component
 public class DeploymentInfoExtractor
 {
-	private final ObjectMapper objectMapper = new ObjectMapper();
+	@Autowired
+	private List<DeploymentInfoExtractionHandler> deploymentInfoExtractionHandlers;
 
-	public DeploymentInfo extractDeploymentInfoFrom(InputStream in, String system, String env) throws IOException
+	public DeploymentInfo extractDeploymentInfoFrom(InputStream in, String system, String env, Endpoint endpoint) throws IOException
 	{
-		JsonNode jsonNode = this.objectMapper.reader().readTree(in);
-		if (jsonNode == null)
+		for (DeploymentInfoExtractionHandler handler : deploymentInfoExtractionHandlers)
 		{
-			return DeploymentInfo.unvailable(system, env);
+			if (handler.handles(endpoint))
+			{
+				return handler.extractDeploymentInfoFrom(endpoint, in, system, env);
+			}
 		}
 
-		String version = getStringFrom(jsonNode, "version");
-		String commitish = getStringFrom(jsonNode, "commitish");
-		String branch = getStringFrom(jsonNode, "branch");
-		return new DeploymentInfo(DeploymentStatus.AVAILABLE, system, env, commitish, version, branch);
-	}
-
-	private String getStringFrom(JsonNode jsonNode, String path)
-	{
-		if (jsonNode == null)
-		{
-			return null;
-		}
-
-		JsonNode stringNode = jsonNode.at("/" + path);
-		if (stringNode == null || !stringNode.isTextual())
-		{
-			return null;
-		}
-		return stringNode.asText();
+		return DeploymentInfo.unvailable(system, env);
 	}
 }

@@ -62,7 +62,7 @@ public class SshEndpointHandler implements EndpointHandler
 
 			session.disconnect();
 
-			return this.deploymentInfoExtractor.extractDeploymentInfoFrom(new ByteArrayInputStream(bytesOut.toByteArray()), system, env);
+			return this.deploymentInfoExtractor.extractDeploymentInfoFrom(new ByteArrayInputStream(bytesOut.toByteArray()), system, env, endpoint);
 		}
 		catch (IOException | URISyntaxException | JSchException | SftpException ex)
 		{

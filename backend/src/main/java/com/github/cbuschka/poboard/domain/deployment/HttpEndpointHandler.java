@@ -35,7 +35,7 @@ public class HttpEndpointHandler implements EndpointHandler
 				return DeploymentInfo.unvailable(system, env);
 			}
 
-			return deploymentInfoExtractor.extractDeploymentInfoFrom(httpConn.getInputStream(), system, env);
+			return deploymentInfoExtractor.extractDeploymentInfoFrom(httpConn.getInputStream(), system, env, endpoint);
 		}
 		catch (IOException ex)
 		{
