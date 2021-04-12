@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,7 +39,26 @@ public class AuthDomainService
 	{
 		return mockDataProvider.getMockData().credentials
 				.stream()
-				.filter((c) -> (c.getHostnames() == null || c.getHostnames().isEmpty()) || c.getHostnames().contains(hostname))
+				.filter((c) -> allowedForHostname(c, hostname))
 				.collect(Collectors.toList());
+	}
+
+	private boolean allowedForHostname(Credentials credentials, String hostname)
+	{
+		Set<String> hostnames = credentials.getHostnames();
+		if (hostnames == null || credentials.getHostnames().isEmpty())
+		{
+			return true;
+		}
+
+		for (String allowedHostname : hostnames)
+		{
+			if (Pattern.compile(allowedHostname, Pattern.CASE_INSENSITIVE).matcher(hostname).matches())
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
