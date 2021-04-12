@@ -1,3 +1,5 @@
+workspace:
+  dir: /tmp/poboard-workspace
 environments:
   - name: "prod"
   - name: "stage"

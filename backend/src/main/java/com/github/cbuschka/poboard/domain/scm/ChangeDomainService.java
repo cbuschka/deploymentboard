@@ -1,9 +1,10 @@
 package com.github.cbuschka.poboard.domain.scm;
 
 import com.github.cbuschka.poboard.domain.auth.AuthDomainService;
-import com.github.cbuschka.poboard.domain.auth.PrivateKeyCredentials;
 import com.github.cbuschka.poboard.domain.auth.PasswordCredentials;
+import com.github.cbuschka.poboard.domain.auth.PrivateKeyCredentials;
 import com.github.cbuschka.poboard.domain.auth.PrivateKeyLoader;
+import com.github.cbuschka.poboard.domain.config.ConfigProvider;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -21,14 +22,10 @@ import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.util.FS;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -41,15 +38,19 @@ public class ChangeDomainService
 {
 	@Autowired
 	private AuthDomainService authDomainService;
-	@Value("/tmp/poboard-workspace")
-	private File workspaceDir;
 	@Autowired
 	private PrivateKeyLoader privateKeyLoader;
+	@Autowired
+	private ConfigProvider configProvider;
+
+	private File repositoriesDir;
 
 	@PostConstruct
 	public void init()
 	{
-		this.workspaceDir.mkdirs();
+		this.repositoriesDir = new File(new File(this.configProvider.getConfig().workspace.getDir()), "repositories");
+		@SuppressWarnings("unused")
+		boolean done = this.repositoriesDir.mkdirs();
 	}
 
 	public List<Change> getChangesFrom(String startCommitish, String optionalEndCommitish, CodeRepository codeRepository)
@@ -79,7 +80,7 @@ public class ChangeDomainService
 			repoName = repoName + ".git";
 		}
 
-		File repoDir = new File(this.workspaceDir, repoName);
+		File repoDir = new File(this.repositoriesDir, repoName);
 
 		Repository repo;
 		if (!repoDir.isDirectory())
