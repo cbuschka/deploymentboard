@@ -65,8 +65,36 @@
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>2.4.1</version>
                 </plugin>
+                <plugin>
+                    <groupId>com.google.cloud.tools</groupId>
+                    <artifactId>jib-maven-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                    <from>
+                        <image>openjdk:11-jdk-slim</image>
+                    </from>
+                    <to>
+                        <image>cbuschka/poboard</image>
+                        <tags>
+                            <tag>latest</tag>
+                        </tags>
+                    </to>
+                    <container>
+                        <ports>
+                            <port>8080</port>
+                        </ports>
+                    </container>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
     <dependencies>
         <dependency>
