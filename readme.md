@@ -19,7 +19,6 @@
 - supported deployment info endpoint protocols: http, https, ssh/sftp
 - supported deployment info formats: properties, json
 - supported code repos: git via ssh
-- planned - yet unsupported - ticket systems for issue status: jira
 
 ## Usage
 
