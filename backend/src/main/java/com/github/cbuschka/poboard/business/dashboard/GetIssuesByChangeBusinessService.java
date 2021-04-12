@@ -20,9 +20,9 @@ public class GetIssuesByChangeBusinessService
 	@Autowired
 	private IssueNoExtractor issueNoExtractor;
 
-	public Set<String> getIssuesFor(Set<String> issuePrefixes, String commitish, CodeRepository codeRepository)
+	public Set<String> getIssuesFor(Set<String> issuePrefixes, String startCommitish, String optionalEndCommitish, CodeRepository codeRepository)
 	{
-		List<Change> changes = this.changeDomainService.getChangesFrom(commitish, codeRepository);
+		List<Change> changes = this.changeDomainService.getChangesFrom(startCommitish, optionalEndCommitish, codeRepository);
 		return changes.stream()
 				.map(Change::getComment)
 				.map((comment) -> issueNoExtractor.extractIssues(issuePrefixes, comment))
