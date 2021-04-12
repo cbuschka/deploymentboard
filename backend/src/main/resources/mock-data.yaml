@@ -1,0 +1,67 @@
+environments:
+  - "prod"
+  - "stage"
+  - "int"
+systems:
+  - name: "ui"
+    repository:
+      uuid: "ui"
+      url: "ssh://git@localhost:10122/srv/git/ui"
+    endpoints:
+      int:
+        url: "http://localhost:9081/version.json"
+      stage:
+        url: "http://localhost:9082/version.json"
+      prod:
+        url: "http://localhost:9083/version.json"
+  - name: "backend"
+    repository:
+      uuid: "backend"
+      url: "ssh://git@localhost:10122/srv/git/backend"
+    endpoints:
+      int:
+        url: "sftp://app@localhost:10021/usr/share/nginx/html/version.json"
+      stage:
+        url: "sftp://app@localhost:10022/usr/share/nginx/html/version.json"
+      prod:
+        url: "sftp://app@localhost:10023/usr/share/nginx/html/version.json"
+projects:
+  - issuePrefix: "UI-"
+  - issuePrefix: "UIX-"
+  - issuePrefix: "BE-"
+credentials:
+  - type: privateKey
+    username: "git"
+    data: "-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEA2XTGkPSUWwQYsO/D4Af5T9Y9TL03ni1r3VPiK+VGX5bY8MT6\n\
+    mEDuZ3JJtyM5yAl88z7BgCLkTr56vUwLiOycB4NdhGuMqIEddle7pM/e8Q1U0yAl\nYJpb1zcTOJQN6moh6IIMgjwmwLTZKV/0eeQ8Jkp2JUxUYu1P5Qs8yc8UrTayb7K0\n\
+    VaqZcu1hpNDLEsRiOqO7DnmSV3BDIzs2+sCv9k+tZ2qp6Sh3dIMjdNZ4qHetvlTB\nyHspC++YA6FIGQM+XCs5hkKVDfIIqWXZ5YOqVxRjG9x3CGlQWoljzEMmDf4Q1Tsr\n\
+    b2ooCAXtj7XqVM5lyenrjo3i/+1s0C2Ha8PV+wIDAQABAoIBAD6LqflTf8BWA0wR\nCoPLh1gBRQxneDHU2quETw9VGNKxrqBB59oXAvtaEf3M8fepUvkb2cgjQQutGdyM\n\
+    nNy7QX2fuSw3SvPEf1bkkSIsb/FhZj57hoSsoTHbs3mYjBAairo3faWP642N9tBB\nuy28Cdjxnd3IgJUbsNkuTEO3fjj7dGTszOvk7hm4zxvJrSgvSN4Q+XbBIO8X/89r\n\
+    II5gvf64SMkHCAMkHZIh5Gx4hMh8MXVLkNTX/wNgX3MDZSUKYxK89QkHKxrVgfIF\nV1jX4uFxgynU/pGiZiw1m/r/KPkmiNOfkqHN9u5MX4TbDTxyjGRW7Jd9PyjAaPvY\n\
+    1x8IWpECgYEA/o3BVujHvTbQOLK7Ztp0tj4ltZ+sJRnJauaAR5egN9rt3Rk7YpIS\nJhbYoxag3LVaZF1TSnW3ieZK+/DFUfBCSpUEon/d3p2GBEHmFijEIZq+dcupTrcb\n\
+    PWgeEcjwg9UQ/FZhV2+Lif9LZOx6AKxb1v6xZHB7bZZ6fM0912tz7I0CgYEA2rEQ\nAWs7N7vszPe4+WT8g+d/k2lH0nFT9jRg+b4Z6wkuDM3Y/6hoaxWxzOewjbr8H3Kz\n\
+    iYQiELEgkJ6mSaYOtwdjU6n1gqsxF7kFdq0/y8DB9+pQUuYVjYwMobmCOLjBmCWJ\nlrQpW0tB4ixktWDaFlG1S+Ys4NY8459IMdYcHqcCgYEAidP9VG50AAqW0axM9hLg\n\
+    0PBzgJT1I52DxqMJ4DnEIZoj4uxPkD6hHwiNwjh1Xyu+xssVVyLH/x23ihTC8mvR\nqQpo2Qe8/VVzhAieaW8nSz67U5KzmJBiamxeo6iWOft61/Z5fFtERbL6gqncIVMx\n\
+    4wZCzKxu2FZ6+eozStm+id0CgYEAhVVQ8dyEBU4RaUJbx8o3XuCE2sZkoLyxuTlk\nKsApozA8oFfcxrrRtwBKICjebvsi/rV7GwuxjUXBGgtwTRTugc8CUx8bbaicTN9k\n\
+    ol+strh2SoXUpUZcu6k4hl3JNHYIqo+wXG7JjDzNFW2FlURQky0MARN8JzTXeNxD\nMwdcq58CgYBw4i5OJ8ui0+f0bMRjPoU+x9lsWXR4N6siBzbleeyH6jDMjWtv+/YC\n\
+    h9CnnjgdWjxoihIIQ/5p8oqXYsoJTWtfBI2JXkpBtJ+B6d5fSZmZhWCRw02xv1rw\nw4tSIT2/N3F0Myx0YztIxl7/T/98xH9drU3Iyc3LEpcgIgQLAdZ4zA==\n\
+    -----END RSA PRIVATE KEY-----\n"
+  - type: privateKey
+    username: "app"
+    data: "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAuRwXCoyFrWZg0qZZma4axQbPDOt9WXGtrvcPrTAeqVC8Th21\n\
+    0Addfo+3QUrb77SNkCgAHMsdTEu9DuuOhIsCgbphvKkmRTiYj/QqZFFXejAJJVat\nUnVSevAlRXyXfJj15hIeMYKpVXv9zDgvDJY7kRKps6sf+p/28pHNgH6TiDgd13V7\n\
+    UdzmWphgeG7+FWdX9HUv6ipZBq96Migu7bb7DJ6PwjrcLooZ7GLcsQpmY3l1DivK\nsvO51HyGjt6L8XYf6rkY5G00PKRufHCPcSb/s+elt2JzrBtmiUqEXGipdqLOJXuu\n\
+    TB2BAF4cWHbm0tdbWPWg8ZulGlYwnrso3wenQwIDAQABAoIBAHqWIKgqwUhBGXPH\nGGVOyImcZbfvp9Z5EwVgtjACQvvr7Jhq0oHOrtrmv/xsX9SRpIJICzMGTAO/0Jc1\n\
+    5e7exC03SgyPlDmZLmd+0igXOjA/6X6htSx7Z8Dkkjo/NW8dORNBAl/VYOCsuTnq\nJzZVs2LykhHbDNWD5B1l80raCEfXiNVTt23xF5q1ZPm4g65adCOgyeCdP6Iujid9\n\
+    KHk5CsQNwg/J8TRCTKchmiYEon4X/yPQPfY2fqYZUgS4uoP+n/zUPlPjnXCzcVwe\nSFLBuGek5xWXqY1XexUdotIfJ95ybW6PY5utMMFFL9pzuX9v6OkDAEqswlba2JT+\n\
+    SejOJzECgYEA6bxLNFNPgirSnFXJsBIAAzhXKycTjFvt7vDwcZ2eqxMJzSTGZYZS\nQLQH39xhaGhca3aE8wc8l4qPQYdqwh6H5ltBiZxMmd1ueT5F71kFkbcGLSvM6Jtx\n\
+    r2mu1gJTYgTrCcuPYh2KocOSKkis3aM8Yriu2efdjafFg6wuBmzOUlsCgYEAyr4K\n5hoc4uqqecpKGx852c3ZOLyzRFzD47tSAvW7q8E2TR622FWziko+d4DwOBssuFwQ\n\
+    IbYzPqUqK7fuMrrmOgMNZFoQokYmGLsOomyGmvetLTHzy1E1uBxjo9SWvS+nMWcH\n0CFtXGyUon/KxIDKJq6QKKFeXXP2RLjk+CvUwzkCgYAAsDZEfC5Sws+F+Fa0twja\n\
+    +ZKAJQhQtICZ4InEu+MYu+Cegwo2iFO7rwwK47pBtXT4OAwiLxZFl/neBokQ80gR\nLJmfzx8GoPlPUBiioM98Y16YSXW8BaErFBOYu78FHeCXUcslTdL3sPzANSCVMoLe\n\
+    A484Qw+K+ECDp8Em8bEV2wKBgFeLZlNj1TNa11ANvKAnhKh7DaBFQzdywxd0DH7A\ns0//9z2n1JZns0Y0tvKNV60ydsYI4uJbtZcIZMRKAO4g7EcCiGbbyTD5D3xAUZpr\n\
+    OFh0OHA6kKYrpAGjKJdWtdxtVkmrzqDdvkZZkHj2q4zce+3mFNOmkoPSDfYwzJYo\n/w9pAoGBALRVDQBpenAA13Kk1ERa7EdoW1TrJkYTjk/K018Yu9Pb1GOqYi/HC1Ja\n\
+    r5aI0wYsI9ybTktAsp4nyoT7M8+myC2q5EEqKMPtuL7ZqJ1ox/blsjVzH+1DBSmv\nkJ9xTE4k2KPy2rEAQ6pqIqY/DCP8BEICkAYwxu5rBu9NUc3USS1B\n\
+    -----END RSA PRIVATE KEY-----\n"
+  - type: password
+    username: "git"
+    password: "asdfasdf"
