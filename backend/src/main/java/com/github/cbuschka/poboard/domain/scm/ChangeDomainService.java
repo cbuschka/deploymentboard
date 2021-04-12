@@ -66,9 +66,15 @@ public class ChangeDomainService
 			return Collections.emptyList();
 		}
 
-		File repoDir = new File(this.workspaceDir, codeRepository.getUuid() + ".git");
-
 		URIish repositoryUri = new URIish(codeRepository.getUrl());
+		int lastSlash = codeRepository.getUrl().lastIndexOf("/");
+		String repoName = codeRepository.getUrl().substring(lastSlash + 1);
+		if (!repoName.endsWith(".git"))
+		{
+			repoName = repoName + ".git";
+		}
+
+		File repoDir = new File(this.workspaceDir, repoName);
 
 		Repository repo;
 		if (!repoDir.isDirectory())

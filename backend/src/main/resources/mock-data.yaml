@@ -5,7 +5,6 @@ environments:
 systems:
   - name: "ui"
     repository:
-      uuid: "ui"
       url: "ssh://git@localhost:10122/srv/git/ui"
     endpoints:
       int:
@@ -16,7 +15,6 @@ systems:
         url: "http://localhost:9083/version.json"
   - name: "backend"
     repository:
-      uuid: "backend"
       url: "ssh://git@localhost:10122/srv/git/backend"
     endpoints:
       int:

@@ -7,7 +7,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CodeRepository
 {
-	private String uuid;
-
 	private String url;
 }
