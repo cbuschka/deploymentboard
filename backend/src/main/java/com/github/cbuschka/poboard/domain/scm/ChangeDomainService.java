@@ -5,9 +5,6 @@ import com.github.cbuschka.poboard.domain.auth.PasswordCredentials;
 import com.github.cbuschka.poboard.domain.auth.PrivateKeyCredentials;
 import com.github.cbuschka.poboard.domain.auth.PrivateKeyLoader;
 import com.github.cbuschka.poboard.domain.config.ConfigProvider;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -16,16 +13,14 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.JschConfigSessionFactory;
-import org.eclipse.jgit.transport.OpenSshConfig;
-import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
-import org.eclipse.jgit.util.FS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -42,6 +37,8 @@ public class ChangeDomainService
 	private PrivateKeyLoader privateKeyLoader;
 	@Autowired
 	private ConfigProvider configProvider;
+	@Autowired
+	private SshSessionContextAwareJschConfigSessionFactory sshSessionContextAwareJschConfigSessionFactory;
 
 	private File repositoriesDir;
 
@@ -51,6 +48,8 @@ public class ChangeDomainService
 		this.repositoriesDir = new File(new File(this.configProvider.getConfig().workspace.getDir()), "repositories");
 		@SuppressWarnings("unused")
 		boolean done = this.repositoriesDir.mkdirs();
+
+		JschConfigSessionFactory.setInstance(sshSessionContextAwareJschConfigSessionFactory);
 	}
 
 	public List<Change> getChangesFrom(String startCommitish, String optionalEndCommitish, CodeRepository codeRepository)
@@ -73,56 +72,15 @@ public class ChangeDomainService
 		}
 
 		URIish repositoryUri = new URIish(codeRepository.getUrl());
-		int lastSlash = codeRepository.getUrl().lastIndexOf("/");
-		String repoName = codeRepository.getUrl().substring(lastSlash + 1);
-		if (!repoName.endsWith(".git"))
-		{
-			repoName = repoName + ".git";
-		}
 
-		File repoDir = new File(this.repositoriesDir, repoName);
+		Repository repo = createRepositoryIfNotExists(codeRepository);
+		List<PrivateKeyCredentials> privateKeyCredentialsList = this.authDomainService.getPrivateKeyCredentials(repositoryUri.getUser(), repositoryUri.getHost());
+		return new SshSessionContext<List<Change>>(repositoryUri, privateKeyCredentialsList)
+				.run(() -> listChanges(repositoryUri, commitish, optionalEndCommitish, repo));
+	}
 
-		Repository repo;
-		if (!repoDir.isDirectory())
-		{
-			@SuppressWarnings("unused")
-			boolean created = repoDir.mkdirs();
-			repo = FileRepositoryBuilder.create(repoDir);
-			repo.create(true);
-		}
-		else
-		{
-			repo = new FileRepositoryBuilder()
-					.setGitDir(repoDir)
-					.build();
-		}
-
-		List<PrivateKeyCredentials> privateKeyCredentialsList = authDomainService.getPrivateKeyCredentials(repositoryUri.getUser(), repositoryUri.getHost());
-		SshSessionFactory.setInstance(new JschConfigSessionFactory()
-		{
-			@Override
-			protected void configure(OpenSshConfig.Host hc, Session session)
-			{
-				session.setConfig("StrictHostKeyChecking", "no");
-				if (!privateKeyCredentialsList.isEmpty())
-				{
-					session.setConfig("PreferredAuthentications", "publickey");
-				}
-			}
-
-			@Override
-			protected JSch getJSch(final OpenSshConfig.Host hc, FS fs) throws JSchException
-			{
-				JSch jsch = super.getJSch(hc, fs);
-				jsch.removeAllIdentity();
-				for (PrivateKeyCredentials c : privateKeyCredentialsList)
-				{
-					jsch.addIdentity("", privateKeyLoader.getAsciiArmoredBytesUTF8(c), null, null);
-				}
-				return jsch;
-			}
-		});
-
+	private List<Change> listChanges(URIish repositoryUri, String commitish, String optionalEndCommitish, Repository repo) throws Exception
+	{
 		CredentialsProvider credentialsProvider = getCredentialsProvider(repositoryUri);
 		try (Git git = Git.wrap(repo))
 		{
@@ -169,6 +127,40 @@ public class ChangeDomainService
 
 			return changes;
 		}
+	}
+
+	private Repository createRepositoryIfNotExists(CodeRepository codeRepository) throws IOException
+	{
+		File repoDir = getWorkspaceRepositoryDir(codeRepository);
+
+		Repository repo;
+		if (!repoDir.isDirectory())
+		{
+			@SuppressWarnings("unused")
+			boolean created = repoDir.mkdirs();
+			repo = FileRepositoryBuilder.create(repoDir);
+			repo.create(true);
+		}
+		else
+		{
+			repo = new FileRepositoryBuilder()
+					.setGitDir(repoDir)
+					.build();
+		}
+		return repo;
+	}
+
+	private File getWorkspaceRepositoryDir(CodeRepository codeRepository)
+	{
+		int lastSlash = codeRepository.getUrl().lastIndexOf("/");
+		String repoName = codeRepository.getUrl().substring(lastSlash + 1);
+		if (!repoName.endsWith(".git"))
+		{
+			repoName = repoName + ".git";
+		}
+
+		File repoDir = new File(this.repositoriesDir, repoName);
+		return repoDir;
 	}
 
 	private CredentialsProvider getCredentialsProvider(URIish remoteUri)
