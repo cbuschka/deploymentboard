@@ -3,6 +3,7 @@ package com.github.cbuschka.poboard.domain.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,9 @@ public class ConfigProvider
 {
 	@Value("${poboard.config:classpath:config.yaml}")
 	private Resource configResource;
+
+	@Autowired
+	private ConfigVerifier configVerifier;
 
 	private long configLastModified;
 	private Config config;
@@ -51,6 +55,8 @@ public class ConfigProvider
 			Config config = new ObjectMapper(new YAMLFactory()).readerFor(Config.class).readValue(this.configResource.getInputStream());
 
 			log.info("Config loaded from {}.", this.configResource.getURI());
+
+			this.configVerifier.verify(config);
 
 			this.configLastModified = this.configResource.lastModified();
 			this.config = config;

@@ -1,3 +1,4 @@
+version: "1.0"
 workspace:
   dir: /tmp/poboard-workspace
 environments:

@@ -9,6 +9,8 @@ import java.util.List;
 
 public class Config
 {
+	public String version;
+
 	public Workspace workspace;
 
 	public List<Project> projects;
