@@ -1,0 +1,12 @@
+version: '3'
+services:
+  poboard:
+    image: cbuschka/poboard:latest
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    environment:
+      - "JAVA_TOOL_OPTIONS=-Dpoboard.config=file:/config/test-config.yaml"
+    volumes:
+      - "${TOP_DIR}/backend/src/test/resources/test-config.yaml:/config/test-config.yaml:ro"
