@@ -21,3 +21,7 @@ start-poboard:
 tail-logs:
 	@cd ${TOP_DIR} && \
 	TOP_DIR=${TOP_DIR} docker-compose -p ${PROJECT_NAME} -f docker-compose-services.yml -f docker-compose-poboard.yml logs -f
+
+show-status:
+	@cd ${TOP_DIR} && \
+	TOP_DIR=${TOP_DIR} docker-compose -p ${PROJECT_NAME} -f docker-compose-services.yml -f docker-compose-poboard.yml ps

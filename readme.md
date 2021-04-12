@@ -63,6 +63,12 @@ make build
 make start-poboard
 ```
 
+### Show Status of Test Environment
+
+```bash
+make show-status
+```
+
 ### Tail Test Environment Logs
 
 ```bash
