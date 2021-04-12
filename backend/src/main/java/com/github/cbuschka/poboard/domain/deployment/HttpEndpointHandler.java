@@ -35,6 +35,8 @@ public class HttpEndpointHandler implements EndpointHandler
 		{
 			URL url = new URL(endpoint.getUrl());
 			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+			httpConn.setConnectTimeout(3_000);
+			httpConn.setReadTimeout(10_000);
 			addBasicAuthHeaderIfAvailable(url, httpConn);
 			httpConn.setDoInput(true);
 			int responseCode = httpConn.getResponseCode();

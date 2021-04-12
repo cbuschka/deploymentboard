@@ -5,11 +5,16 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
 public class DeploymentInfoExtractor
 {
+	final static List<String> VERSION_ALIASES = Arrays.asList("version", "build.version", "project.version", "projectVersion", "buildVersion");
+	final static List<String> COMMITISH_ALIASES = Arrays.asList("commitish", "build.commitish", "comitish");
+	final static List<String> BRANCH_ALIASES =Arrays.asList("branch", "build.branch");
+
 	@Autowired
 	private List<DeploymentInfoExtractionHandler> deploymentInfoExtractionHandlers;
 

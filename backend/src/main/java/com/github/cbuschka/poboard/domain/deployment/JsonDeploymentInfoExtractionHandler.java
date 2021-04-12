@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 public class JsonDeploymentInfoExtractionHandler implements DeploymentInfoExtractionHandler
@@ -27,24 +29,23 @@ public class JsonDeploymentInfoExtractionHandler implements DeploymentInfoExtrac
 			return DeploymentInfo.unvailable(system, env);
 		}
 
-		String version = getStringFrom(jsonNode, "version");
-		String commitish = getStringFrom(jsonNode, "commitish");
-		String branch = getStringFrom(jsonNode, "branch");
+		String version = getStringFrom(jsonNode, DeploymentInfoExtractor.VERSION_ALIASES);
+		String commitish = getStringFrom(jsonNode, DeploymentInfoExtractor.COMMITISH_ALIASES);
+		String branch = getStringFrom(jsonNode, DeploymentInfoExtractor.BRANCH_ALIASES);
 		return new DeploymentInfo(DeploymentStatus.AVAILABLE, system, env, commitish, version, branch);
 	}
 
-	private String getStringFrom(JsonNode jsonNode, String path)
+	private String getStringFrom(JsonNode jsonNode, List<String> keys)
 	{
-		if (jsonNode == null)
+		for (String key : keys)
 		{
-			return null;
+			JsonNode stringNode = jsonNode.at("/" + key);
+			if (stringNode != null && stringNode.isTextual())
+			{
+				return stringNode.asText();
+			}
 		}
 
-		JsonNode stringNode = jsonNode.at("/" + path);
-		if (stringNode == null || !stringNode.isTextual())
-		{
-			return null;
-		}
-		return stringNode.asText();
+		return null;
 	}
 }

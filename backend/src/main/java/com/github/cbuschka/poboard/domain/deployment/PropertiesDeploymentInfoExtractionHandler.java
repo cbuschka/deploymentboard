@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -23,9 +22,9 @@ public class PropertiesDeploymentInfoExtractionHandler implements DeploymentInfo
 		Properties properties = new Properties();
 		properties.load(in);
 
-		String version = getStringFrom(properties, Arrays.asList("version", "build.version", "project.version"));
-		String commitish = getStringFrom(properties, Arrays.asList("commitish", "build.commitish"));
-		String branch = getStringFrom(properties, Arrays.asList("branch", "build.branch"));
+		String version = getStringFrom(properties, DeploymentInfoExtractor.VERSION_ALIASES);
+		String commitish = getStringFrom(properties, DeploymentInfoExtractor.COMMITISH_ALIASES);
+		String branch = getStringFrom(properties, DeploymentInfoExtractor.BRANCH_ALIASES);
 		return new DeploymentInfo(DeploymentStatus.AVAILABLE, system, env, commitish, version, branch);
 	}
 
