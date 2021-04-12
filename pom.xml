@@ -88,6 +88,9 @@
                         </tags>
                     </to>
                     <container>
+                        <jvmFlags>
+                            <jvmFlag>-Dserver.port=8080</jvmFlag>
+                        </jvmFlags>
                         <ports>
                             <port>8080</port>
                         </ports>
