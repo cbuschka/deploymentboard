@@ -21,11 +21,16 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.util.FS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,15 +51,15 @@ public class ChangeDomainService
 		this.workspaceDir.mkdirs();
 	}
 
-	public List<Change> getChangesFrom(String startCommitish, String endCommitish, CodeRepository codeRepository)
+	public List<Change> getChangesFrom(String commitish, CodeRepository codeRepository)
 	{
 		try
 		{
-			Map<String, Change> changesByCommitish = listChanges(startCommitish, endCommitish, codeRepository)
+			Map<String, Change> changesByCommitish = listChanges(commitish, codeRepository)
 					.stream()
 					.collect(Collectors.toMap(Change::getCommitish, p -> p, (p, q) -> p));
 			List<Change> changes = new ArrayList<>();
-			Change curr = changesByCommitish.get(startCommitish);
+			Change curr = changesByCommitish.get(commitish);
 			while (curr != null)
 			{
 				changes.add(curr);
@@ -69,9 +74,9 @@ public class ChangeDomainService
 		}
 	}
 
-	private List<Change> listChanges(String startCommitish, String endCommitish, CodeRepository codeRepository) throws Exception
+	private List<Change> listChanges(String commitish, CodeRepository codeRepository) throws Exception
 	{
-		if (startCommitish == null)
+		if (commitish == null)
 		{
 			return Collections.emptyList();
 		}
@@ -132,16 +137,15 @@ public class ChangeDomainService
 					.setCredentialsProvider(credentialsProvider)
 					.setRemote("origin").call();
 
-			ObjectId endCommitId = endCommitish != null ? ObjectId.fromString(endCommitish) : null;
 			List<Change> changes = new ArrayList<>();
 			try (RevWalk walk = new RevWalk(repo))
 			{
-				RevCommit commit = walk.parseCommit(ObjectId.fromString(startCommitish));
-				while (commit != null && (endCommitId == null || endCommitId.equals(commit.getId())))
+				RevCommit commit = walk.parseCommit(ObjectId.fromString(commitish));
+				while (commit != null)
 				{
 					String message = commit.getRawBuffer() != null ? commit.getFullMessage() : "";
-					RevCommit parent = commit.getParents() != null && commit.getParentCount() > 0 ? commit.getParent(0) : null; // FIXME merge commits?
-					changes.add(new Change(commit.getId().toString(), parent != null ? parent.getId().toString() : null, message));
+					RevCommit parent = commit.getParents() != null && commit.getParentCount() > 0 ? commit.getParent(0) : null;
+					changes.add(new Change(commitish, parent != null ? parent.getId().toString() : null, message));
 					commit = parent;
 				}
 
