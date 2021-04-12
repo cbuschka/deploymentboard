@@ -51,10 +51,11 @@ public class GetDashboardStateBusinessService
 		{
 			Map<String, DeploymentInfo> deploymentInfosByEnv = this.deploymentInfoDomainService.getDeploymentInfosFor(system.getName());
 			Set<String> issuesOfProd = null;
+			String prodCommitish = null;
 			for (String env : envs)
 			{
 				DeploymentInfo deploymentInfo = deploymentInfosByEnv.get(env);
-				Set<String> issues = this.getIssuesByChangeBusinessService.getIssuesFor(issuePrefixes, deploymentInfo.getCommitish(), system.getRepository());
+				Set<String> issues = this.getIssuesByChangeBusinessService.getIssuesFor(issuePrefixes, deploymentInfo.getCommitish(), prodCommitish, system.getRepository());
 				if (issuesOfProd == null)
 				{
 					response = response.withSystemEnvironment(env, system.getName(),
@@ -62,6 +63,7 @@ public class GetDashboardStateBusinessService
 									deploymentInfo.getBranch(),
 									Collections.emptyList()));
 					issuesOfProd = issues;
+					prodCommitish = deploymentInfo.getCommitish();
 				}
 				else
 				{
