@@ -49,7 +49,7 @@ public class GetDashboardStateBusinessService
 
 		for (System system : systems)
 		{
-			Map<String, DeploymentInfo> deploymentInfosByEnv = this.deploymentInfoDomainService.getDeploymentInfosFor(system.getName());
+			Map<String, DeploymentInfo> deploymentInfosByEnv = this.deploymentInfoDomainService.getDeploymentInfosFor(system);
 			Set<String> issuesOfProd = null;
 			String prodCommitish = null;
 			for (String env : envs)

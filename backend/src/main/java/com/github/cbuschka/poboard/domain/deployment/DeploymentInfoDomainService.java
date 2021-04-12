@@ -17,21 +17,20 @@ public class DeploymentInfoDomainService
 	@Autowired
 	private EndpointDomainService endpointDomainService;
 
-	public Map<String, DeploymentInfo> getDeploymentInfosFor(String systemName)
+	public Map<String, DeploymentInfo> getDeploymentInfosFor(System system)
 	{
 		Map<String, DeploymentInfo> deploymentInfos = new HashMap<>();
-		System system = this.systemDomainService.getSystem(systemName);
 		for (String env : this.environmentDomainService.getEnvironments())
 		{
 			Map<String, Endpoint> systemEndpoints = system.getEndpoints();
 			Endpoint endpoint = systemEndpoints != null ? systemEndpoints.get(env) : null;
 			if (endpoint == null)
 			{
-				deploymentInfos.put(env, new DeploymentInfo(DeploymentStatus.UNAVAILABLE, systemName, env, null, null, null));
+				deploymentInfos.put(env, new DeploymentInfo(DeploymentStatus.UNAVAILABLE, system.getName(), env, null, null, null));
 			}
 			else
 			{
-				DeploymentInfo deploymentInfo = this.endpointDomainService.getDeploymentInfo(systemName, env, endpoint);
+				DeploymentInfo deploymentInfo = this.endpointDomainService.getDeploymentInfo(system.getName(), env, endpoint);
 				deploymentInfos.put(env, deploymentInfo);
 			}
 		}
