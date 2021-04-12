@@ -2,6 +2,7 @@ package com.github.cbuschka.poboard.domain.deployment;
 
 import com.github.cbuschka.poboard.domain.auth.AuthDomainService;
 import com.github.cbuschka.poboard.domain.auth.PrivateKeyCredentials;
+import com.github.cbuschka.poboard.domain.auth.PrivateKeyLoader;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
@@ -17,7 +18,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Component
@@ -28,6 +28,8 @@ public class SshEndpointHandler implements EndpointHandler
 	private AuthDomainService authDomainService;
 	@Autowired
 	private DeploymentInfoExtractor deploymentInfoExtractor;
+	@Autowired
+	private PrivateKeyLoader privateKeyLoader;
 
 	@Override
 	public boolean handles(Endpoint endpoint)
@@ -38,7 +40,6 @@ public class SshEndpointHandler implements EndpointHandler
 	@Override
 	public DeploymentInfo getDeploymentInfo(String system, String env, Endpoint endpoint)
 	{
-
 		try
 		{
 			URIish uri = new URIish(endpoint.getUrl());
@@ -46,7 +47,7 @@ public class SshEndpointHandler implements EndpointHandler
 			List<PrivateKeyCredentials> privateKeyCredentialsList = this.authDomainService.getPrivateKeyCredentials(uri.getUser(), uri.getHost());
 			for (PrivateKeyCredentials c : privateKeyCredentialsList)
 			{
-				jSch.addIdentity(uri.getUser(), c.getData().getBytes(StandardCharsets.UTF_8), null, null);
+				jSch.addIdentity(uri.getUser(), privateKeyLoader.getAsciiArmoredBytesUTF8(c), null, null);
 			}
 
 			Session session = jSch.getSession(uri.getUser(), uri.getHost(), uri.getPort() != -1 ? uri.getPort() : 22);

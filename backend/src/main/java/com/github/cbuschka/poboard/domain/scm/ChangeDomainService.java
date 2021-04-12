@@ -3,6 +3,7 @@ package com.github.cbuschka.poboard.domain.scm;
 import com.github.cbuschka.poboard.domain.auth.AuthDomainService;
 import com.github.cbuschka.poboard.domain.auth.PrivateKeyCredentials;
 import com.github.cbuschka.poboard.domain.auth.PasswordCredentials;
+import com.github.cbuschka.poboard.domain.auth.PrivateKeyLoader;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -21,6 +22,8 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.util.FS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -40,6 +43,8 @@ public class ChangeDomainService
 	private AuthDomainService authDomainService;
 	@Value("/tmp/poboard-workspace")
 	private File workspaceDir;
+	@Autowired
+	private PrivateKeyLoader privateKeyLoader;
 
 	@PostConstruct
 	public void init()
@@ -109,9 +114,9 @@ public class ChangeDomainService
 			{
 				JSch jsch = super.getJSch(hc, fs);
 				jsch.removeAllIdentity();
-				for (PrivateKeyCredentials credentials : privateKeyCredentialsList)
+				for (PrivateKeyCredentials c : privateKeyCredentialsList)
 				{
-					jsch.addIdentity("", credentials.getData().getBytes(StandardCharsets.UTF_8), null, null);
+					jsch.addIdentity("", privateKeyLoader.getAsciiArmoredBytesUTF8(c), null, null);
 				}
 				return jsch;
 			}
