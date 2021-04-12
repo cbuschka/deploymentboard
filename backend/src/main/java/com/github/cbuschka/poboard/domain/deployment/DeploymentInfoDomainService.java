@@ -22,17 +22,10 @@ public class DeploymentInfoDomainService
 		Map<String, DeploymentInfo> deploymentInfos = new HashMap<>();
 		for (String env : this.environmentDomainService.getEnvironments())
 		{
-			Map<String, Endpoint> systemEndpoints = system.getEndpoints();
-			Endpoint endpoint = systemEndpoints != null ? systemEndpoints.get(env) : null;
-			if (endpoint == null)
-			{
-				deploymentInfos.put(env, new DeploymentInfo(DeploymentStatus.UNAVAILABLE, system.getName(), env, null, null, null));
-			}
-			else
-			{
-				DeploymentInfo deploymentInfo = this.endpointDomainService.getDeploymentInfo(system.getName(), env, endpoint);
-				deploymentInfos.put(env, deploymentInfo);
-			}
+			DeploymentInfo deploymentInfo = system.getEndpoint(env)
+					.map((endpoint) -> this.endpointDomainService.getDeploymentInfo(system.getName(), env, endpoint))
+					.orElseGet(() -> new DeploymentInfo(DeploymentStatus.UNAVAILABLE, system.getName(), env, null, null, null));
+			deploymentInfos.put(env, deploymentInfo);
 		}
 
 		return deploymentInfos;
