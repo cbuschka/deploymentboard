@@ -1,5 +1,7 @@
 # POBoard
 
+[![Build](https://github.com/cbuschka/poboard/workflows/build/badge.svg)](https://github.com/cbuschka/poboard) [![License](https://img.shields.io/github/license/cbuschka/poboard.svg)](https://github.com/cbuschka/poboard/blob/main/license.txt)
+
 ### Deployment dashboard to display which story is deployed where
 
 ![Screenshot](./doc/screenshot.png)
