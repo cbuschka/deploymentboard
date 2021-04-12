@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class DeploymentInfoDomainService
@@ -22,12 +23,18 @@ public class DeploymentInfoDomainService
 		Map<String, DeploymentInfo> deploymentInfos = new HashMap<>();
 		for (String env : this.environmentDomainService.getEnvironments())
 		{
-			DeploymentInfo deploymentInfo = system.getEndpoint(env)
-					.map((endpoint) -> this.endpointDomainService.getDeploymentInfo(system.getName(), env, endpoint))
-					.orElseGet(() -> new DeploymentInfo(DeploymentStatus.UNAVAILABLE, system.getName(), env, null, null, null));
+			DeploymentInfo deploymentInfo = getDeploymentInfoFor(system, env);
 			deploymentInfos.put(env, deploymentInfo);
 		}
 
 		return deploymentInfos;
+	}
+
+	public DeploymentInfo getDeploymentInfoFor(System system, String env)
+	{
+		return system
+				.getEndpoint(env)
+				.map((endpoint) -> this.endpointDomainService.getDeploymentInfo(system.getName(), env, endpoint))
+				.orElseGet(() -> new DeploymentInfo(DeploymentStatus.UNAVAILABLE, system.getName(), env, null, null, null));
 	}
 }

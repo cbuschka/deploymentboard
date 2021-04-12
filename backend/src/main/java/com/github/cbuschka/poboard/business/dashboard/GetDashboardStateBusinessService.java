@@ -9,21 +9,24 @@ import com.github.cbuschka.poboard.domain.issue_tracking.IssueDomainService;
 import com.github.cbuschka.poboard.domain.issue_tracking.IssueStatus;
 import com.github.cbuschka.poboard.domain.issue_tracking.Project;
 import com.github.cbuschka.poboard.domain.issue_tracking.ProjectDomainService;
+import com.github.cbuschka.poboard.util.CachedValueHolder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
 @Service
-@Transactional
+@Slf4j
 public class GetDashboardStateBusinessService
 {
 	@Autowired
@@ -39,7 +42,14 @@ public class GetDashboardStateBusinessService
 	@Autowired
 	private IssueDomainService issueDomainService;
 
+	private final CachedValueHolder<DashboardStateResponse> cachedResponse = new CachedValueHolder<>(this::calculateDashboardState, 5_000, Executors.newSingleThreadExecutor());
+
 	public DashboardStateResponse getDashboardState()
+	{
+		return this.cachedResponse.get();
+	}
+
+	private DashboardStateResponse calculateDashboardState()
 	{
 		List<String> envs = this.environmentDomainService.getEnvironments();
 		List<System> systems = this.systemDomainService.getSystems();
