@@ -6,4 +6,4 @@ start-services:
 
 stop-services:
 	@cd ${TOP_DIR} && \
-	docker-compose -f docker-compose.yml down
+	docker-compose -f docker-compose.yml down --remove-orphans
