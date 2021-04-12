@@ -7,22 +7,22 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class EnvironmentDomainService
 {
-	private static final List<Environment> DEFAULT = Arrays.asList(new Environment("prod"), new Environment("stage"), new Environment("int"), new Environment("dev"));
+	private static final List<Environment> DEFAULT = Arrays.asList(
+			new Environment("prod"),
+			new Environment("stage"),
+			new Environment("int"),
+			new Environment("dev"));
 
 	@Autowired
 	private ConfigProvider configProvider;
 
-	public List<String> getEnvironments()
+	public List<Environment> getEnvironments()
 	{
 		return Optional.ofNullable(configProvider.getConfig().environments)
-				.orElse(DEFAULT)
-				.stream()
-				.map(Environment::getName)
-				.collect(Collectors.toList());
+				.orElse(DEFAULT);
 	}
 }

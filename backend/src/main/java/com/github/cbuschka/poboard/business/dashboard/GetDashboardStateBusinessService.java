@@ -2,6 +2,7 @@ package com.github.cbuschka.poboard.business.dashboard;
 
 import com.github.cbuschka.poboard.domain.deployment.DeploymentInfo;
 import com.github.cbuschka.poboard.domain.deployment.DeploymentInfoDomainService;
+import com.github.cbuschka.poboard.domain.deployment.Environment;
 import com.github.cbuschka.poboard.domain.deployment.EnvironmentDomainService;
 import com.github.cbuschka.poboard.domain.deployment.System;
 import com.github.cbuschka.poboard.domain.deployment.SystemDomainService;
@@ -53,11 +54,11 @@ public class GetDashboardStateBusinessService
 	{
 		long startMillis = java.lang.System.currentTimeMillis();
 
-		List<String> envs = this.environmentDomainService.getEnvironments();
+		List<Environment> envs = this.environmentDomainService.getEnvironments();
 		List<System> systems = this.systemDomainService.getSystems();
 		Set<String> issuePrefixes = projectDomainService.getProjects().stream().map(Project::getIssuePrefix).collect(Collectors.toSet());
 
-		DashboardStateResponse response = DashboardStateResponse.newWithEnvironments(envs.toArray(new String[0]));
+		DashboardStateResponse response = DashboardStateResponse.newWithEnvironments(envs.stream().map(Environment::getName).toArray(String[]::new));
 
 		for (System system : systems)
 		{
@@ -65,15 +66,15 @@ public class GetDashboardStateBusinessService
 			Set<String> issuesOfProd = null;
 			String prodCommitish = null;
 			CodeRepository codeRepository = system.getRepository();
-			for (String env : envs)
+			for (Environment env : envs)
 			{
-				DeploymentInfo deploymentInfo = deploymentInfosByEnv.get(env);
+				DeploymentInfo deploymentInfo = deploymentInfosByEnv.get(env.getName());
 				if (codeRepository != null)
 				{
 					Set<String> issues = this.getIssuesByChangeBusinessService.getIssuesFor(issuePrefixes, deploymentInfo.getCommitish(), prodCommitish, codeRepository);
 					if (issuesOfProd == null)
 					{
-						response = response.withSystemEnvironment(env, system.getName(),
+						response = response.withSystemEnvironment(env.getName(), system.getName(),
 								new DashboardStateResponse.SystemEnvironment(deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
 										deploymentInfo.getBranch(),
 										Collections.emptyList()));
@@ -85,16 +86,16 @@ public class GetDashboardStateBusinessService
 						Set<String> issuesOfEnv = new HashSet<>(issues);
 						issuesOfEnv.removeAll(issuesOfProd);
 
-						response = response.withSystemEnvironment(env, system.getName(),
+						response = response.withSystemEnvironment(env.getName(), system.getName(),
 								new DashboardStateResponse.SystemEnvironment(deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
 										deploymentInfo.getBranch(),
-										issuesOfEnv.stream().map((s) -> toIssue(s)).collect(toList())
+										issuesOfEnv.stream().map(this::toIssue).collect(toList())
 								));
 					}
 				}
 				else
 				{
-					response = response.withSystemEnvironment(env, system.getName(),
+					response = response.withSystemEnvironment(env.getName(), system.getName(),
 							new DashboardStateResponse.SystemEnvironment(deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
 									deploymentInfo.getBranch(), Collections.emptyList()));
 
