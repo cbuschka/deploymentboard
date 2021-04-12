@@ -12,7 +12,6 @@ import com.github.cbuschka.poboard.domain.issue_tracking.ProjectDomainService;
 import com.github.cbuschka.poboard.util.CachedValueHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -42,7 +41,7 @@ public class GetDashboardStateBusinessService
 	@Autowired
 	private IssueDomainService issueDomainService;
 
-	private final CachedValueHolder<DashboardStateResponse> cachedResponse = new CachedValueHolder<>(this::calculateDashboardState, 5_000, Executors.newSingleThreadExecutor());
+	private final CachedValueHolder<DashboardStateResponse> cachedResponse = new CachedValueHolder<>(this::calculateDashboardState, 30_000, Executors.newSingleThreadExecutor());
 
 	public DashboardStateResponse getDashboardState()
 	{
@@ -51,6 +50,8 @@ public class GetDashboardStateBusinessService
 
 	private DashboardStateResponse calculateDashboardState()
 	{
+		long startMillis = java.lang.System.currentTimeMillis();
+
 		List<String> envs = this.environmentDomainService.getEnvironments();
 		List<System> systems = this.systemDomainService.getSystems();
 		Set<String> issuePrefixes = projectDomainService.getProjects().stream().map(Project::getIssuePrefix).collect(Collectors.toSet());
@@ -88,6 +89,13 @@ public class GetDashboardStateBusinessService
 				}
 			}
 		}
+
+		long durationMillis = java.lang.System.currentTimeMillis() - startMillis;
+		if (durationMillis > 10_000)
+		{
+			log.warn("Loading state slow: {} milli(s).", durationMillis);
+		}
+
 
 		return response;
 	}
