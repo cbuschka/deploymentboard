@@ -4,3 +4,4 @@ node/
 node_modules/
 .yarn-cache/
 .eslintcache
+/*-config.yaml
