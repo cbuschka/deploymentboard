@@ -2,57 +2,30 @@ package com.github.cbuschka.poboard.domain.deployment;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 @Service
 public class EndpointDomainService
 {
-	private ObjectMapper objectMapper = new ObjectMapper();
+	@Autowired
+	private List<EndpointHandler> endpointHandlers;
 
 	public DeploymentInfo getDeploymentInfo(String system, String env, Endpoint endpoint)
 	{
-		try
+		for (EndpointHandler handler : this.endpointHandlers)
 		{
-			URL url = new URL(endpoint.getUrl());
-			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-			httpConn.setDoInput(true);
-			int responseCode = httpConn.getResponseCode();
-			if (responseCode != 200)
+			if (handler.handles(endpoint))
 			{
-				return new DeploymentInfo(DeploymentStatus.UNAVAILABLE, system, env, null, null, null);
+				return handler.getDeploymentInfo(system, env, endpoint);
 			}
-			JsonNode jsonNode = this.objectMapper.reader().readTree(httpConn.getInputStream());
-			if (jsonNode == null)
-			{
-				return new DeploymentInfo(DeploymentStatus.UNAVAILABLE, system, env, null, null, null);
-			}
-			String version = getStringFrom(jsonNode, "version");
-			String commitish = getStringFrom(jsonNode, "commitish");
-			String branch = getStringFrom(jsonNode, "branch");
-			return new DeploymentInfo(DeploymentStatus.AVAILABLE, system, env, commitish, version, branch);
-		}
-		catch (IOException ex)
-		{
-			return new DeploymentInfo(DeploymentStatus.UNAVAILABLE, system, env, null, null, null);
-		}
-	}
-
-	private String getStringFrom(JsonNode jsonNode, String path)
-	{
-		if (jsonNode == null)
-		{
-			return null;
 		}
 
-		JsonNode stringNode = jsonNode.at("/" + path);
-		if (stringNode == null || !stringNode.isTextual())
-		{
-			return null;
-		}
-		return stringNode.asText();
+		return new DeploymentInfo(DeploymentStatus.UNAVAILABLE, system, env, null, null, null);
 	}
 }
