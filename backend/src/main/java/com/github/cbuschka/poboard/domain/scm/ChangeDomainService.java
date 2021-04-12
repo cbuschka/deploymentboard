@@ -91,12 +91,17 @@ public class ChangeDomainService
 					.build();
 		}
 
+		List<PrivateKeyCredentials> privateKeyCredentialsList = authDomainService.getPrivateKeyCredentials(repositoryUri.getUser(), repositoryUri.getHost());
 		SshSessionFactory.setInstance(new JschConfigSessionFactory()
 		{
 			@Override
 			protected void configure(OpenSshConfig.Host hc, Session session)
 			{
 				session.setConfig("StrictHostKeyChecking", "no");
+				if (!privateKeyCredentialsList.isEmpty())
+				{
+					session.setConfig("PreferredAuthentications", "publickey");
+				}
 			}
 
 			@Override
@@ -104,7 +109,7 @@ public class ChangeDomainService
 			{
 				JSch jsch = super.getJSch(hc, fs);
 				jsch.removeAllIdentity();
-				for (PrivateKeyCredentials credentials : authDomainService.getPrivateKeyCredentials(repositoryUri.getUser(), hc.getHostName()))
+				for (PrivateKeyCredentials credentials : privateKeyCredentialsList)
 				{
 					jsch.addIdentity("", credentials.getData().getBytes(StandardCharsets.UTF_8), null, null);
 				}
@@ -112,18 +117,11 @@ public class ChangeDomainService
 			}
 		});
 
+		CredentialsProvider credentialsProvider = getCredentialsProvider(repositoryUri);
 		try (Git git = Git.wrap(repo))
 		{
 			git.remoteAdd().setName("origin").setUri(repositoryUri).call();
-			URIish remoteUri = new URIish(codeRepository.getUrl());
-			git.remoteSetUrl().setRemoteName("origin").setRemoteUri(remoteUri);
-			CredentialsProvider credentialsProvider = null;
-			List<UsernamePasswordCredentials> usernamePasswordCredentialsList = this.authDomainService.getUsernamePasswordCredentials(remoteUri.getUser(), remoteUri.getHost());
-			if (usernamePasswordCredentialsList != null && !usernamePasswordCredentialsList.isEmpty())
-			{
-				UsernamePasswordCredentials usernamePasswordCredentials = usernamePasswordCredentialsList.get(0);
-				credentialsProvider = new UsernamePasswordCredentialsProvider(usernamePasswordCredentials.getUsername(), usernamePasswordCredentials.getPassword());
-			}
+			git.remoteSetUrl().setRemoteName("origin").setRemoteUri(repositoryUri);
 			git.fetch()
 					.setCredentialsProvider(credentialsProvider)
 					.setRemote("origin").call();
@@ -165,5 +163,17 @@ public class ChangeDomainService
 
 			return changes;
 		}
+	}
+
+	private CredentialsProvider getCredentialsProvider(URIish remoteUri)
+	{
+		CredentialsProvider credentialsProvider = null;
+		List<UsernamePasswordCredentials> usernamePasswordCredentialsList = this.authDomainService.getUsernamePasswordCredentials(remoteUri.getUser(), remoteUri.getHost());
+		if (usernamePasswordCredentialsList != null && !usernamePasswordCredentialsList.isEmpty())
+		{
+			UsernamePasswordCredentials usernamePasswordCredentials = usernamePasswordCredentialsList.get(0);
+			credentialsProvider = new UsernamePasswordCredentialsProvider(usernamePasswordCredentials.getUsername(), usernamePasswordCredentials.getPassword());
+		}
+		return credentialsProvider;
 	}
 }
