@@ -46,7 +46,7 @@ public class SshEndpointHandler implements EndpointHandler
 			List<PrivateKeyCredentials> privateKeyCredentialsList = this.authDomainService.getPrivateKeyCredentials(uri.getUser(), uri.getHost());
 			for (PrivateKeyCredentials c : privateKeyCredentialsList)
 			{
-				jSch.addIdentity(c.getUsername(), c.getData().getBytes(StandardCharsets.UTF_8), null, null);
+				jSch.addIdentity(uri.getUser(), c.getData().getBytes(StandardCharsets.UTF_8), null, null);
 			}
 
 			Session session = jSch.getSession(uri.getUser(), uri.getHost(), uri.getPort() != -1 ? uri.getPort() : 22);

@@ -2,7 +2,7 @@ package com.github.cbuschka.poboard.domain.scm;
 
 import com.github.cbuschka.poboard.domain.auth.AuthDomainService;
 import com.github.cbuschka.poboard.domain.auth.PrivateKeyCredentials;
-import com.github.cbuschka.poboard.domain.auth.UsernamePasswordCredentials;
+import com.github.cbuschka.poboard.domain.auth.PasswordCredentials;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -168,11 +168,11 @@ public class ChangeDomainService
 	private CredentialsProvider getCredentialsProvider(URIish remoteUri)
 	{
 		CredentialsProvider credentialsProvider = null;
-		List<UsernamePasswordCredentials> usernamePasswordCredentialsList = this.authDomainService.getUsernamePasswordCredentials(remoteUri.getUser(), remoteUri.getHost());
+		List<PasswordCredentials> usernamePasswordCredentialsList = this.authDomainService.getUsernamePasswordCredentials(remoteUri.getUser(), remoteUri.getHost());
 		if (usernamePasswordCredentialsList != null && !usernamePasswordCredentialsList.isEmpty())
 		{
-			UsernamePasswordCredentials usernamePasswordCredentials = usernamePasswordCredentialsList.get(0);
-			credentialsProvider = new UsernamePasswordCredentialsProvider(usernamePasswordCredentials.getUsername(), usernamePasswordCredentials.getPassword());
+			PasswordCredentials usernamePasswordCredentials = usernamePasswordCredentialsList.get(0);
+			credentialsProvider = new UsernamePasswordCredentialsProvider(remoteUri.getUser(), usernamePasswordCredentials.getPassword());
 		}
 		return credentialsProvider;
 	}

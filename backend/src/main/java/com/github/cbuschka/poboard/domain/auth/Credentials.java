@@ -8,7 +8,7 @@ import java.util.Set;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
-		@JsonSubTypes.Type(name = "password", value = UsernamePasswordCredentials.class),
+		@JsonSubTypes.Type(name = "password", value = PasswordCredentials.class),
 		@JsonSubTypes.Type(name = "privateKey", value = PrivateKeyCredentials.class),
 		@JsonSubTypes.Type(name = "authToken", value = AuthTokenCredentials.class)
 })

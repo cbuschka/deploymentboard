@@ -17,12 +17,12 @@ public class AuthDomainService
 	@Autowired
 	private ConfigProvider configProvider;
 
-	public List<UsernamePasswordCredentials> getUsernamePasswordCredentials(String username, String hostname)
+	public List<PasswordCredentials> getUsernamePasswordCredentials(String username, String hostname)
 	{
 		return getCredentials(username, hostname)
 				.stream()
-				.filter((c) -> c instanceof UsernamePasswordCredentials)
-				.map((c) -> (UsernamePasswordCredentials) c)
+				.filter((c) -> c instanceof PasswordCredentials)
+				.map((c) -> (PasswordCredentials) c)
 				.collect(Collectors.toList());
 	}
 

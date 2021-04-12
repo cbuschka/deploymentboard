@@ -65,5 +65,4 @@ credentials:
   - type: password
     allowedUsernames:
     - git
-    username: git
     password: "asdfasdf"

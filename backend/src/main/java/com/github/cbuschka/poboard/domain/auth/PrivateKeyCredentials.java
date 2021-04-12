@@ -7,6 +7,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PrivateKeyCredentials extends Credentials
 {
-	private String username;
 	private String data;
 }
