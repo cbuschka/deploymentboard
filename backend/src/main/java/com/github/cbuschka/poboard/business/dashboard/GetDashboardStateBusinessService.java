@@ -9,6 +9,7 @@ import com.github.cbuschka.poboard.domain.issue_tracking.IssueDomainService;
 import com.github.cbuschka.poboard.domain.issue_tracking.IssueStatus;
 import com.github.cbuschka.poboard.domain.issue_tracking.Project;
 import com.github.cbuschka.poboard.domain.issue_tracking.ProjectDomainService;
+import com.github.cbuschka.poboard.domain.scm.CodeRepository;
 import com.github.cbuschka.poboard.util.CachedValueHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,29 +64,40 @@ public class GetDashboardStateBusinessService
 			Map<String, DeploymentInfo> deploymentInfosByEnv = this.deploymentInfoDomainService.getDeploymentInfosFor(system);
 			Set<String> issuesOfProd = null;
 			String prodCommitish = null;
+			CodeRepository codeRepository = system.getRepository();
 			for (String env : envs)
 			{
 				DeploymentInfo deploymentInfo = deploymentInfosByEnv.get(env);
-				Set<String> issues = this.getIssuesByChangeBusinessService.getIssuesFor(issuePrefixes, deploymentInfo.getCommitish(), prodCommitish, system.getRepository());
-				if (issuesOfProd == null)
+				if (codeRepository != null)
 				{
-					response = response.withSystemEnvironment(env, system.getName(),
-							new DashboardStateResponse.SystemEnvironment(deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
-									deploymentInfo.getBranch(),
-									Collections.emptyList()));
-					issuesOfProd = issues;
-					prodCommitish = deploymentInfo.getCommitish();
+					Set<String> issues = this.getIssuesByChangeBusinessService.getIssuesFor(issuePrefixes, deploymentInfo.getCommitish(), prodCommitish, codeRepository);
+					if (issuesOfProd == null)
+					{
+						response = response.withSystemEnvironment(env, system.getName(),
+								new DashboardStateResponse.SystemEnvironment(deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
+										deploymentInfo.getBranch(),
+										Collections.emptyList()));
+						issuesOfProd = issues;
+						prodCommitish = deploymentInfo.getCommitish();
+					}
+					else
+					{
+						Set<String> issuesOfEnv = new HashSet<>(issues);
+						issuesOfEnv.removeAll(issuesOfProd);
+
+						response = response.withSystemEnvironment(env, system.getName(),
+								new DashboardStateResponse.SystemEnvironment(deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
+										deploymentInfo.getBranch(),
+										issuesOfEnv.stream().map((s) -> toIssue(s)).collect(toList())
+								));
+					}
 				}
 				else
 				{
-					Set<String> issuesOfEnv = new HashSet<>(issues);
-					issuesOfEnv.removeAll(issuesOfProd);
-
 					response = response.withSystemEnvironment(env, system.getName(),
 							new DashboardStateResponse.SystemEnvironment(deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
-									deploymentInfo.getBranch(),
-									issuesOfEnv.stream().map((s) -> toIssue(s)).collect(toList())
-							));
+									deploymentInfo.getBranch(), Collections.emptyList()));
+
 				}
 			}
 		}
