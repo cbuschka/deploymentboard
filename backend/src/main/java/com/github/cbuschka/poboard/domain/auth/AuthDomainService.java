@@ -19,44 +19,47 @@ public class AuthDomainService
 
 	public List<UsernamePasswordCredentials> getUsernamePasswordCredentials(String username, String hostname)
 	{
-		return getCredentials(hostname)
+		return getCredentials(username, hostname)
 				.stream()
 				.filter((c) -> c instanceof UsernamePasswordCredentials)
 				.map((c) -> (UsernamePasswordCredentials) c)
-				.filter((c) -> c.getUsername() != null && c.getUsername().equalsIgnoreCase(username))
 				.collect(Collectors.toList());
 	}
 
 	public List<PrivateKeyCredentials> getPrivateKeyCredentials(String username, String hostname)
 	{
-		return getCredentials(hostname)
+		return getCredentials(username, hostname)
 				.stream()
 				.filter((c) -> c instanceof PrivateKeyCredentials)
 				.map((c) -> (PrivateKeyCredentials) c)
-				.filter((c) -> c.getUsername() != null && c.getUsername().equalsIgnoreCase(username))
 				.collect(Collectors.toList());
 	}
 
-	public List<Credentials> getCredentials(String hostname)
+	public List<Credentials> getCredentials(String optionalUsername, String hostname)
 	{
 		return Optional.ofNullable(configProvider.getConfig().credentials)
 				.orElseGet(Collections::emptyList)
 				.stream()
-				.filter((c) -> allowedForHostname(c, hostname))
+				.filter((c) -> allowedFor(hostname, c.getAllowedHostnames()))
+				.filter((c) -> allowedFor(optionalUsername, c.getAllowedUsernames()))
 				.collect(Collectors.toList());
 	}
 
-	private boolean allowedForHostname(Credentials credentials, String hostname)
+	private boolean allowedFor(String name, Set<String> allowedNamesSet)
 	{
-		Set<String> hostnames = credentials.getHostnames();
-		if (hostnames == null || credentials.getHostnames().isEmpty())
+		if (allowedNamesSet == null || allowedNamesSet.isEmpty())
 		{
 			return true;
 		}
 
-		for (String allowedHostname : hostnames)
+		if (name == null)
 		{
-			if (Pattern.compile(allowedHostname, Pattern.CASE_INSENSITIVE).matcher(hostname).matches())
+			return false;
+		}
+
+		for (String allowedHostname : allowedNamesSet)
+		{
+			if (Pattern.compile(allowedHostname, Pattern.CASE_INSENSITIVE).matcher(name).matches())
 			{
 				return true;
 			}

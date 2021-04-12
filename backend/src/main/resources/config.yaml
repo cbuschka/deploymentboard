@@ -29,7 +29,8 @@ projects:
   - issuePrefix: "BE-"
 credentials:
   - type: privateKey
-    username: "git"
+    allowedUsernames:
+    - git
     data: "-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEA2XTGkPSUWwQYsO/D4Af5T9Y9TL03ni1r3VPiK+VGX5bY8MT6\n\
     mEDuZ3JJtyM5yAl88z7BgCLkTr56vUwLiOycB4NdhGuMqIEddle7pM/e8Q1U0yAl\nYJpb1zcTOJQN6moh6IIMgjwmwLTZKV/0eeQ8Jkp2JUxUYu1P5Qs8yc8UrTayb7K0\n\
     VaqZcu1hpNDLEsRiOqO7DnmSV3BDIzs2+sCv9k+tZ2qp6Sh3dIMjdNZ4qHetvlTB\nyHspC++YA6FIGQM+XCs5hkKVDfIIqWXZ5YOqVxRjG9x3CGlQWoljzEMmDf4Q1Tsr\n\
@@ -45,7 +46,8 @@ credentials:
     h9CnnjgdWjxoihIIQ/5p8oqXYsoJTWtfBI2JXkpBtJ+B6d5fSZmZhWCRw02xv1rw\nw4tSIT2/N3F0Myx0YztIxl7/T/98xH9drU3Iyc3LEpcgIgQLAdZ4zA==\n\
     -----END RSA PRIVATE KEY-----\n"
   - type: privateKey
-    username: "app"
+    allowedUsernames:
+    - app
     data: "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAuRwXCoyFrWZg0qZZma4axQbPDOt9WXGtrvcPrTAeqVC8Th21\n\
     0Addfo+3QUrb77SNkCgAHMsdTEu9DuuOhIsCgbphvKkmRTiYj/QqZFFXejAJJVat\nUnVSevAlRXyXfJj15hIeMYKpVXv9zDgvDJY7kRKps6sf+p/28pHNgH6TiDgd13V7\n\
     UdzmWphgeG7+FWdX9HUv6ipZBq96Migu7bb7DJ6PwjrcLooZ7GLcsQpmY3l1DivK\nsvO51HyGjt6L8XYf6rkY5G00PKRufHCPcSb/s+elt2JzrBtmiUqEXGipdqLOJXuu\n\
@@ -61,5 +63,7 @@ credentials:
     r5aI0wYsI9ybTktAsp4nyoT7M8+myC2q5EEqKMPtuL7ZqJ1ox/blsjVzH+1DBSmv\nkJ9xTE4k2KPy2rEAQ6pqIqY/DCP8BEICkAYwxu5rBu9NUc3USS1B\n\
     -----END RSA PRIVATE KEY-----\n"
   - type: password
-    username: "git"
+    allowedUsernames:
+    - git
+    username: git
     password: "asdfasdf"

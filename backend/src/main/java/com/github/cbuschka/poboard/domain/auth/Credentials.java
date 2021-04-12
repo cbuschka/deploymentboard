@@ -15,5 +15,6 @@ import java.util.Set;
 @Getter
 public abstract class Credentials
 {
-	private Set<String> hostnames;
+	private Set<String> allowedHostnames;
+	private Set<String> allowedUsernames;
 }
