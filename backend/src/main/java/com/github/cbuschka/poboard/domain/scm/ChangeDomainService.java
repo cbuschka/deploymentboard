@@ -74,28 +74,6 @@ public class ChangeDomainService
 		}
 	}
 
-	private byte[] getPrivateKeyBytes(String path) throws IOException
-	{
-		Resource resource = toResource(path);
-
-		String privateKeyAsciiArmored = Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
-		return privateKeyAsciiArmored.getBytes(StandardCharsets.UTF_8);
-	}
-
-	private Resource toResource(String path)
-	{
-		Resource resource = null;
-		if (path.startsWith("classpath:"))
-		{
-			resource = new ClassPathResource(path.substring("classpath:".length()), Thread.currentThread().getContextClassLoader());
-		}
-		else
-		{
-			resource = new FileSystemResource(path);
-		}
-		return resource;
-	}
-
 	private List<Change> listChanges(String commitish, CodeRepository codeRepository) throws Exception
 	{
 		if (commitish == null)
