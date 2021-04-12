@@ -17,20 +17,34 @@ public class ConfigProvider
 	@Value("${poboard.config:classpath:config.yaml}")
 	private Resource configResource;
 
+	private long configLastModified;
 	private Config config;
 
 	@PostConstruct
 	public synchronized Config getConfig()
 	{
-		if (this.config == null)
+		if (mustLoad())
 		{
-			this.config = loadConfig();
+			loadConfig();
 		}
 
 		return this.config;
 	}
 
-	private Config loadConfig()
+	private boolean mustLoad()
+	{
+		try
+		{
+			return this.config == null || this.configResource.lastModified() != this.configLastModified;
+		}
+		catch (IOException ex)
+		{
+			log.warn("Reload check failed.", ex);
+			return false;
+		}
+	}
+
+	private void loadConfig()
 	{
 		try
 		{
@@ -38,7 +52,8 @@ public class ConfigProvider
 
 			log.info("Config loaded from {}.", this.configResource.getURI());
 
-			return config;
+			this.configLastModified = this.configResource.lastModified();
+			this.config = config;
 		}
 		catch (IOException ex)
 		{
