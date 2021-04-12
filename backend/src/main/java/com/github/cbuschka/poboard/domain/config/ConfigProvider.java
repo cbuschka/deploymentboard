@@ -15,7 +15,7 @@ import java.io.IOException;
 @Slf4j
 public class ConfigProvider
 {
-	@Value("${poboard.config:classpath:config.yaml}")
+	@Value("${poboard.config:classpath:empty-config.yaml}")
 	private Resource configResource;
 
 	@Autowired
