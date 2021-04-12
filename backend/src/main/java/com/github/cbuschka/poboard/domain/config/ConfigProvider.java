@@ -1,4 +1,4 @@
-package com.github.cbuschka.poboard.domain.mock;
+package com.github.cbuschka.poboard.domain.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
@@ -9,18 +9,16 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class MockDataProvider
+public class ConfigProvider
 {
-	@Value("classpath:mock-data.yaml")
-	private Resource mockDataResource;
+	@Value("classpath:config.yaml")
+	private Resource configResource;
 
-	public MockData getMockData()
+	public Config getConfig()
 	{
 		try
 		{
-			MockData mockData = new ObjectMapper(new YAMLFactory()).readerFor(MockData.class).readValue(this.mockDataResource.getInputStream());
-
-			return mockData;
+			return new ObjectMapper(new YAMLFactory()).readerFor(Config.class).readValue(this.configResource.getInputStream());
 		}
 		catch (IOException ex)
 		{

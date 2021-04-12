@@ -1,6 +1,6 @@
 package com.github.cbuschka.poboard.domain.issue_tracking;
 
-import com.github.cbuschka.poboard.domain.mock.MockDataProvider;
+import com.github.cbuschka.poboard.domain.config.ConfigProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import java.util.Optional;
 public class ProjectDomainService
 {
 	@Autowired
-	private MockDataProvider mockDataProvider;
+	private ConfigProvider configProvider;
 
 	Optional<Project> getProjectFor(String issueNo)
 	{
@@ -23,6 +23,6 @@ public class ProjectDomainService
 
 	public List<Project> getProjects()
 	{
-		return mockDataProvider.getMockData().projects;
+		return configProvider.getConfig().projects;
 	}
 }

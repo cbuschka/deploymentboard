@@ -1,6 +1,6 @@
 package com.github.cbuschka.poboard.domain.auth;
 
-import com.github.cbuschka.poboard.domain.mock.MockDataProvider;
+import com.github.cbuschka.poboard.domain.config.ConfigProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class AuthDomainService
 {
 	@Autowired
-	private MockDataProvider mockDataProvider;
+	private ConfigProvider configProvider;
 
 	public List<UsernamePasswordCredentials> getUsernamePasswordCredentials(String username, String hostname)
 	{
@@ -37,7 +37,7 @@ public class AuthDomainService
 
 	public List<Credentials> getCredentials(String hostname)
 	{
-		return mockDataProvider.getMockData().credentials
+		return configProvider.getConfig().credentials
 				.stream()
 				.filter((c) -> allowedForHostname(c, hostname))
 				.collect(Collectors.toList());
