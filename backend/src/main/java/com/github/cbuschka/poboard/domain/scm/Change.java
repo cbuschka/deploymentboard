@@ -11,7 +11,5 @@ public class Change
 {
 	private String commitish;
 
-	private String predecessor;
-
 	private String comment;
 }

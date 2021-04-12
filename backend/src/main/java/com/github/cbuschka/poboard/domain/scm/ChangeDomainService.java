@@ -28,9 +28,10 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @Service
 public class ChangeDomainService
@@ -50,18 +51,7 @@ public class ChangeDomainService
 	{
 		try
 		{
-			Map<String, Change> changesByCommitish = listChanges(startCommitish, optionalEndCommitish, codeRepository)
-					.stream()
-					.collect(Collectors.toMap(Change::getCommitish, p -> p, (p, q) -> p));
-			List<Change> changes = new ArrayList<>();
-			Change curr = changesByCommitish.get(startCommitish);
-			while (curr != null)
-			{
-				changes.add(curr);
-				curr = changesByCommitish.get(curr.getPredecessor());
-			}
-
-			return changes;
+			return listChanges(startCommitish, optionalEndCommitish, codeRepository);
 		}
 		catch (Exception ex)
 		{
@@ -136,13 +126,32 @@ public class ChangeDomainService
 			List<Change> changes = new ArrayList<>();
 			try (RevWalk walk = new RevWalk(repo))
 			{
-				RevCommit commit = walk.parseCommit(ObjectId.fromString(commitish));
-				while (commit != null && (optionalEndObjectId == null || !optionalEndObjectId.equals(commit.getId())))
+				RevCommit startCommit = walk.parseCommit(ObjectId.fromString(commitish));
+				List<RevCommit> traversalQueue = new LinkedList<>();
+				traversalQueue.add(0, startCommit);
+
+				Set<ObjectId> seenSet = new HashSet<>();
+				while (!traversalQueue.isEmpty())
 				{
+					RevCommit commit = traversalQueue.remove(0);
+					if (optionalEndObjectId != null && optionalEndObjectId.equals(commit.getId()))
+					{
+						continue;
+					}
+
+					if (seenSet.contains(commit.getId()))
+					{
+						continue;
+					}
+
 					String message = commit.getRawBuffer() != null ? commit.getFullMessage() : "";
-					RevCommit parent = commit.getParents() != null && commit.getParentCount() > 0 ? commit.getParent(0) : null;
-					changes.add(new Change(commit.getId().toString(), parent != null ? parent.getId().toString() : null, message));
-					commit = parent;
+					for (int i = 0; commit.getParents() != null && i < commit.getParentCount(); ++i)
+					{
+						RevCommit parent = commit.getParent(commit.getParentCount() - i - 1);
+						traversalQueue.add(parent);
+					}
+					changes.add(new Change(commit.getId().toString(), message));
+					seenSet.add(commit.getId());
 				}
 
 				walk.dispose();
