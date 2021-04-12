@@ -141,7 +141,7 @@ public class ChangeDomainService
 				{
 					String message = commit.getRawBuffer() != null ? commit.getFullMessage() : "";
 					RevCommit parent = commit.getParents() != null && commit.getParentCount() > 0 ? commit.getParent(0) : null;
-					changes.add(new Change(commitish, parent != null ? parent.getId().toString() : null, message));
+					changes.add(new Change(commit.getId().toString(), parent != null ? parent.getId().toString() : null, message));
 					commit = parent;
 				}
 
