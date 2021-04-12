@@ -19,6 +19,11 @@ public class System
 
 	public Optional<Endpoint> getEndpoint(String env)
 	{
+		if (this.endpoints == null)
+		{
+			return Optional.empty();
+		}
+
 		return Optional.ofNullable(endpoints.get(env));
 	}
 }

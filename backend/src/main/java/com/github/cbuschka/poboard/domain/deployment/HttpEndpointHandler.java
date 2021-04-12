@@ -32,7 +32,7 @@ public class HttpEndpointHandler implements EndpointHandler
 			int responseCode = httpConn.getResponseCode();
 			if (responseCode != 200)
 			{
-				return new DeploymentInfo(DeploymentStatus.UNAVAILABLE, system, env, null, null, null);
+				return DeploymentInfo.unvailable(system, env);
 			}
 
 			return deploymentInfoExtractor.extractDeploymentInfoFrom(httpConn.getInputStream(), system, env);
@@ -41,7 +41,7 @@ public class HttpEndpointHandler implements EndpointHandler
 		{
 			log.error("Getting deployment info for {} failed.", endpoint.getUrl(), ex);
 
-			return new DeploymentInfo(DeploymentStatus.UNAVAILABLE, system, env, null, null, null);
+			return DeploymentInfo.unvailable(system, env);
 		}
 
 	}

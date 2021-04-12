@@ -68,7 +68,7 @@ public class SshEndpointHandler implements EndpointHandler
 		{
 			log.error("Getting deployment info for {} failed.", endpoint.getUrl(), ex);
 
-			return new DeploymentInfo(DeploymentStatus.UNAVAILABLE, system, env, null, null, null);
+			return DeploymentInfo.unvailable(system, env);
 		}
 
 	}

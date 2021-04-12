@@ -17,7 +17,7 @@ public class DeploymentInfoExtractor
 		JsonNode jsonNode = this.objectMapper.reader().readTree(in);
 		if (jsonNode == null)
 		{
-			return new DeploymentInfo(DeploymentStatus.UNAVAILABLE, system, env, null, null, null);
+			return DeploymentInfo.unvailable(system, env);
 		}
 
 		String version = getStringFrom(jsonNode, "version");

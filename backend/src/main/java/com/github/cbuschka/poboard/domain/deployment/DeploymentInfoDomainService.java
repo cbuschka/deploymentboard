@@ -35,6 +35,6 @@ public class DeploymentInfoDomainService
 		return system
 				.getEndpoint(env)
 				.map((endpoint) -> this.endpointDomainService.getDeploymentInfo(system.getName(), env, endpoint))
-				.orElseGet(() -> new DeploymentInfo(DeploymentStatus.UNAVAILABLE, system.getName(), env, null, null, null));
+				.orElseGet(() -> DeploymentInfo.unvailable(system.getName(), env));
 	}
 }
