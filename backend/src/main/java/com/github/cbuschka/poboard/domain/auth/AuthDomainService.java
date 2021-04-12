@@ -39,7 +39,7 @@ public class AuthDomainService
 
 	public List<Credentials> getCredentials(String hostname)
 	{
-		return Optional.of(configProvider.getConfig().credentials)
+		return Optional.ofNullable(configProvider.getConfig().credentials)
 				.orElseGet(Collections::emptyList)
 				.stream()
 				.filter((c) -> allowedForHostname(c, hostname))
