@@ -1,7 +1,7 @@
 environments:
-  - "prod"
-  - "stage"
-  - "int"
+  - name: "prod"
+  - name: "stage"
+  - name: "int"
 systems:
   - name: "ui"
     repository:

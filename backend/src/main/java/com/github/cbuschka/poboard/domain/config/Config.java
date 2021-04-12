@@ -1,6 +1,7 @@
 package com.github.cbuschka.poboard.domain.config;
 
 import com.github.cbuschka.poboard.domain.auth.Credentials;
+import com.github.cbuschka.poboard.domain.deployment.Environment;
 import com.github.cbuschka.poboard.domain.deployment.System;
 import com.github.cbuschka.poboard.domain.issue_tracking.Project;
 
@@ -10,7 +11,7 @@ public class Config
 {
 	public List<Project> projects;
 
-	public List<String> environments;
+	public List<Environment> environments;
 
 	public List<System> systems;
 

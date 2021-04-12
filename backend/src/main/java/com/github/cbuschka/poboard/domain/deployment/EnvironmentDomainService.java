@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EnvironmentDomainService
@@ -14,6 +15,6 @@ public class EnvironmentDomainService
 
 	public List<String> getEnvironments()
 	{
-		return configProvider.getConfig().environments;
+		return configProvider.getConfig().environments.stream().map(Environment::getName).collect(Collectors.toList());
 	}
 }
