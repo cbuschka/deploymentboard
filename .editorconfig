@@ -3,9 +3,16 @@
 
 root = true
 
-[*.js,*.json]
+[*{.js, .json, .yaml, .yml}]
 indent_style = space
 indent_size = 2
+
+[*.xml]
+indent_style = space
+indent_size = 4
+
+[*.java]
+indent_style = tab
 
 # We recommend you to keep these unchanged
 end_of_line = lf
