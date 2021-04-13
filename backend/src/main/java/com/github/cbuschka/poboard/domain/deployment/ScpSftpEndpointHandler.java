@@ -3,6 +3,9 @@ package com.github.cbuschka.poboard.domain.deployment;
 import com.github.cbuschka.poboard.domain.auth.AuthDomainService;
 import com.github.cbuschka.poboard.domain.auth.PrivateKeyCredentials;
 import com.github.cbuschka.poboard.domain.auth.PrivateKeyLoader;
+import com.github.cbuschka.poboard.domain.config.Config;
+import com.github.cbuschka.poboard.domain.config.ConfigProvider;
+import com.github.cbuschka.poboard.util.Integers;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
@@ -30,6 +33,8 @@ public class ScpSftpEndpointHandler implements EndpointHandler
 	private DeploymentInfoExtractor deploymentInfoExtractor;
 	@Autowired
 	private PrivateKeyLoader privateKeyLoader;
+	@Autowired
+	private ConfigProvider configProvider;
 
 	@Override
 	public boolean handles(Endpoint endpoint)
@@ -42,6 +47,8 @@ public class ScpSftpEndpointHandler implements EndpointHandler
 	{
 		try
 		{
+			Config config = configProvider.getConfig();
+
 			URIish uri = new URIish(endpoint.getUrl());
 			JSch jSch = new JSch();
 			List<PrivateKeyCredentials> privateKeyCredentialsList = this.authDomainService.getPrivateKeyCredentials(uri.getUser(), uri.getHost());
@@ -52,7 +59,7 @@ public class ScpSftpEndpointHandler implements EndpointHandler
 
 			Session session = jSch.getSession(uri.getUser(), uri.getHost(), uri.getPort() != -1 ? uri.getPort() : 22);
 			session.setConfig("StrictHostKeyChecking", "no");
-			session.setTimeout(3_000);
+			session.setTimeout(Integers.firstNonNull(endpoint.getConnectTimeoutMillis(), config.settings.getConnectTimeoutMillis(), config.defaults.connectTimeoutMillis));
 			session.connect();
 
 			Channel channel = session.openChannel("sftp");

@@ -2,6 +2,9 @@ package com.github.cbuschka.poboard.domain.scm;
 
 import com.github.cbuschka.poboard.domain.auth.PrivateKeyCredentials;
 import com.github.cbuschka.poboard.domain.auth.PrivateKeyLoader;
+import com.github.cbuschka.poboard.domain.config.Config;
+import com.github.cbuschka.poboard.domain.config.ConfigProvider;
+import com.github.cbuschka.poboard.util.Integers;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
@@ -18,15 +21,20 @@ public class SshSessionContextAwareJschConfigSessionFactory extends JschConfigSe
 {
 	@Autowired
 	private PrivateKeyLoader privateKeyLoader;
+	@Autowired
+	private ConfigProvider configProvider;
 
 	@Override
 	protected void configure(OpenSshConfig.Host hc, Session session)
 	{
 		try
 		{
-			List<PrivateKeyCredentials> privateKeyCredentialsList = SshSessionContext.current().getPrivateKeyCredentialsList();
+			Config config = configProvider.getConfig();
+			SshSessionContext<Object> current = SshSessionContext.current();
+			List<PrivateKeyCredentials> privateKeyCredentialsList = current.getPrivateKeyCredentialsList();
 			session.setConfig("StrictHostKeyChecking", "no");
-			session.setTimeout(3_000);
+			CodeRepository codeRepository = current.getCodeRepository();
+			session.setTimeout(Integers.firstNonNull(codeRepository.getConnectTimeoutMillis(), config.settings.getConnectTimeoutMillis(), config.defaults.connectTimeoutMillis));
 			if (!privateKeyCredentialsList.isEmpty())
 			{
 				session.setConfig("PreferredAuthentications", "publickey");
@@ -41,7 +49,8 @@ public class SshSessionContextAwareJschConfigSessionFactory extends JschConfigSe
 	@Override
 	protected JSch getJSch(final OpenSshConfig.Host hc, FS fs) throws JSchException
 	{
-		List<PrivateKeyCredentials> privateKeyCredentialsList = SshSessionContext.current().getPrivateKeyCredentialsList();
+		SshSessionContext<Object> current = SshSessionContext.current();
+		List<PrivateKeyCredentials> privateKeyCredentialsList = current.getPrivateKeyCredentialsList();
 		JSch jsch = super.getJSch(hc, fs);
 		jsch.removeAllIdentity();
 		for (PrivateKeyCredentials c : privateKeyCredentialsList)

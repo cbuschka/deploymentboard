@@ -8,4 +8,6 @@ import lombok.NoArgsConstructor;
 public class CodeRepository
 {
 	private String url;
+
+	private Integer connectTimeoutMillis;
 }

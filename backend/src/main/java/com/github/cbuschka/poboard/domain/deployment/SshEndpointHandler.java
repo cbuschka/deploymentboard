@@ -3,6 +3,9 @@ package com.github.cbuschka.poboard.domain.deployment;
 import com.github.cbuschka.poboard.domain.auth.AuthDomainService;
 import com.github.cbuschka.poboard.domain.auth.PrivateKeyCredentials;
 import com.github.cbuschka.poboard.domain.auth.PrivateKeyLoader;
+import com.github.cbuschka.poboard.domain.config.Config;
+import com.github.cbuschka.poboard.domain.config.ConfigProvider;
+import com.github.cbuschka.poboard.util.Integers;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
@@ -30,6 +33,8 @@ public class SshEndpointHandler implements EndpointHandler
 	private DeploymentInfoExtractor deploymentInfoExtractor;
 	@Autowired
 	private PrivateKeyLoader privateKeyLoader;
+	@Autowired
+	private ConfigProvider configProvider;
 
 	@Override
 	public boolean handles(Endpoint endpoint)
@@ -42,6 +47,8 @@ public class SshEndpointHandler implements EndpointHandler
 	{
 		try
 		{
+			Config config = configProvider.getConfig();
+
 			if (endpoint.getCommand() == null)
 			{
 				return DeploymentInfo.failure(system, env, String.format("No command setfor %s/%s.", system, env));
@@ -61,7 +68,7 @@ public class SshEndpointHandler implements EndpointHandler
 			}
 
 			Session session = jSch.getSession(uri.getUser(), uri.getHost(), uri.getPort() != -1 ? uri.getPort() : 22);
-			session.setTimeout(10_000);
+			session.setTimeout(Integers.firstNonNull(endpoint.getConnectTimeoutMillis(), config.settings.getConnectTimeoutMillis(), config.defaults.connectTimeoutMillis));
 			session.setConfig("StrictHostKeyChecking", "no");
 			session.connect();
 

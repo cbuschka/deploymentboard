@@ -1,6 +1,7 @@
 package com.github.cbuschka.poboard.domain.scm;
 
 import com.github.cbuschka.poboard.domain.auth.PrivateKeyCredentials;
+import org.aspectj.apache.bcel.classfile.Code;
 import org.eclipse.jgit.transport.URIish;
 
 import java.util.List;
@@ -9,6 +10,8 @@ import java.util.concurrent.Callable;
 class SshSessionContext<V>
 {
 	private static final ThreadLocal<SshSessionContext> threadLocal = new ThreadLocal<>();
+
+	private CodeRepository codeRepository;
 
 	private final URIish repoUri;
 
@@ -26,7 +29,7 @@ class SshSessionContext<V>
 		return context;
 	}
 
-	public SshSessionContext(URIish repoUri, List<PrivateKeyCredentials> privateKeyCredentialsList)
+	public SshSessionContext(URIish repoUri, CodeRepository codeRepository, List<PrivateKeyCredentials> privateKeyCredentialsList)
 	{
 		this.repoUri = repoUri;
 		this.privateKeyCredentialsList = privateKeyCredentialsList;
@@ -35,6 +38,11 @@ class SshSessionContext<V>
 	public List<PrivateKeyCredentials> getPrivateKeyCredentialsList()
 	{
 		return privateKeyCredentialsList;
+	}
+
+	public CodeRepository getCodeRepository()
+	{
+		return codeRepository;
 	}
 
 	public URIish getRepoUri()

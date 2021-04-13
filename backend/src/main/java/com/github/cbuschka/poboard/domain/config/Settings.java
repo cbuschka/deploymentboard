@@ -1,19 +1,12 @@
-package com.github.cbuschka.poboard.domain.deployment;
+package com.github.cbuschka.poboard.domain.config;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class Endpoint
+public class Settings
 {
-	private String url;
-
-	private String command;
-
-	private String format;
-
 	private Integer connectTimeoutMillis;
-
 	private Integer readTimeoutMillis;
 }

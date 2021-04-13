@@ -1,5 +1,7 @@
 package com.github.cbuschka.poboard.domain.config;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.cbuschka.poboard.domain.auth.Credentials;
 import com.github.cbuschka.poboard.domain.deployment.Environment;
 import com.github.cbuschka.poboard.domain.deployment.System;
@@ -9,6 +11,12 @@ import java.util.List;
 
 public class Config
 {
+	@JsonIgnore
+	public final Defaults defaults = new Defaults();
+
+	@JsonProperty(value = "defaults")
+	public Settings settings = new Settings();
+
 	public String version;
 
 	public Workspace workspace;

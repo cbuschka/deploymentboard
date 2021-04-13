@@ -2,6 +2,9 @@ package com.github.cbuschka.poboard.domain.deployment;
 
 import com.github.cbuschka.poboard.domain.auth.AuthDomainService;
 import com.github.cbuschka.poboard.domain.auth.PasswordCredentials;
+import com.github.cbuschka.poboard.domain.config.Config;
+import com.github.cbuschka.poboard.domain.config.ConfigProvider;
+import com.github.cbuschka.poboard.util.Integers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,6 +24,8 @@ public class HttpEndpointHandler implements EndpointHandler
 	private AuthDomainService authDomainService;
 	@Autowired
 	private DeploymentInfoExtractor deploymentInfoExtractor;
+	@Autowired
+	private ConfigProvider configProvider;
 
 	@Override
 	public boolean handles(Endpoint endpoint)
@@ -33,10 +38,12 @@ public class HttpEndpointHandler implements EndpointHandler
 	{
 		try
 		{
+			Config config = configProvider.getConfig();
+
 			URL url = new URL(endpoint.getUrl());
 			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-			httpConn.setConnectTimeout(3_000);
-			httpConn.setReadTimeout(10_000);
+			httpConn.setConnectTimeout(Integers.firstNonNull(endpoint.getConnectTimeoutMillis(), config.settings.getConnectTimeoutMillis(), config.defaults.connectTimeoutMillis));
+			httpConn.setReadTimeout(Integers.firstNonNull(endpoint.getReadTimeoutMillis(), config.settings.getReadTimeoutMillis(), config.defaults.readTimeoutMillis));
 			addBasicAuthHeaderIfAvailable(url, httpConn);
 			httpConn.setDoInput(true);
 			int responseCode = httpConn.getResponseCode();

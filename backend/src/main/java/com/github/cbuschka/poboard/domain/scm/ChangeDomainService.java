@@ -68,7 +68,7 @@ public class ChangeDomainService
 
 		Repository repo = createRepositoryIfNotExists(codeRepository);
 		List<PrivateKeyCredentials> privateKeyCredentialsList = this.authDomainService.getPrivateKeyCredentials(repositoryUri.getUser(), repositoryUri.getHost());
-		return new SshSessionContext<List<Change>>(repositoryUri, privateKeyCredentialsList)
+		return new SshSessionContext<List<Change>>(repositoryUri, codeRepository, privateKeyCredentialsList)
 				.run(() -> listChanges(repositoryUri, commitish, optionalEndCommitish, repo));
 	}
 
