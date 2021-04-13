@@ -31,8 +31,8 @@ systems:
     endpoints:
       prod:
         url: "ssh://app@localhost:10023"
-        format: json
-        command: 'echo "{\"version\":\"NOVERSION\",\"commitish\":\"NOCOMMITISH\",\"branch\":\"NOBRANCH\"}"'
+        format: yaml
+        command: 'echo -e "version: NOVERSION\ncommitish: NOCOMMITISH\nbranch: NOBRANCH\n"'
 projects:
   - issuePrefix: "UI-"
   - issuePrefix: "UIX-"
