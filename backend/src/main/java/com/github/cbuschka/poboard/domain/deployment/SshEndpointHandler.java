@@ -42,6 +42,16 @@ public class SshEndpointHandler implements EndpointHandler
 	{
 		try
 		{
+			if (endpoint.getCommand() == null)
+			{
+				return DeploymentInfo.failure(system, env, String.format("No command setfor %s/%s.", system, env));
+			}
+
+			if (endpoint.getFormat() == null)
+			{
+				return DeploymentInfo.failure(system, env, String.format("No format configured for %s/%s.", system, env));
+			}
+
 			URIish uri = new URIish(endpoint.getUrl());
 			JSch jSch = new JSch();
 			List<PrivateKeyCredentials> privateKeyCredentialsList = this.authDomainService.getPrivateKeyCredentials(uri.getUser(), uri.getHost());
@@ -51,7 +61,7 @@ public class SshEndpointHandler implements EndpointHandler
 			}
 
 			Session session = jSch.getSession(uri.getUser(), uri.getHost(), uri.getPort() != -1 ? uri.getPort() : 22);
-			session.setTimeout(3_000);
+			session.setTimeout(10_000);
 			session.setConfig("StrictHostKeyChecking", "no");
 			session.connect();
 
