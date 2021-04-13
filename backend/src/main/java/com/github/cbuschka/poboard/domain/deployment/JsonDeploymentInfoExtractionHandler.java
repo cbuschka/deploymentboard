@@ -16,7 +16,7 @@ public class JsonDeploymentInfoExtractionHandler implements DeploymentInfoExtrac
 	@Override
 	public boolean handles(Endpoint endpoint)
 	{
-		return endpoint.getUrl() != null && endpoint.getUrl().endsWith(".json");
+		return "json".equals(endpoint.getFormat()) || (endpoint.getUrl() != null && endpoint.getUrl().endsWith(".json"));
 	}
 
 	@Override

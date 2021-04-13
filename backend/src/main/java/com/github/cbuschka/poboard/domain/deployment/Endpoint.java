@@ -8,4 +8,8 @@ import lombok.NoArgsConstructor;
 public class Endpoint
 {
 	private String url;
+
+	private String command;
+
+	private String format;
 }

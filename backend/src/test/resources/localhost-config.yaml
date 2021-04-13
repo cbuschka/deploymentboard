@@ -27,6 +27,12 @@ systems:
         url: "sftp://app@localhost:10022/usr/share/nginx/html/version.json"
       prod:
         url: "sftp://app@localhost:10023/usr/share/nginx/html/version.json"
+  - name: "thirdparty"
+    endpoints:
+      prod:
+        url: "ssh://app@localhost:10023"
+        format: json
+        command: 'echo "{\"version\":\"NOVERSION\",\"commitish\":\"NOCOMMITISH\",\"branch\":\"NOBRANCH\"}"'
 projects:
   - issuePrefix: "UI-"
   - issuePrefix: "UIX-"
@@ -34,7 +40,7 @@ projects:
 credentials:
   - type: privateKey
     allowedUsernames:
-    - git
+      - git
     data: "-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEA2XTGkPSUWwQYsO/D4Af5T9Y9TL03ni1r3VPiK+VGX5bY8MT6\n\
     mEDuZ3JJtyM5yAl88z7BgCLkTr56vUwLiOycB4NdhGuMqIEddle7pM/e8Q1U0yAl\nYJpb1zcTOJQN6moh6IIMgjwmwLTZKV/0eeQ8Jkp2JUxUYu1P5Qs8yc8UrTayb7K0\n\
     VaqZcu1hpNDLEsRiOqO7DnmSV3BDIzs2+sCv9k+tZ2qp6Sh3dIMjdNZ4qHetvlTB\nyHspC++YA6FIGQM+XCs5hkKVDfIIqWXZ5YOqVxRjG9x3CGlQWoljzEMmDf4Q1Tsr\n\
@@ -51,7 +57,7 @@ credentials:
     -----END RSA PRIVATE KEY-----\n"
   - type: privateKey
     allowedUsernames:
-    - app
+      - app
     data: "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEAuRwXCoyFrWZg0qZZma4axQbPDOt9WXGtrvcPrTAeqVC8Th21\n\
     0Addfo+3QUrb77SNkCgAHMsdTEu9DuuOhIsCgbphvKkmRTiYj/QqZFFXejAJJVat\nUnVSevAlRXyXfJj15hIeMYKpVXv9zDgvDJY7kRKps6sf+p/28pHNgH6TiDgd13V7\n\
     UdzmWphgeG7+FWdX9HUv6ipZBq96Migu7bb7DJ6PwjrcLooZ7GLcsQpmY3l1DivK\nsvO51HyGjt6L8XYf6rkY5G00PKRufHCPcSb/s+elt2JzrBtmiUqEXGipdqLOJXuu\n\
@@ -68,7 +74,7 @@ credentials:
     -----END RSA PRIVATE KEY-----\n"
   - type: password
     allowedUsernames:
-    - git
+      - git
     password: "asdfasdf"
   - type: password
     allowedUsernames:

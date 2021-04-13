@@ -4,10 +4,11 @@ import com.github.cbuschka.poboard.domain.auth.AuthDomainService;
 import com.github.cbuschka.poboard.domain.auth.PrivateKeyCredentials;
 import com.github.cbuschka.poboard.domain.auth.PrivateKeyLoader;
 import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.transport.URIish;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +17,12 @@ import org.springframework.stereotype.Component;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Component
 @Slf4j
-public class SshEndpointHandler implements EndpointHandler
+public class ScpSftpEndpointHandler implements EndpointHandler
 {
 	@Autowired
 	private AuthDomainService authDomainService;
@@ -35,7 +34,7 @@ public class SshEndpointHandler implements EndpointHandler
 	@Override
 	public boolean handles(Endpoint endpoint)
 	{
-		return endpoint.getUrl().startsWith("ssh://");
+		return endpoint.getUrl().startsWith("scp://") || endpoint.getUrl().startsWith("sftp://");
 	}
 
 	@Override
@@ -55,55 +54,23 @@ public class SshEndpointHandler implements EndpointHandler
 			session.setConfig("StrictHostKeyChecking", "no");
 			session.connect();
 
-			Channel channel = session.openChannel("exec");
-			ChannelExec execChannel = (ChannelExec) channel;
-			execChannel.setCommand(endpoint.getCommand());
-			execChannel.setInputStream(null);
-			execChannel.setErrStream(java.lang.System.err, true);
+			Channel channel = session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp sftpChannel = (ChannelSftp) channel;
 			ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
-			execChannel.connect();
-			execChannel.start();
+			sftpChannel.get(uri.getPath(), bytesOut);
+			sftpChannel.exit();
 
-			readResponseInto(channel, execChannel, bytesOut);
-
-			int exitStatus = execChannel.getExitStatus();
-			if (exitStatus != 0)
-			{
-				return DeploymentInfo.unvailable(system, env);
-			}
-
-			execChannel.disconnect();
 			session.disconnect();
 
 			return this.deploymentInfoExtractor.extractDeploymentInfoFrom(new ByteArrayInputStream(bytesOut.toByteArray()), system, env, endpoint);
 		}
-		catch (IOException | URISyntaxException | JSchException ex)
+		catch (IOException | URISyntaxException | JSchException | SftpException ex)
 		{
 			log.error("Getting deployment info for {} failed.", endpoint.getUrl(), ex);
 
 			return DeploymentInfo.unvailable(system, env);
 		}
 
-	}
-
-	private void readResponseInto(Channel channel, ChannelExec execChannel, ByteArrayOutputStream bytesOut) throws IOException
-	{
-		InputStream in = execChannel.getInputStream();
-		byte[] bbuf = new byte[1024];
-		while (true)
-		{
-			while (in.available() > 0)
-			{
-				int count = in.read(bbuf, 0, 1024);
-				if (count < 0) break;
-				bytesOut.write(bbuf, 0, count);
-				log.info(new String(bbuf, 0, count, StandardCharsets.UTF_8));
-			}
-			if (channel.isClosed())
-			{
-				if (in.available() > 0) continue;
-				break;
-			}
-		}
 	}
 }

@@ -13,7 +13,7 @@ public class PropertiesDeploymentInfoExtractionHandler implements DeploymentInfo
 	@Override
 	public boolean handles(Endpoint endpoint)
 	{
-		return endpoint.getUrl() != null && endpoint.getUrl().endsWith(".properties");
+		return "properties".equals(endpoint.getFormat()) || (endpoint.getUrl() != null && endpoint.getUrl().endsWith(".properties"));
 	}
 
 	@Override
