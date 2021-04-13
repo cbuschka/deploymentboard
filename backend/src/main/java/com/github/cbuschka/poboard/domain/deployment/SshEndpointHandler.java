@@ -97,7 +97,6 @@ public class SshEndpointHandler implements EndpointHandler
 				int count = in.read(bbuf, 0, 1024);
 				if (count < 0) break;
 				bytesOut.write(bbuf, 0, count);
-				log.info(new String(bbuf, 0, count, StandardCharsets.UTF_8));
 			}
 			if (channel.isClosed())
 			{
