@@ -7,27 +7,25 @@ public class CachedValueHolder<ValueType>
 {
 	private final Executor executor;
 	private final Supplier<ValueType> loader;
-	private final int reloadMillis;
 
-	private long expiryMillis = 0L;
+	private long loadTimeMillis = 0L;
 	private ValueType value;
 	private boolean reloading = false;
 
-	public CachedValueHolder(Supplier<ValueType> loader, int reloadMillis, Executor executor)
+	public CachedValueHolder(Supplier<ValueType> loader, Executor executor)
 	{
 		this.loader = loader;
-		this.reloadMillis = reloadMillis;
 		this.executor = executor;
 	}
 
-	public synchronized ValueType get()
+	public synchronized ValueType get(int expiryMillis)
 	{
 		if (this.value == null)
 		{
 			this.value = this.loader.get();
 		}
 
-		if (isExpired() && !reloading)
+		if (hasExpired(expiryMillis) && !reloading)
 		{
 			this.executor.execute(this::reload);
 		}
@@ -38,7 +36,7 @@ public class CachedValueHolder<ValueType>
 	private synchronized void set(ValueType value)
 	{
 		this.value = value;
-		this.expiryMillis = System.currentTimeMillis() + this.reloadMillis;
+		this.loadTimeMillis = System.currentTimeMillis();
 		this.reloading = false;
 	}
 
@@ -48,8 +46,8 @@ public class CachedValueHolder<ValueType>
 		set(value);
 	}
 
-	private boolean isExpired()
+	private boolean hasExpired(int expiryMillis)
 	{
-		return System.currentTimeMillis() > this.expiryMillis;
+		return System.currentTimeMillis() > this.loadTimeMillis + expiryMillis;
 	}
 }

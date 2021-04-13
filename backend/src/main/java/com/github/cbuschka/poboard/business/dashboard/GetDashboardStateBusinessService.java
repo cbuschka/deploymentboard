@@ -1,5 +1,7 @@
 package com.github.cbuschka.poboard.business.dashboard;
 
+import com.github.cbuschka.poboard.domain.config.Config;
+import com.github.cbuschka.poboard.domain.config.ConfigProvider;
 import com.github.cbuschka.poboard.domain.deployment.DeploymentInfo;
 import com.github.cbuschka.poboard.domain.deployment.DeploymentInfoDomainService;
 import com.github.cbuschka.poboard.domain.deployment.Environment;
@@ -12,6 +14,7 @@ import com.github.cbuschka.poboard.domain.issue_tracking.Project;
 import com.github.cbuschka.poboard.domain.issue_tracking.ProjectDomainService;
 import com.github.cbuschka.poboard.domain.scm.CodeRepository;
 import com.github.cbuschka.poboard.util.CachedValueHolder;
+import com.github.cbuschka.poboard.util.Integers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,12 +45,17 @@ public class GetDashboardStateBusinessService
 	private ProjectDomainService projectDomainService;
 	@Autowired
 	private IssueDomainService issueDomainService;
+	@Autowired
+	private ConfigProvider configProvider;
 
-	private final CachedValueHolder<DashboardStateResponse> cachedResponse = new CachedValueHolder<>(this::calculateDashboardState, 30_000, Executors.newSingleThreadExecutor());
+	private final CachedValueHolder<DashboardStateResponse> cachedResponse = new CachedValueHolder<>(this::calculateDashboardState, Executors.newSingleThreadExecutor());
 
 	public DashboardStateResponse getDashboardState()
 	{
-		return this.cachedResponse.get();
+		Config config = this.configProvider.getConfig();
+		int expiryMillis = Integers.firstNonNull(config.settings.getReloadTimeoutMillis(), config.defaults.reloadTimeoutMillis);
+
+		return this.cachedResponse.get(expiryMillis);
 	}
 
 	private DashboardStateResponse calculateDashboardState()

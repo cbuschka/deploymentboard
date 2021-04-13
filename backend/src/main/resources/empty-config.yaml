@@ -1,5 +1,9 @@
 version: "1.0"
 defaults:
+  reloadTimeoutMillis: null
+  connectTimeoutMillis: null
+  readTimeoutMillis: null
+  recheckTimeoutMillis: null
 workspace:
   dir: /tmp/poboard-workspace
 environments:

@@ -13,6 +13,8 @@ public class Endpoint
 
 	private String format;
 
+	private Integer recheckTimeoutMillis;
+
 	private Integer connectTimeoutMillis;
 
 	private Integer readTimeoutMillis;

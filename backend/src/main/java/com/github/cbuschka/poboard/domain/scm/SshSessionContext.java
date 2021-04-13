@@ -1,7 +1,6 @@
 package com.github.cbuschka.poboard.domain.scm;
 
 import com.github.cbuschka.poboard.domain.auth.PrivateKeyCredentials;
-import org.aspectj.apache.bcel.classfile.Code;
 import org.eclipse.jgit.transport.URIish;
 
 import java.util.List;
@@ -33,6 +32,7 @@ class SshSessionContext<V>
 	{
 		this.repoUri = repoUri;
 		this.privateKeyCredentialsList = privateKeyCredentialsList;
+		this.codeRepository = codeRepository;
 	}
 
 	public List<PrivateKeyCredentials> getPrivateKeyCredentialsList()

@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Settings
 {
+	private Integer reloadTimeoutMillis;
 	private Integer connectTimeoutMillis;
 	private Integer readTimeoutMillis;
+	private Integer recheckTimeoutMillis;
 }
