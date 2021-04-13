@@ -11,9 +11,9 @@ import java.util.List;
 @Component
 public class DeploymentInfoExtractor
 {
-	final static List<String> VERSION_ALIASES = Arrays.asList("version", "build.version", "project.version", "projectVersion", "buildVersion");
-	final static List<String> COMMITISH_ALIASES = Arrays.asList("commitish", "build.commitish", "comitish");
-	final static List<String> BRANCH_ALIASES = Arrays.asList("branch", "build.branch");
+	final static List<String> VERSION_ALIASES = Arrays.asList("version", "build.version", "project.version", "projectVersion", "buildVersion", "Project-Version");
+	final static List<String> COMMITISH_ALIASES = Arrays.asList("commitish", "build.commitish", "comitish", "Build-Commitish");
+	final static List<String> BRANCH_ALIASES = Arrays.asList("branch", "build.branch", "Build-Branch");
 
 	@Autowired
 	private List<DeploymentInfoExtractionHandler> deploymentInfoExtractionHandlers;
