@@ -1,81 +1,8 @@
 .DashboardPage {
-    width: 100vw;
-    height: 100vh;
-    background-color: black;
-}
-
-.DashboardPage_matrix {
     width: 100%;
     height: 100%;
-    color: white;
-    border: 3px solid black;
-    border-collapse: separate;
-}
-
-.DashboardPage_matrix td {
-    padding: 40px;
-}
-
-.DashboardPage_environment {
-    text-transform: capitalize;
-    color: white;
-    width: 100px;
-}
-
-.DashboardPage_system {
-    text-transform: capitalize;
-    border: 3px solid black;
-    border-collapse: collapse;
+    border: 0;
+    margin: 0;
+    padding: 0;
     background-color: black;
-}
-
-.DashboardPage_system_environment {
-    color: white;
-    border: 1px solid gray;
-    border-collapse: collapse;
-    background-color: black;
-    border-radius: 5px;
-}
-
-.DashboardPage_system_environment_version {
-    font-size: 2em;
-    display: block;
-}
-
-.DashboardPage_system_environment_branchAndCommitish {
-    font-size: 0.8em;
-    display: block;
-    text-transform: none;
-}
-
-.DashboardPage_system_environment_issue {
-    display: inline-block;
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 4px;
-    margin-right: 4px;
-}
-
-.DashboardPage_system_environment_issue.MISSING {
-    border: 1px solid lightgray;
-    background-color: gray;
-    color: white;
-}
-
-.DashboardPage_system_environment_issue.UNKNOWN {
-    border: 1px solid lightgray;
-    background-color: gray;
-    color: white;
-}
-
-.DashboardPage_system_environment_issue.CLOSED {
-    border: 1px solid lightgreen;
-    background-color: green;
-    color: white;
-}
-
-.DashboardPage_system_environment_issue.OPEN {
-    border: 1px solid orange;
-    background-color: darkorange;
-    color: white;
 }

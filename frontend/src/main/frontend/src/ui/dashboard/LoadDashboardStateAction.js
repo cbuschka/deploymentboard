@@ -7,5 +7,8 @@ export const loadDashboardState = async () => {
         .then(res => res.json())
         .then(res => {
             return dispatcher.dispatch({"type": "dashboardStateLoaded", data: {state: res}});
-        });
+        })
+        .catch((e) => {
+            return dispatcher.dispatch({"type": "loadingDashboardStateFailed", data: {message: e.message}});
+        })
 };

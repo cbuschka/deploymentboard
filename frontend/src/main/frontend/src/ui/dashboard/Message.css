@@ -1,0 +1,22 @@
+.Message {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.Message__title {
+    display: block;
+    color: orangered;
+    padding: 3em;
+    font-weight: bold;
+    font-size: 3em;
+    text-align: center;
+}
+
+.Message__text {
+    color: gray;
+    font-weight: bold;
+    font-size: 1em;
+    text-align: center;
+}

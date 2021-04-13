@@ -8,7 +8,12 @@ class DashboardStore {
 
     onDashboardStateLoaded({data}) {
         const {state} = data;
-        this.state = state;
+        this.state = {ok: true, ...state};
+    }
+
+    onLoadingDashboardStateFailed({data}) {
+        const {message} = data;
+        this.state = {ok: false, message};
     }
 
     appendDataTo(target) {
