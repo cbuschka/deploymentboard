@@ -24,7 +24,7 @@
 
 ```bash
 docker run --name poboard --rm \
-  -e JAVA_TOOL_OPTIONS='-Dpoboard.config=file:/config/config.yaml' \
+  -e JAVA_TOOL_OPTIONS='-Dpoboard.config=file:/config/config.yaml -Dpoboard.masterpassword=' \
   -v ${PWD}/backend/src/test/resources/test-config.yaml:/config/config.yaml \
   -v ${PWD}/workspace/:/tmp/workspace:rw \
   -p 8080:8080 \

@@ -7,6 +7,6 @@ services:
     expose:
       - "8080"
     environment:
-      - "JAVA_TOOL_OPTIONS=-Dpoboard.config=file:/config/test-config.yaml"
+      - "JAVA_TOOL_OPTIONS=-Dpoboard.config=file:/config/test-config.yaml -Dpoboard.masterpassword="
     volumes:
       - "${TOP_DIR}/backend/src/test/resources/test-config.yaml:/config/test-config.yaml:ro"
