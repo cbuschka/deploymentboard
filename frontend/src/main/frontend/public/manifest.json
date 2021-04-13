@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "POBoard",
+  "name": "POBoard - the deployment dashboard - https://github.com/cbuschka/poboard",
   "icons": [
     {
       "src": "favicon.ico",
