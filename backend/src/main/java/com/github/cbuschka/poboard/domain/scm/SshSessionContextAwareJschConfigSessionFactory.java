@@ -38,7 +38,7 @@ public class SshSessionContextAwareJschConfigSessionFactory extends JschConfigSe
 		jsch.removeAllIdentity();
 		for (PrivateKeyCredentials c : privateKeyCredentialsList)
 		{
-			jsch.addIdentity("", privateKeyLoader.getAsciiArmoredBytesUTF8(c), null, null);
+			jsch.addIdentity("", privateKeyLoader.getAsciiArmoredBytesUTF8(c), null, privateKeyLoader.getPasswordBytesUTF8(c));
 		}
 		return jsch;
 	}

@@ -2,6 +2,7 @@ package com.github.cbuschka.poboard.domain.auth;
 
 import com.github.cbuschka.poboard.domain.config.ConfigProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
