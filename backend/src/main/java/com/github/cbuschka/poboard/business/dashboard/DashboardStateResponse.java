@@ -1,5 +1,6 @@
 package com.github.cbuschka.poboard.business.dashboard;
 
+import com.github.cbuschka.poboard.domain.deployment.DeploymentStatus;
 import com.github.cbuschka.poboard.domain.issue_tracking.IssueStatus;
 
 import java.util.LinkedHashMap;
@@ -33,17 +34,21 @@ public class DashboardStateResponse
 
 	public static class SystemEnvironment
 	{
+		public boolean ok;
 		public String version;
 		public String commitish;
 		public String branch;
 		public List<Issue> issues;
+		public String message;
 
-		public SystemEnvironment(String version, String commitish, String branch, List<Issue> issues)
+		public SystemEnvironment(DeploymentStatus status, String version, String commitish, String branch, List<Issue> issues, String message)
 		{
+			this.ok = status == DeploymentStatus.AVAILABLE;
 			this.branch = branch;
 			this.version = version;
 			this.commitish = commitish;
 			this.issues = issues;
+			this.message = message;
 		}
 	}
 

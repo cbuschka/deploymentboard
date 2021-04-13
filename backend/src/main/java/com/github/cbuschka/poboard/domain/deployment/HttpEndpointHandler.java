@@ -42,18 +42,22 @@ public class HttpEndpointHandler implements EndpointHandler
 			int responseCode = httpConn.getResponseCode();
 			if (responseCode != 200)
 			{
-				return DeploymentInfo.unvailable(system, env);
+				return DeploymentInfo.unreachable(system, env, "Response code: " + responseCode);
 			}
 
 			return deploymentInfoExtractor.extractDeploymentInfoFrom(httpConn.getInputStream(), system, env, endpoint);
 		}
 		catch (IOException ex)
 		{
+			if (ex.getMessage().contains("Connection refused"))
+			{
+				return DeploymentInfo.unreachable(system, env, "Connection refused.");
+			}
+
 			log.error("Getting deployment info for {} failed.", endpoint.getUrl(), ex);
 
-			return DeploymentInfo.unvailable(system, env);
+			return DeploymentInfo.unreachable(system, env, ex.getMessage());
 		}
-
 	}
 
 	private void addBasicAuthHeaderIfAvailable(URL url, HttpURLConnection httpConn)

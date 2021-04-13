@@ -25,6 +25,7 @@
 }
 
 .Matrix_system_environment {
+    text-transform: none;
     color: white;
     border: 1px solid gray;
     border-collapse: collapse;
@@ -73,4 +74,8 @@
     border: 1px solid orange;
     background-color: darkorange;
     color: white;
+}
+
+.Matrix_system_environment_warning {
+    color: gray;
 }

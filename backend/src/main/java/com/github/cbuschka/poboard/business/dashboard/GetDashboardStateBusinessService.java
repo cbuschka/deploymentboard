@@ -75,9 +75,8 @@ public class GetDashboardStateBusinessService
 					if (issuesOfProd == null)
 					{
 						response = response.withSystemEnvironment(env.getName(), system.getName(),
-								new DashboardStateResponse.SystemEnvironment(deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
-										deploymentInfo.getBranch(),
-										Collections.emptyList()));
+								new DashboardStateResponse.SystemEnvironment(deploymentInfo.getStatus(), deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
+										deploymentInfo.getBranch(), Collections.emptyList(), deploymentInfo.getMessage()));
 						issuesOfProd = issues;
 						prodCommitish = deploymentInfo.getCommitish();
 					}
@@ -87,17 +86,16 @@ public class GetDashboardStateBusinessService
 						issuesOfEnv.removeAll(issuesOfProd);
 
 						response = response.withSystemEnvironment(env.getName(), system.getName(),
-								new DashboardStateResponse.SystemEnvironment(deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
-										deploymentInfo.getBranch(),
-										issuesOfEnv.stream().map(this::toIssue).collect(toList())
-								));
+								new DashboardStateResponse.SystemEnvironment(deploymentInfo.getStatus(), deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
+										deploymentInfo.getBranch(), issuesOfEnv.stream().map(this::toIssue).collect(toList()),
+										deploymentInfo.getMessage()));
 					}
 				}
 				else
 				{
 					response = response.withSystemEnvironment(env.getName(), system.getName(),
-							new DashboardStateResponse.SystemEnvironment(deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
-									deploymentInfo.getBranch(), Collections.emptyList()));
+							new DashboardStateResponse.SystemEnvironment(deploymentInfo.getStatus(), deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
+									deploymentInfo.getBranch(), Collections.emptyList(), deploymentInfo.getMessage()));
 
 				}
 			}

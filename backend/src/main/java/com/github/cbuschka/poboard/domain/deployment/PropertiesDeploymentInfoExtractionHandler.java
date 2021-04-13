@@ -25,7 +25,7 @@ public class PropertiesDeploymentInfoExtractionHandler implements DeploymentInfo
 		String version = getStringFrom(properties, DeploymentInfoExtractor.VERSION_ALIASES);
 		String commitish = getStringFrom(properties, DeploymentInfoExtractor.COMMITISH_ALIASES);
 		String branch = getStringFrom(properties, DeploymentInfoExtractor.BRANCH_ALIASES);
-		return new DeploymentInfo(DeploymentStatus.AVAILABLE, system, env, commitish, version, branch);
+		return DeploymentInfo.available(system, env, commitish, version, branch);
 	}
 
 	private String getStringFrom(Properties properties, List<String> keys)

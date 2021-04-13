@@ -2,7 +2,36 @@ import React from 'react';
 import './Matrix.css';
 import classnames from 'classnames';
 
-export class Matrix extends React.Component {
+class DeploymentInfo extends React.Component {
+
+    render() {
+        return <td className="Matrix_system_environment">{this.renderContent()}</td>;
+    }
+
+    renderContent() {
+        const {systemEnv} = this.props;
+
+        if (!systemEnv) {
+            return <div className="Matrix_system_environment_warning">n/a</div>;
+        }
+
+        const {ok, message, issues = [], version = "n/a", branch = "n/a", commitish = "n/a"} = systemEnv;
+        if (!ok) {
+            return <div className="Matrix_system_environment_warning">{message || "n/a"}</div>
+        }
+
+        return <><span className="Matrix_system_environment_version">{version}</span>
+            <span className="Matrix_system_environment_branchAndCommitish">{branch} - {commitish}</span>
+            {issues.map(issue => {
+                return <span key={issue.issueNo}
+                             className={classnames("Matrix_system_environment_issue", issue.status)}>{issue.issueNo}</span>;
+            })}</>;
+    }
+}
+
+export class Matrix
+    extends React
+        .Component {
 
     render() {
         const {environments} = this.props;
@@ -39,15 +68,7 @@ export class Matrix extends React.Component {
                         {systemNames.map(systemName => {
                             const systemEnv = env[systemName];
 
-                            return <td className="Matrix_system_environment"
-                                       key={systemName + "_" + envName}><span
-                                className="Matrix_system_environment_version">{systemEnv.version}</span>
-                                <span
-                                    className="Matrix_system_environment_branchAndCommitish">{systemEnv.branch} - {systemEnv.commitish}</span>
-                                {systemEnv.issues.map(issue => {
-                                    return <span key={issue.issueNo}
-                                                 className={classnames("Matrix_system_environment_issue", issue.status)}>{issue.issueNo}</span>;
-                                })}</td>
+                            return <DeploymentInfo key={systemName + "_" + envName} systemEnv={systemEnv}/>
                         })}
                     </tr>
                 })}

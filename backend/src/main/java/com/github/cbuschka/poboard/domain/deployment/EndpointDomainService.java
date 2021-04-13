@@ -21,6 +21,6 @@ public class EndpointDomainService
 			}
 		}
 
-		return DeploymentInfo.unvailable(system, env);
+		return DeploymentInfo.failure(system, env, "Unknown protocol.");
 	}
 }

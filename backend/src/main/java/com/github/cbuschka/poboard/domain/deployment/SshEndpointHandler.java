@@ -18,7 +18,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Component
@@ -52,6 +51,7 @@ public class SshEndpointHandler implements EndpointHandler
 			}
 
 			Session session = jSch.getSession(uri.getUser(), uri.getHost(), uri.getPort() != -1 ? uri.getPort() : 22);
+			session.setTimeout(3_000);
 			session.setConfig("StrictHostKeyChecking", "no");
 			session.connect();
 
@@ -69,7 +69,7 @@ public class SshEndpointHandler implements EndpointHandler
 			int exitStatus = execChannel.getExitStatus();
 			if (exitStatus != 0)
 			{
-				return DeploymentInfo.unvailable(system, env);
+				return DeploymentInfo.failure(system, env, "Command exit code: " + exitStatus);
 			}
 
 			execChannel.disconnect();
@@ -79,9 +79,14 @@ public class SshEndpointHandler implements EndpointHandler
 		}
 		catch (IOException | URISyntaxException | JSchException ex)
 		{
+			if (ex.getMessage().contains("Connection refused"))
+			{
+				return DeploymentInfo.unreachable(system, env, "Connection refused.");
+			}
+
 			log.error("Getting deployment info for {} failed.", endpoint.getUrl(), ex);
 
-			return DeploymentInfo.unvailable(system, env);
+			return DeploymentInfo.failure(system, env, ex.getMessage());
 		}
 
 	}

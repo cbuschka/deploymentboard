@@ -52,6 +52,7 @@ public class ScpSftpEndpointHandler implements EndpointHandler
 
 			Session session = jSch.getSession(uri.getUser(), uri.getHost(), uri.getPort() != -1 ? uri.getPort() : 22);
 			session.setConfig("StrictHostKeyChecking", "no");
+			session.setTimeout(3_000);
 			session.connect();
 
 			Channel channel = session.openChannel("sftp");
@@ -67,9 +68,14 @@ public class ScpSftpEndpointHandler implements EndpointHandler
 		}
 		catch (IOException | URISyntaxException | JSchException | SftpException ex)
 		{
+			if (ex.getMessage().contains("Connection refused"))
+			{
+				return DeploymentInfo.unreachable(system, env, "Connection refused.");
+			}
+
 			log.error("Getting deployment info for {} failed.", endpoint.getUrl(), ex);
 
-			return DeploymentInfo.unvailable(system, env);
+			return DeploymentInfo.failure(system, env, ex.getMessage());
 		}
 
 	}

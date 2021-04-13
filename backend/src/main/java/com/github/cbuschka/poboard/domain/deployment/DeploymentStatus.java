@@ -2,5 +2,5 @@ package com.github.cbuschka.poboard.domain.deployment;
 
 public enum DeploymentStatus
 {
-	AVAILABLE, UNAVAILABLE;
+	AVAILABLE, UNREACHABLE, UNCONFIGURED, FAILURE;
 }

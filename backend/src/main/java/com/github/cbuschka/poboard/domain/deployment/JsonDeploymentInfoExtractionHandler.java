@@ -25,13 +25,13 @@ public class JsonDeploymentInfoExtractionHandler implements DeploymentInfoExtrac
 		JsonNode jsonNode = this.objectMapper.reader().readTree(in);
 		if (jsonNode == null)
 		{
-			return DeploymentInfo.unvailable(system, env);
+			return DeploymentInfo.failure(system, env, "No json.");
 		}
 
 		String version = getStringFrom(jsonNode, DeploymentInfoExtractor.VERSION_ALIASES);
 		String commitish = getStringFrom(jsonNode, DeploymentInfoExtractor.COMMITISH_ALIASES);
 		String branch = getStringFrom(jsonNode, DeploymentInfoExtractor.BRANCH_ALIASES);
-		return new DeploymentInfo(DeploymentStatus.AVAILABLE, system, env, commitish, version, branch);
+		return DeploymentInfo.available(system, env, commitish, version, branch);
 	}
 
 	private String getStringFrom(JsonNode jsonNode, List<String> keys)

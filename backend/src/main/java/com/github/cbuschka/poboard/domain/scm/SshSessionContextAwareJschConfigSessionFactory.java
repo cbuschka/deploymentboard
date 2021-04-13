@@ -22,11 +22,19 @@ public class SshSessionContextAwareJschConfigSessionFactory extends JschConfigSe
 	@Override
 	protected void configure(OpenSshConfig.Host hc, Session session)
 	{
-		List<PrivateKeyCredentials> privateKeyCredentialsList = SshSessionContext.current().getPrivateKeyCredentialsList();
-		session.setConfig("StrictHostKeyChecking", "no");
-		if (!privateKeyCredentialsList.isEmpty())
+		try
 		{
-			session.setConfig("PreferredAuthentications", "publickey");
+			List<PrivateKeyCredentials> privateKeyCredentialsList = SshSessionContext.current().getPrivateKeyCredentialsList();
+			session.setConfig("StrictHostKeyChecking", "no");
+			session.setTimeout(3_000);
+			if (!privateKeyCredentialsList.isEmpty())
+			{
+				session.setConfig("PreferredAuthentications", "publickey");
+			}
+		}
+		catch (JSchException ex)
+		{
+			throw new RuntimeException(ex);
 		}
 	}
 
