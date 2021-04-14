@@ -84,7 +84,7 @@ public class GetDashboardStateBusinessService
 					{
 						response = response.withSystemEnvironment(env.getName(), system.getName(),
 								new DashboardStateResponse.SystemEnvironment(deploymentInfo.getStatus(), deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
-										deploymentInfo.getBranch(), Collections.emptyList(), deploymentInfo.getMessage()));
+										deploymentInfo.getBranch(), deploymentInfo.getBuildTimestamp(), Collections.emptyList(), deploymentInfo.getMessage()));
 						issuesOfProd = issues;
 						prodCommitish = deploymentInfo.getCommitish();
 					}
@@ -95,7 +95,7 @@ public class GetDashboardStateBusinessService
 
 						response = response.withSystemEnvironment(env.getName(), system.getName(),
 								new DashboardStateResponse.SystemEnvironment(deploymentInfo.getStatus(), deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
-										deploymentInfo.getBranch(), issuesOfEnv.stream().map(this::toIssue).collect(toList()),
+										deploymentInfo.getBranch(), deploymentInfo.getBuildTimestamp(), issuesOfEnv.stream().map(this::toIssue).collect(toList()),
 										deploymentInfo.getMessage()));
 					}
 				}
@@ -103,7 +103,7 @@ public class GetDashboardStateBusinessService
 				{
 					response = response.withSystemEnvironment(env.getName(), system.getName(),
 							new DashboardStateResponse.SystemEnvironment(deploymentInfo.getStatus(), deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
-									deploymentInfo.getBranch(), Collections.emptyList(), deploymentInfo.getMessage()));
+									deploymentInfo.getBranch(), deploymentInfo.getBuildTimestamp(), Collections.emptyList(), deploymentInfo.getMessage()));
 
 				}
 			}

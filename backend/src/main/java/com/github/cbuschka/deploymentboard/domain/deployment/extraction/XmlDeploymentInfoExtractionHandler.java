@@ -136,6 +136,7 @@ public class XmlDeploymentInfoExtractionHandler implements DeploymentInfoExtract
 		private String branch;
 		private String version;
 		private String commitish;
+		private String buildTimestamp;
 
 		public void seen(String key, String value)
 		{
@@ -151,6 +152,10 @@ public class XmlDeploymentInfoExtractionHandler implements DeploymentInfoExtract
 			{
 				this.commitish = value;
 			}
+			else if (DeploymentInfoExtractor.BUILD_TIMESTAMP_ALIASES.contains(key))
+			{
+				this.buildTimestamp = value;
+			}
 		}
 
 
@@ -158,7 +163,7 @@ public class XmlDeploymentInfoExtractionHandler implements DeploymentInfoExtract
 		{
 			if (version != null || branch != null || commitish != null)
 			{
-				return DeploymentInfo.available(system, env, commitish, version, branch);
+				return DeploymentInfo.available(system, env, commitish, version, branch, this.buildTimestamp);
 			}
 
 			return DeploymentInfo.failure(system, env, "No xml.");

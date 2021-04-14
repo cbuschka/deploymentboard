@@ -2,6 +2,14 @@ import React from 'react';
 import './Matrix.css';
 import classnames from 'classnames';
 
+const InfoBlock = ({text}) => {
+    if (!text) {
+        return null;
+    }
+
+    return <span className="Matrix_InfoBlock">{text}</span>;
+};
+
 class DeploymentInfo extends React.Component {
 
     render() {
@@ -15,13 +23,24 @@ class DeploymentInfo extends React.Component {
             return <div className="Matrix_system_environment_warning">n/a</div>;
         }
 
-        const {ok, message, issues = [], version = "n/a", branch = "n/a", commitish = "n/a"} = systemEnv;
+        const {
+            ok,
+            message,
+            issues = [],
+            version = "n/a",
+            branch = "n/a",
+            commitish = "n/a",
+            buildTimestamp
+        } = systemEnv;
         if (!ok) {
             return <div className="Matrix_system_environment_warning">{message || "n/a"}</div>
         }
 
         return <><span className="Matrix_system_environment_version">{version}</span>
-            <span className="Matrix_system_environment_branchAndCommitish">{branch} - {commitish}</span>
+            {!!branch ? <InfoBlock text={`Branch: ${branch}`}/> : null}
+            {!!commitish ? <InfoBlock text={`Commit: ${commitish}`}/> : null}
+            {!!buildTimestamp ? <InfoBlock text={`Built at: ${buildTimestamp}`}/> : null}
+
             {issues.map(issue => {
                 return <span key={issue.issueNo}
                              className={classnames("Matrix_system_environment_issue", issue.status)}>{issue.issueNo}</span>;

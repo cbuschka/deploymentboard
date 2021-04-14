@@ -44,6 +44,13 @@
     text-transform: none;
 }
 
+.Matrix_InfoBlock {
+    font-size: 0.8em;
+    display: block;
+    text-transform: none;
+    color: gray;
+}
+
 .Matrix_system_environment_issue {
     display: inline-block;
     border: 1px solid gray;

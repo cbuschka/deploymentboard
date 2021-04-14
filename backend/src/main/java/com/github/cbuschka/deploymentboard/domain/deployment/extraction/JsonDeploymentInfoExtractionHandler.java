@@ -33,7 +33,8 @@ public class JsonDeploymentInfoExtractionHandler implements DeploymentInfoExtrac
 		String version = getStringFrom(jsonNode, DeploymentInfoExtractor.VERSION_ALIASES);
 		String commitish = getStringFrom(jsonNode, DeploymentInfoExtractor.COMMITISH_ALIASES);
 		String branch = getStringFrom(jsonNode, DeploymentInfoExtractor.BRANCH_ALIASES);
-		return DeploymentInfo.available(system, env, commitish, version, branch);
+		String buildTimestamp = getStringFrom(jsonNode, DeploymentInfoExtractor.BUILD_TIMESTAMP_ALIASES);
+		return DeploymentInfo.available(system, env, commitish, version, branch, buildTimestamp);
 	}
 
 	private String getStringFrom(JsonNode jsonNode, List<String> keys)

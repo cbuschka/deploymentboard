@@ -40,8 +40,9 @@ public class DashboardStateResponse
 		public String branch;
 		public List<Issue> issues;
 		public String message;
+		public String buildTimestamp;
 
-		public SystemEnvironment(DeploymentStatus status, String version, String commitish, String branch, List<Issue> issues, String message)
+		public SystemEnvironment(DeploymentStatus status, String version, String commitish, String branch, String buildTimestamp, List<Issue> issues, String message)
 		{
 			this.ok = status == DeploymentStatus.AVAILABLE;
 			this.branch = branch;
@@ -49,6 +50,7 @@ public class DashboardStateResponse
 			this.commitish = commitish;
 			this.issues = issues;
 			this.message = message;
+			this.buildTimestamp = buildTimestamp;
 		}
 	}
 
