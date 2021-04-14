@@ -16,8 +16,8 @@
 
 - configurable environments (default: dev, int, stage, prod)
 - supported auth types: rsa key, plain text password
-- supported deployment info retrieval methods: http, https, scp/sftp, ssh
-- supported deployment info formats: properties, json, yaml
+- supported deployment info retrieval methods: http, https, scp/sftp, ssh, local shell command
+- supported deployment info formats: properties, json, yaml, xml
 - supported code repos: git via ssh
 
 ## Usage
