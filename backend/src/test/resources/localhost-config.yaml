@@ -33,6 +33,9 @@ systems:
         url: "ssh://app@localhost:10023"
         format: yaml
         command: 'echo -e "version: NOVERSION\ncommitish: NOCOMMITISH\nbranch: NOBRANCH\n"'
+      stage:
+        format: yaml
+        command: 'exit 1'
 projects:
   - issuePrefix: "UI-"
   - issuePrefix: "UIX-"
