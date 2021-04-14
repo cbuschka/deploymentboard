@@ -27,6 +27,7 @@
                 </configuration>
                 <executions>
                     <execution>
+                        <id>buildDockerImageTar</id>
                         <phase>package</phase>
                         <goals>
                             <goal>buildTar</goal>
@@ -44,18 +45,9 @@
                     <plugin>
                         <groupId>com.google.cloud.tools</groupId>
                         <artifactId>jib-maven-plugin</artifactId>
-                        <configuration>
-                            <skip>false</skip>
-                            <to>
-                                <image>cbuschka/deploymentboard</image>
-                                <tags>
-                                    <tag>${project.version}</tag>
-                                    <tag>latest</tag>
-                                </tags>
-                            </to>
-                        </configuration>
                         <executions>
                             <execution>
+                                <id>buildDockerImageAndPush</id>
                                 <phase>package</phase>
                                 <goals>
                                     <goal>build</goal>

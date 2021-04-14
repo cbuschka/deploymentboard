@@ -82,9 +82,10 @@
                         <image>openjdk:11-jdk-slim</image>
                     </from>
                     <to>
-                        <image>cbuschka/deploymentboard</image>
+                        <image>docker.io/cbuschka/deploymentboard</image>
                         <tags>
                             <tag>latest</tag>
+                            <tag>${project.version}</tag>
                         </tags>
                     </to>
                     <container>
