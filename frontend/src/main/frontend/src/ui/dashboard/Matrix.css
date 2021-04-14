@@ -109,8 +109,9 @@
 }
 
 .Matrix_StatusBadge.UNCONFIGURED {
-    background-color: red;
-    border: 1px solid darkred;
+    background-color: #646464;
+    border: 1px solid #4f4f4f;
+    color: lightgray;
 }
 
 .Matrix_StatusBadge.FAILURE {
