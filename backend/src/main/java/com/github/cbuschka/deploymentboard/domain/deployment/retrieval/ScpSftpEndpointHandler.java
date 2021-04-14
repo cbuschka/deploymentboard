@@ -36,7 +36,7 @@ public class ScpSftpEndpointHandler implements EndpointHandler
 	@Override
 	public boolean handles(Endpoint endpoint)
 	{
-		return endpoint.getUrl().startsWith("scp://") || endpoint.getUrl().startsWith("sftp://");
+		return endpoint.getUrl() != null && (endpoint.getUrl().startsWith("scp://") || endpoint.getUrl().startsWith("sftp://"));
 	}
 
 	@Override

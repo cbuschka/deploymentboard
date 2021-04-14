@@ -37,7 +37,7 @@ public class SshEndpointHandler implements EndpointHandler
 	@Override
 	public boolean handles(Endpoint endpoint)
 	{
-		return endpoint.getUrl().startsWith("ssh://");
+		return endpoint.getUrl() != null && endpoint.getUrl().startsWith("ssh://");
 	}
 
 	@Override

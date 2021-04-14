@@ -29,7 +29,7 @@ public class HttpEndpointHandler implements EndpointHandler
 	@Override
 	public boolean handles(Endpoint endpoint)
 	{
-		return endpoint.getUrl().startsWith("http://") || endpoint.getUrl().startsWith("https://");
+		return endpoint.getUrl() != null && (endpoint.getUrl().startsWith("http://") || endpoint.getUrl().startsWith("https://"));
 	}
 
 	@Override
