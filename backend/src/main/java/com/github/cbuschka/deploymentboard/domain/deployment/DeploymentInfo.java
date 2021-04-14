@@ -30,7 +30,7 @@ public class DeploymentInfo
 
 	public static DeploymentInfo failure(String system, String env, String message)
 	{
-		return new DeploymentInfo(DeploymentStatus.FAILURE, "Failure.", system, env, null, null, null, null);
+		return new DeploymentInfo(DeploymentStatus.FAILURE, message, system, env, null, null, null, null);
 	}
 
 	public static DeploymentInfo available(String system, String env, String commitish, String version, String branch, String builtTimestamp)
