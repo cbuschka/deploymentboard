@@ -2,18 +2,22 @@ package com.github.cbuschka.poboard.domain.deployment;
 
 import com.github.cbuschka.poboard.domain.config.Config;
 import com.github.cbuschka.poboard.domain.config.ConfigProvider;
+import com.github.cbuschka.poboard.domain.deployment.extraction.DeploymentInfoExtractor;
+import com.github.cbuschka.poboard.domain.deployment.retrieval.DeploymentInfoRetriever;
 import com.github.cbuschka.poboard.util.Cache;
 import com.github.cbuschka.poboard.util.Integers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.io.ByteArrayInputStream;
 
 @Service
 public class EndpointDomainService
 {
 	@Autowired
-	private List<EndpointHandler> endpointHandlers;
+	private DeploymentInfoRetriever retriever;
+	@Autowired
+	private DeploymentInfoExtractor extractor;
 	@Autowired
 	private ConfigProvider configProvider;
 
@@ -33,14 +37,14 @@ public class EndpointDomainService
 
 	private DeploymentInfo loadDeploymentInfo(String system, String env, Endpoint endpoint)
 	{
-		for (EndpointHandler handler : this.endpointHandlers)
+		try
 		{
-			if (handler.handles(endpoint))
-			{
-				return handler.getDeploymentInfo(system, env, endpoint);
-			}
+			byte[] result = this.retriever.extractDeploymentInfoFrom(system, env, endpoint);
+			return this.extractor.extractDeploymentInfoFrom(new ByteArrayInputStream(result), system, env, endpoint);
 		}
-
-		return DeploymentInfo.failure(system, env, "Unknown protocol.");
+		catch (Exception ex)
+		{
+			return DeploymentInfo.failure(system, env, ex.getMessage());
+		}
 	}
 }

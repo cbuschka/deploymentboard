@@ -1,5 +1,7 @@
-package com.github.cbuschka.poboard.domain.deployment;
+package com.github.cbuschka.poboard.domain.deployment.extraction;
 
+import com.github.cbuschka.poboard.domain.deployment.DeploymentInfo;
+import com.github.cbuschka.poboard.domain.deployment.Endpoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

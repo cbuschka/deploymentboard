@@ -1,9 +1,10 @@
-package com.github.cbuschka.poboard.domain.deployment;
+package com.github.cbuschka.poboard.domain.deployment.retrieval;
 
 import com.github.cbuschka.poboard.domain.auth.AuthDomainService;
 import com.github.cbuschka.poboard.domain.auth.PasswordCredentials;
 import com.github.cbuschka.poboard.domain.config.Config;
 import com.github.cbuschka.poboard.domain.config.ConfigProvider;
+import com.github.cbuschka.poboard.domain.deployment.Endpoint;
 import com.github.cbuschka.poboard.util.Integers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,6 @@ public class HttpEndpointHandler implements EndpointHandler
 	@Autowired
 	private AuthDomainService authDomainService;
 	@Autowired
-	private DeploymentInfoExtractor deploymentInfoExtractor;
-	@Autowired
 	private ConfigProvider configProvider;
 
 	@Override
@@ -34,37 +33,23 @@ public class HttpEndpointHandler implements EndpointHandler
 	}
 
 	@Override
-	public DeploymentInfo getDeploymentInfo(String system, String env, Endpoint endpoint)
+	public byte[] getDeploymentInfo(String system, String env, Endpoint endpoint) throws IOException
 	{
-		try
+		Config config = configProvider.getConfig();
+
+		URL url = new URL(endpoint.getUrl());
+		HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+		httpConn.setConnectTimeout(Integers.firstNonNull(endpoint.getConnectTimeoutMillis(), config.settings.getConnectTimeoutMillis(), config.defaults.connectTimeoutMillis));
+		httpConn.setReadTimeout(Integers.firstNonNull(endpoint.getReadTimeoutMillis(), config.settings.getReadTimeoutMillis(), config.defaults.readTimeoutMillis));
+		addBasicAuthHeaderIfAvailable(url, httpConn);
+		httpConn.setDoInput(true);
+		int responseCode = httpConn.getResponseCode();
+		if (responseCode != 200)
 		{
-			Config config = configProvider.getConfig();
-
-			URL url = new URL(endpoint.getUrl());
-			HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-			httpConn.setConnectTimeout(Integers.firstNonNull(endpoint.getConnectTimeoutMillis(), config.settings.getConnectTimeoutMillis(), config.defaults.connectTimeoutMillis));
-			httpConn.setReadTimeout(Integers.firstNonNull(endpoint.getReadTimeoutMillis(), config.settings.getReadTimeoutMillis(), config.defaults.readTimeoutMillis));
-			addBasicAuthHeaderIfAvailable(url, httpConn);
-			httpConn.setDoInput(true);
-			int responseCode = httpConn.getResponseCode();
-			if (responseCode != 200)
-			{
-				return DeploymentInfo.unreachable(system, env, "Response code: " + responseCode);
-			}
-
-			return deploymentInfoExtractor.extractDeploymentInfoFrom(httpConn.getInputStream(), system, env, endpoint);
+			throw new IOException("Response code: " + responseCode);
 		}
-		catch (IOException ex)
-		{
-			if (ex.getMessage().contains("Connection refused"))
-			{
-				return DeploymentInfo.unreachable(system, env, "Connection refused.");
-			}
 
-			log.error("Getting deployment info for {} failed.", endpoint.getUrl(), ex);
-
-			return DeploymentInfo.unreachable(system, env, ex.getMessage());
-		}
+		return httpConn.getInputStream().readAllBytes();
 	}
 
 	private void addBasicAuthHeaderIfAvailable(URL url, HttpURLConnection httpConn)

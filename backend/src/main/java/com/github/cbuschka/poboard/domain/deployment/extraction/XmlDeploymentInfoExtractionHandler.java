@@ -1,5 +1,7 @@
-package com.github.cbuschka.poboard.domain.deployment;
+package com.github.cbuschka.poboard.domain.deployment.extraction;
 
+import com.github.cbuschka.poboard.domain.deployment.DeploymentInfo;
+import com.github.cbuschka.poboard.domain.deployment.Endpoint;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;

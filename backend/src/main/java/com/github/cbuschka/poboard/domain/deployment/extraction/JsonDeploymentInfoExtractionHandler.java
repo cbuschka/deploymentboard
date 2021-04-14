@@ -1,7 +1,9 @@
-package com.github.cbuschka.poboard.domain.deployment;
+package com.github.cbuschka.poboard.domain.deployment.extraction;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.cbuschka.poboard.domain.deployment.DeploymentInfo;
+import com.github.cbuschka.poboard.domain.deployment.Endpoint;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

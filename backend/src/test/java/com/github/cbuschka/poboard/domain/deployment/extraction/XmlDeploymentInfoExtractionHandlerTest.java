@@ -1,5 +1,9 @@
-package com.github.cbuschka.poboard.domain.deployment;
+package com.github.cbuschka.poboard.domain.deployment.extraction;
 
+import com.github.cbuschka.poboard.domain.deployment.DeploymentInfo;
+import com.github.cbuschka.poboard.domain.deployment.DeploymentStatus;
+import com.github.cbuschka.poboard.domain.deployment.Endpoint;
+import com.github.cbuschka.poboard.domain.deployment.extraction.XmlDeploymentInfoExtractionHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
