@@ -6,6 +6,7 @@ import com.github.cbuschka.deploymentboard.domain.auth.Credentials;
 import com.github.cbuschka.deploymentboard.domain.deployment.Environment;
 import com.github.cbuschka.deploymentboard.domain.deployment.System;
 import com.github.cbuschka.deploymentboard.domain.issue_tracking.Project;
+import lombok.Getter;
 
 import java.util.List;
 

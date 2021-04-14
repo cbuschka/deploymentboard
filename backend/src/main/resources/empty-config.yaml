@@ -4,6 +4,10 @@ defaults:
   connectTimeoutMillis: null
   readTimeoutMillis: null
   recheckTimeoutMillis: null
+  versionAliases: []
+  branchAliases: []
+  commitishAliases: []
+  buildTimestampAliases: []
 workspace:
   dir: /tmp/deploymentboard-workspace
 environments:

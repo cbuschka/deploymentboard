@@ -1,5 +1,6 @@
 package com.github.cbuschka.deploymentboard.domain.deployment.extraction;
 
+import com.github.cbuschka.deploymentboard.domain.config.ConfigProvider;
 import com.github.cbuschka.deploymentboard.domain.deployment.DeploymentInfo;
 import com.github.cbuschka.deploymentboard.domain.deployment.Endpoint;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +14,6 @@ import java.util.List;
 @Component
 public class DeploymentInfoExtractor
 {
-	final static List<String> BUILD_TIMESTAMP_ALIASES = Arrays.asList("timestamp", "build.timestamp", "buildTimestamp", "Build-Timestamp");
-	final static List<String> VERSION_ALIASES = Arrays.asList("version", "build.version", "project.version", "projectVersion", "buildVersion", "Project-Version");
-	final static List<String> COMMITISH_ALIASES = Arrays.asList("commitish", "build.commitish", "comitish", "Build-Commitish");
-	final static List<String> BRANCH_ALIASES = Arrays.asList("branch", "build.branch", "Build-Branch");
 
 	@Autowired
 	private List<DeploymentInfoExtractionHandler> deploymentInfoExtractionHandlers;

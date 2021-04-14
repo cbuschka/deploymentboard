@@ -1,7 +1,11 @@
 package com.github.cbuschka.deploymentboard.domain.deployment.extraction;
 
+import com.github.cbuschka.deploymentboard.domain.config.Config;
+import com.github.cbuschka.deploymentboard.domain.config.ConfigProvider;
 import com.github.cbuschka.deploymentboard.domain.deployment.DeploymentInfo;
 import com.github.cbuschka.deploymentboard.domain.deployment.Endpoint;
+import com.github.cbuschka.deploymentboard.util.Collections;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -18,11 +22,15 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Set;
 
 @Component
 public class XmlDeploymentInfoExtractionHandler implements DeploymentInfoExtractionHandler
 {
 	private DocumentBuilderFactory documentBuilderFactory;
+
+	@Autowired
+	private ConfigProvider configProvider;
 
 	@PostConstruct
 	void init() throws ParserConfigurationException
@@ -50,7 +58,12 @@ public class XmlDeploymentInfoExtractionHandler implements DeploymentInfoExtract
 		{
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 			Document doc = documentBuilder.parse(new InputSource(in));
-			Collector collector = new Collector();
+
+			Config config = configProvider.getConfig();
+			Collector collector = new Collector(Collections.combined(config.settings.getVersionAliases(), config.defaults.versionAliases),
+					Collections.combined(config.settings.getCommitishAliases(), config.defaults.commitishAliases),
+					Collections.combined(config.settings.getBranchAliases(), config.defaults.branchAliases),
+					Collections.combined(config.settings.getBuildTimestampAliases(), config.defaults.buildTimestampAliases));
 			walk(doc.getDocumentElement(), collector);
 
 			return collector.toDeploymentInfo(system, env);
@@ -133,31 +146,43 @@ public class XmlDeploymentInfoExtractionHandler implements DeploymentInfoExtract
 
 	private static class Collector
 	{
+		private final Set<String> versionAliases;
+		private final Set<String> branchAliases;
+		private final Set<String> commitishAliases;
+		private final Set<String> buildTimestampAliases;
+
 		private String branch;
 		private String version;
 		private String commitish;
 		private String buildTimestamp;
 
+		public <T> Collector(Set<String> versionAliases, Set<String> commitishAliases, Set<String> branchAliases, Set<String> buildTimestampAliases)
+		{
+			this.versionAliases = versionAliases;
+			this.commitishAliases = commitishAliases;
+			this.branchAliases = branchAliases;
+			this.buildTimestampAliases = buildTimestampAliases;
+		}
+
 		public void seen(String key, String value)
 		{
-			if (DeploymentInfoExtractor.BRANCH_ALIASES.contains(key))
+			if (this.branchAliases.contains(key))
 			{
 				this.branch = value;
 			}
-			else if (DeploymentInfoExtractor.VERSION_ALIASES.contains(key))
+			else if (this.versionAliases.contains(key))
 			{
 				this.version = value;
 			}
-			else if (DeploymentInfoExtractor.COMMITISH_ALIASES.contains(key))
+			else if (this.commitishAliases.contains(key))
 			{
 				this.commitish = value;
 			}
-			else if (DeploymentInfoExtractor.BUILD_TIMESTAMP_ALIASES.contains(key))
+			else if (this.buildTimestampAliases.contains(key))
 			{
 				this.buildTimestamp = value;
 			}
 		}
-
 
 		public DeploymentInfo toDeploymentInfo(String system, String env)
 		{
