@@ -46,6 +46,13 @@
                         <artifactId>jib-maven-plugin</artifactId>
                         <configuration>
                             <skip>false</skip>
+                            <to>
+                                <image>cbuschka/deploymentboard</image>
+                                <tags>
+                                    <tag>${project.version}</tag>
+                                    <tag>latest</tag>
+                                </tags>
+                            </to>
                         </configuration>
                         <executions>
                             <execution>
