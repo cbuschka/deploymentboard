@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.github.cbuschka.poboard</groupId>
+        <groupId>com.github.cbuschka.deploymentboard</groupId>
         <artifactId>project</artifactId>
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
@@ -11,7 +11,7 @@
     <packaging>jar</packaging>
     <artifactId>frontend</artifactId>
     <name>${project.artifactId}</name>
-    <description>Frontend of the POBoard.</description>
+    <description>Frontend of the Deployment Board.</description>
     <build>
         <finalName>frontend</finalName>
         <plugins>

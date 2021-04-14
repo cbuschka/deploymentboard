@@ -1,6 +1,6 @@
 {
-  "short_name": "POBoard",
-  "name": "POBoard - the deployment dashboard - https://github.com/cbuschka/poboard",
+  "short_name": "Deployment Board",
+  "name": "Deployment Board - the deployment dashboard - https://github.com/cbuschka/deploymentboard",
   "icons": [
     {
       "src": "favicon.ico",

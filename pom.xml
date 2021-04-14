@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <packaging>pom</packaging>
-    <groupId>com.github.cbuschka.poboard</groupId>
+    <groupId>com.github.cbuschka.deploymentboard</groupId>
     <artifactId>project</artifactId>
     <version>${revision}</version>
     <name>${project.artifactId}</name>
@@ -82,7 +82,7 @@
                         <image>openjdk:11-jdk-slim</image>
                     </from>
                     <to>
-                        <image>cbuschka/poboard</image>
+                        <image>cbuschka/deploymentboard</image>
                         <tags>
                             <tag>latest</tag>
                         </tags>

@@ -1,7 +1,7 @@
-# config for testing poboard in docker-compose context
+# config for testing deploymentboard in docker-compose context
 version: "1.0"
 workspace:
-  dir: /tmp/poboard-workspace
+  dir: /tmp/deploymentboard-workspace
 environments:
   - name: "prod"
   - name: "stage"

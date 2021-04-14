@@ -1,6 +1,6 @@
-# POBoard
+# Deployment Board
 
-[![Build](https://github.com/cbuschka/poboard/workflows/build/badge.svg)](https://github.com/cbuschka/poboard) [![License](https://img.shields.io/github/license/cbuschka/poboard.svg)](https://github.com/cbuschka/poboard/blob/main/license.txt)
+[![Build](https://github.com/cbuschka/deploymentboard/workflows/build/badge.svg)](https://github.com/cbuschka/deploymentboard) [![License](https://img.shields.io/github/license/cbuschka/deploymentboard.svg)](https://github.com/cbuschka/deploymentboard/blob/main/license.txt)
 
 ### Deployment dashboard to display which story is deployed where
 
@@ -23,12 +23,12 @@
 ## Usage
 
 ```bash
-docker run --name poboard --rm \
-  -e JAVA_TOOL_OPTIONS='-Dpoboard.config=file:/config/config.yaml -Dpoboard.masterpassword=' \
+docker run --name deploymentboard --rm \
+  -e JAVA_TOOL_OPTIONS='-Ddeploymentboard.config=file:/config/config.yaml -Ddeploymentboard.masterpassword=' \
   -v ${PWD}/backend/src/test/resources/test-config.yaml:/config/config.yaml \
   -v ${PWD}/workspace/:/tmp/workspace:rw \
   -p 8080:8080 \
-  cbuschka/poboard:latest
+  cbuschka/deploymentboard:latest
 ```
 
 ## Local Development
@@ -61,7 +61,7 @@ make build
 ### Test Docker Image
 
 ```bash
-make start-poboard
+make start-deploymentboard
 ```
 
 ### Show Status of Test Environment

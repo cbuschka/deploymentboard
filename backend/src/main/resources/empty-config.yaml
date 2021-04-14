@@ -5,7 +5,7 @@ defaults:
   readTimeoutMillis: null
   recheckTimeoutMillis: null
 workspace:
-  dir: /tmp/poboard-workspace
+  dir: /tmp/deploymentboard-workspace
 environments:
 systems:
 projects:

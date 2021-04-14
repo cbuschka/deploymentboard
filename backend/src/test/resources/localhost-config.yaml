@@ -1,7 +1,7 @@
-# config for testing poboard locally with services started
+# config for testing deploymentboard locally with services started
 version: "1.0"
 workspace:
-  dir: /tmp/poboard-workspace
+  dir: /tmp/deploymentboard-workspace
 environments:
   - name: "prod"
   - name: "stage"
