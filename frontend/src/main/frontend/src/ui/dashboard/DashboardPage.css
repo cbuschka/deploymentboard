@@ -6,3 +6,17 @@
     padding: 0;
     background-color: black;
 }
+
+.DashboardPage__OverBar_topLeft {
+    margin: 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    opacity: 30%;
+}
+
+.DashboardPage__OverBar_topLeft:hover {
+    opacity: 100%;
+}

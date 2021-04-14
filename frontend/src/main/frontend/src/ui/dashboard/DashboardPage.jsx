@@ -5,6 +5,14 @@ import {loadDashboardState} from "./LoadDashboardStateAction";
 import {dispatcher} from "@cbuschka/flux";
 import {Message} from "./Message";
 import {Matrix} from "./Matrix";
+import {Logo} from "../Logo";
+
+const TopBar = () => {
+
+    return <div className="DashboardPage__OverBar_topLeft">
+        <a href="/"><Logo/></a>
+    </div>
+}
 
 export class DashboardPage extends React.Component {
 
@@ -45,6 +53,7 @@ export class DashboardPage extends React.Component {
         const {ok} = this.state;
 
         return <div className="DashboardPage">
+            <TopBar/>
             {ok ? this.renderMatrix() : this.renderError()}
         </div>;
     }
