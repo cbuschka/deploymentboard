@@ -1,0 +1,25 @@
+.Logo {
+    display: inline-block;
+    height: 38px;
+    padding: 0;
+    margin: 0;
+}
+
+.Logo__icon {
+    padding: 0;
+    margin-right: 3px;
+    height: 34px;
+    width: 34px;
+    display: inline-block;
+    background-origin: content-box;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url('../assets/logo.png');
+}
+
+.Logo__label {
+    display: inline-block;
+    text-align: left;
+    font-size: 12px;
+}
