@@ -11,7 +11,7 @@
     <packaging>pom</packaging>
     <groupId>com.github.cbuschka.poboard</groupId>
     <artifactId>project</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${revision}</version>
     <name>${project.artifactId}</name>
     <description>Example for processing messages from pubsub.</description>
     <properties>

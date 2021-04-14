@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration xmlns="https://github.com/qoomon/maven-git-versioning-extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="https://github.com/qoomon/maven-git-versioning-extension https://qoomon.github.io/maven-git-versioning-extension/configuration-6.4.0.xsd">
+    <disable>false</disable>
+    <preferTags>true</preferTags>
+    <updatePom>false</updatePom>
+    <autoIncrementPatch>true</autoIncrementPatch>
+    <branch>
+        <pattern>main</pattern>
+        <versionFormat>0-SNAPSHOT</versionFormat>
+    </branch>
+    <branch>
+         <pattern>feature/(.+)</pattern>
+         <versionFormat>${1}-SNAPSHOT</versionFormat>
+     </branch>
+    <tag>
+        <pattern>v([0-9].*)</pattern>
+        <versionFormat>${1}</versionFormat>
+    </tag>
+</configuration>
