@@ -11,6 +11,7 @@
 - docker/ docker-compose
 - java 11
 - maven
+- GNU make
 
 ## Features
 
