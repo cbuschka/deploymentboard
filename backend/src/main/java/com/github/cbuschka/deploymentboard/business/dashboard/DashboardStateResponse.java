@@ -21,7 +21,7 @@ public class DashboardStateResponse
 		return response;
 	}
 
-	public DashboardStateResponse withSystemEnvironment(String envName, String system, SystemEnvironment systemEnvironment)
+	public void withSystemEnvironment(String envName, String system, SystemEnvironment systemEnvironment)
 	{
 		Map<String, SystemEnvironment> env = this.environments.get(envName);
 		if (env == null)
@@ -29,7 +29,6 @@ public class DashboardStateResponse
 			throw new IllegalArgumentException("Unknown env " + envName + ".");
 		}
 		env.put(system, systemEnvironment);
-		return this;
 	}
 
 	public static class SystemEnvironment

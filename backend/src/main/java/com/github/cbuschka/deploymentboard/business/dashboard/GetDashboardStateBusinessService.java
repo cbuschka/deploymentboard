@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -71,40 +70,25 @@ public class GetDashboardStateBusinessService
 		for (System system : systems)
 		{
 			Map<String, DeploymentInfo> deploymentInfosByEnv = this.deploymentInfoDomainService.getDeploymentInfosFor(system);
-			Set<String> issuesOfProd = null;
 			String prodCommitish = null;
 			CodeRepository codeRepository = system.getRepository();
 			for (Environment env : envs)
 			{
 				DeploymentInfo deploymentInfo = deploymentInfosByEnv.get(env.getName());
-				if (codeRepository != null)
+				if (prodCommitish == null || codeRepository == null)
 				{
-					Set<String> issues = this.getIssuesByChangeBusinessService.getIssuesFor(issuePrefixes, deploymentInfo.getCommitish(), prodCommitish, codeRepository);
-					if (issuesOfProd == null)
-					{
-						response = response.withSystemEnvironment(env.getName(), system.getName(),
-								new DashboardStateResponse.SystemEnvironment(deploymentInfo.getStatus(), deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
-										deploymentInfo.getBranch(), deploymentInfo.getBuildTimestamp(), Collections.emptyList(), deploymentInfo.getMessage()));
-						issuesOfProd = issues;
-						prodCommitish = deploymentInfo.getCommitish();
-					}
-					else
-					{
-						Set<String> issuesOfEnv = new HashSet<>(issues);
-						issuesOfEnv.removeAll(issuesOfProd);
-
-						response = response.withSystemEnvironment(env.getName(), system.getName(),
-								new DashboardStateResponse.SystemEnvironment(deploymentInfo.getStatus(), deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
-										deploymentInfo.getBranch(), deploymentInfo.getBuildTimestamp(), issuesOfEnv.stream().map(this::toIssue).collect(toList()),
-										deploymentInfo.getMessage()));
-					}
+					response.withSystemEnvironment(env.getName(), system.getName(),
+							new DashboardStateResponse.SystemEnvironment(deploymentInfo.getStatus(), deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
+									deploymentInfo.getBranch(), deploymentInfo.getBuildTimestamp(), Collections.emptyList(), deploymentInfo.getMessage()));
+					prodCommitish = deploymentInfo.getCommitish();
 				}
 				else
 				{
-					response = response.withSystemEnvironment(env.getName(), system.getName(),
+					Set<String> issues = this.getIssuesByChangeBusinessService.getIssuesFor(issuePrefixes, deploymentInfo.getCommitish(), prodCommitish, codeRepository);
+					response.withSystemEnvironment(env.getName(), system.getName(),
 							new DashboardStateResponse.SystemEnvironment(deploymentInfo.getStatus(), deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
-									deploymentInfo.getBranch(), deploymentInfo.getBuildTimestamp(), Collections.emptyList(), deploymentInfo.getMessage()));
-
+									deploymentInfo.getBranch(), deploymentInfo.getBuildTimestamp(), issues.stream().map(this::toIssue).collect(toList()),
+									deploymentInfo.getMessage()));
 				}
 			}
 		}
@@ -114,7 +98,6 @@ public class GetDashboardStateBusinessService
 		{
 			log.warn("Loading state slow: {} milli(s).", durationMillis);
 		}
-
 
 		return response;
 	}
