@@ -12,6 +12,7 @@ export class DashboardPage extends React.Component {
         super(props);
 
         this.state = {
+            ok: true,
             environments: {}
         };
     }
