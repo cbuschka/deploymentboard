@@ -4,6 +4,7 @@ import com.github.cbuschka.deploymentboard.domain.auth.AuthDomainService;
 import com.github.cbuschka.deploymentboard.domain.auth.PasswordCredentials;
 import com.github.cbuschka.deploymentboard.domain.auth.PrivateKeyCredentials;
 import com.github.cbuschka.deploymentboard.domain.config.ConfigProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Repository;
@@ -22,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@Slf4j
 public class ChangeDomainService
 {
 	@Autowired
@@ -53,7 +55,9 @@ public class ChangeDomainService
 		}
 		catch (Exception ex)
 		{
-			throw new RuntimeException(ex);
+			log.error("Error listing changes for {}.", codeRepository.getUrl(), ex);
+
+			return Collections.emptyList();
 		}
 	}
 
@@ -85,11 +89,15 @@ public class ChangeDomainService
 
 	private void updateRepo(URIish repositoryUri, CredentialsProvider credentialsProvider, Git git) throws GitAPIException
 	{
+		log.debug("Updating repo {}...", repositoryUri);
+
 		git.remoteAdd().setName("origin").setUri(repositoryUri).call();
 		git.remoteSetUrl().setRemoteName("origin").setRemoteUri(repositoryUri);
 		git.fetch()
 				.setCredentialsProvider(credentialsProvider)
 				.setRemote("origin").call();
+
+		log.debug("Updated repo {}.", repositoryUri);
 	}
 
 	private Repository createRepositoryIfNotExists(CodeRepository codeRepository) throws IOException
