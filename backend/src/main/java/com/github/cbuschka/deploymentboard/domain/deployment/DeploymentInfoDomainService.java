@@ -34,6 +34,6 @@ public class DeploymentInfoDomainService
 		return system
 				.getEndpoint(env.getName())
 				.map((endpoint) -> this.endpointDomainService.getDeploymentInfo(system.getName(), env.getName(), endpoint))
-				.orElseGet(() -> DeploymentInfo.unconfigured(system.getName(), env.getName()));
+				.orElseGet(() -> DeploymentInfo.unconfigured(system.getName(), env.getName(), "No endpoint configured."));
 	}
 }

@@ -25,6 +25,7 @@
 }
 
 .Matrix_system_environment {
+    vertical-align: top;
     text-transform: none;
     color: white;
     border: 1px solid gray;
@@ -33,9 +34,15 @@
     border-radius: 5px;
 }
 
-.Matrix_system_environment_version {
-    font-size: 2em;
+.Matrix_system_environment_headline {
+    font-size: 1.2em;
     display: block;
+}
+
+.Matrix_system_environment_details {
+    display: block;
+    padding: 4px;
+    margin: 10px 0;
 }
 
 .Matrix_system_environment_branchAndCommitish {
@@ -54,6 +61,7 @@
 .Matrix_system_environment_issue {
     display: inline-block;
     border: 1px solid gray;
+    margin: 2px;
     border-radius: 5px;
     padding: 4px;
     margin-right: 4px;
@@ -85,4 +93,27 @@
 
 .Matrix_system_environment_warning {
     color: gray;
+}
+
+.Matrix_StatusBadge {
+    padding: 5px;
+    font-size: 1em;
+    display: inline-block;
+    color: white;
+    border-radius: 5px;
+}
+
+.Matrix_StatusBadge.OK {
+    background-color: green;
+    border: 1px solid darkgreen;
+}
+
+.Matrix_StatusBadge.UNCONFIGURED {
+    background-color: red;
+    border: 1px solid darkred;
+}
+
+.Matrix_StatusBadge.FAILURE {
+    background-color: red;
+    border: 1px solid darkred;
 }

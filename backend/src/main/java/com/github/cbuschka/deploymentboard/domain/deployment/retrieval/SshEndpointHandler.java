@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Component
@@ -72,23 +73,24 @@ public class SshEndpointHandler implements EndpointHandler
 		ChannelExec execChannel = (ChannelExec) channel;
 		execChannel.setCommand(endpoint.getCommand());
 		execChannel.setInputStream(null);
-		execChannel.setErrStream(java.lang.System.err, true);
-		ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
+		ByteArrayOutputStream stderrOut = new ByteArrayOutputStream();
+		execChannel.setErrStream(stderrOut);
+		ByteArrayOutputStream stdoutOut = new ByteArrayOutputStream();
 		execChannel.connect();
 		execChannel.start();
 
-		readResponseInto(channel, execChannel, bytesOut);
+		readResponseInto(channel, execChannel, stdoutOut);
 
 		int exitStatus = execChannel.getExitStatus();
 		if (exitStatus != 0)
 		{
-			throw new IOException("Command exit code: " + exitStatus);
+			throw new IOException("Command exit code: " + exitStatus + "; " + stderrOut.toString(StandardCharsets.UTF_8));
 		}
 
 		execChannel.disconnect();
 		session.disconnect();
 
-		return bytesOut.toByteArray();
+		return stdoutOut.toByteArray();
 	}
 
 	private void readResponseInto(Channel channel, ChannelExec execChannel, ByteArrayOutputStream bytesOut) throws IOException

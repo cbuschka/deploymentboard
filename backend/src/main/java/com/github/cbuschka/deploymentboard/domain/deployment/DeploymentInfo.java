@@ -18,14 +18,9 @@ public class DeploymentInfo
 	private String branch;
 	private String buildTimestamp;
 
-	public static DeploymentInfo unreachable(String system, String env, String message)
+	public static DeploymentInfo unconfigured(String system, String env, String message)
 	{
-		return new DeploymentInfo(DeploymentStatus.UNREACHABLE, message, system, env, null, null, null, null);
-	}
-
-	public static DeploymentInfo unconfigured(String system, String env)
-	{
-		return new DeploymentInfo(DeploymentStatus.UNCONFIGURED, "Not configured.", system, env, null, null, null, null);
+		return new DeploymentInfo(DeploymentStatus.UNCONFIGURED, message, system, env, null, null, null, null);
 	}
 
 	public static DeploymentInfo failure(String system, String env, String message)
@@ -35,6 +30,6 @@ public class DeploymentInfo
 
 	public static DeploymentInfo available(String system, String env, String commitish, String version, String branch, String builtTimestamp)
 	{
-		return new DeploymentInfo(DeploymentStatus.AVAILABLE, "OK", system, env, commitish, version, branch, builtTimestamp);
+		return new DeploymentInfo(DeploymentStatus.OK, "OK", system, env, commitish, version, branch, builtTimestamp);
 	}
 }

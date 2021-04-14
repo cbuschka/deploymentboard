@@ -10,6 +10,11 @@ const InfoBlock = ({text}) => {
     return <span className="Matrix_InfoBlock">{text}</span>;
 };
 
+
+const StatusBadge = ({status}) => {
+    return <div className={classnames("Matrix_StatusBadge", status)}>{status}</div>;
+}
+
 class DeploymentInfo extends React.Component {
 
     render() {
@@ -25,6 +30,7 @@ class DeploymentInfo extends React.Component {
 
         const {
             ok,
+            status,
             message,
             issues = [],
             version = "n/a",
@@ -32,19 +38,27 @@ class DeploymentInfo extends React.Component {
             commitish = "n/a",
             buildTimestamp
         } = systemEnv;
+
         if (!ok) {
-            return <div className="Matrix_system_environment_warning">{message || "n/a"}</div>
+            return (<>
+                <span className="Matrix_system_environment_headline"><StatusBadge status={status}/></span>
+                <div className="Matrix_system_environment_warning">{message || "n/a"}</div>
+            </>);
         }
 
-        return <><span className="Matrix_system_environment_version">{version}</span>
-            {!!branch ? <InfoBlock text={`Branch: ${branch}`}/> : null}
-            {!!commitish ? <InfoBlock text={`Commit: ${commitish}`}/> : null}
-            {!!buildTimestamp ? <InfoBlock text={`Built at: ${buildTimestamp}`}/> : null}
+        return (<>
+            <span className="Matrix_system_environment_headline"><StatusBadge status={status}/>&nbsp;{version}</span>
+            <div className="Matrix_system_environment_details">
+                {!!branch ? <InfoBlock text={`Branch: ${branch}`}/> : null}
+                {!!commitish ? <InfoBlock text={`Commit: ${commitish}`}/> : null}
+                {!!buildTimestamp ? <InfoBlock text={`Built at: ${buildTimestamp}`}/> : null}
+            </div>
 
             {issues.map(issue => {
                 return <span key={issue.issueNo}
                              className={classnames("Matrix_system_environment_issue", issue.status)}>{issue.issueNo}</span>;
-            })}</>;
+            })}
+        </>);
     }
 }
 

@@ -35,6 +35,7 @@ public class DashboardStateResponse
 	public static class SystemEnvironment
 	{
 		public boolean ok;
+		public DeploymentStatus status;
 		public String version;
 		public String commitish;
 		public String branch;
@@ -44,7 +45,8 @@ public class DashboardStateResponse
 
 		public SystemEnvironment(DeploymentStatus status, String version, String commitish, String branch, String buildTimestamp, List<Issue> issues, String message)
 		{
-			this.ok = status == DeploymentStatus.AVAILABLE;
+			this.ok = status == DeploymentStatus.OK;
+			this.status = status;
 			this.branch = branch;
 			this.version = version;
 			this.commitish = commitish;

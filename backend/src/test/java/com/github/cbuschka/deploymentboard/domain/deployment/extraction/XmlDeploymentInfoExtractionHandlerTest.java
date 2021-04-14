@@ -49,7 +49,7 @@ class XmlDeploymentInfoExtractionHandlerTest
 
 	private void thenAllFound()
 	{
-		assertThat(deploymentInfo.getStatus()).isSameAs(DeploymentStatus.AVAILABLE);
+		assertThat(deploymentInfo.getStatus()).isSameAs(DeploymentStatus.OK);
 		assertThat(deploymentInfo.getVersion()).isEqualTo("VERSION");
 		assertThat(deploymentInfo.getBranch()).isEqualTo("BRANCH");
 		assertThat(deploymentInfo.getCommitish()).isEqualTo("COMMITISH");
