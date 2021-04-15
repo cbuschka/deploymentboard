@@ -1,4 +1,5 @@
 .Matrix {
+    display: table;
     width: 100%;
     height: 100%;
     color: white;
@@ -8,11 +9,33 @@
     padding: 0;
 }
 
-.Matrix td {
-    padding: 40px;
+.Matrix_cell {
+    padding: 1px;
+    display: table-cell;
+    background: transparent;
+}
+
+.Matrix_leftCol.Matrix_cell {
+    text-align: center;
+}
+
+.Matrix_topLine .Matrix_cell {
+    padding: 1px;
+    display: table-cell;
+    background: transparent;
+    text-align: center;
+}
+
+.Matrix_topLine {
+    display: table-row;
+    text-transform: capitalize;
+    color: white;
+    border: 0;
+    width: 100px;
 }
 
 .Matrix_environment {
+    display: table-row;
     text-transform: capitalize;
     color: white;
     border: 0;
@@ -26,10 +49,15 @@
 }
 
 .Matrix_system_environment {
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+    margin: 0;
+    display: block;
     vertical-align: top;
     text-transform: none;
     color: white;
-    opacity: 60%;
+    opacity: 0.8;
     background-color: black;
     border-collapse: collapse;
     border-radius: 5px;

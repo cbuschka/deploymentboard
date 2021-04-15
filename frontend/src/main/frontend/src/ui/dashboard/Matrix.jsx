@@ -18,7 +18,7 @@ const StatusBadge = ({status}) => {
 class DeploymentInfo extends React.Component {
 
     render() {
-        return <td className="Matrix_system_environment">{this.renderContent()}</td>;
+        return <div className="Matrix_system_environment">{this.renderContent()}</div>;
     }
 
     renderContent() {
@@ -82,31 +82,29 @@ export class Matrix
         const colWidth = Math.floor(95.0 / systemNames.length);
 
         return (
-            <table className="Matrix">
-                <thead>
-                <tr>
-                    <th className="Matrix_environment" style={{"width": "5%"}}>&nbsp;</th>
+            <div className="Matrix">
+                <div className="Matrix_topLine">
+                    <div className="Matrix_cell Matrix_leftCol">&nbsp;</div>
                     {systemNames.map(systemName => {
-                        return <th className="Matrix_system" style={{"width": colWidth + "%"}}
-                                   key={systemName}>{systemName}</th>
+                        return <div className="Matrix_cell " style={{"width": colWidth + "%"}}
+                                    key={systemName}>{systemName}</div>
                     })}
-                </tr>
-                </thead>
-                <tbody>
+                </div>
                 {envNames.map(envName => {
                     const env = environments[envName];
 
-                    return <tr className="Matrix_environment" key={envName}>
-                        <td>{envName}</td>
+                    return <div className="Matrix_environment" key={envName}>
+                        <div className="Matrix_cell Matrix_leftCol">{envName}</div>
                         {systemNames.map(systemName => {
                             const systemEnv = env[systemName];
 
-                            return <DeploymentInfo key={systemName + "_" + envName} systemEnv={systemEnv}/>
+                            return <div className="Matrix_cell" style={{"width": colWidth + "%"}}><DeploymentInfo
+                                key={systemName + "_" + envName}
+                                systemEnv={systemEnv}/></div>
                         })}
-                    </tr>
+                    </div>
                 })}
-                </tbody>
-            </table>
+            </div>
         );
     }
 }
