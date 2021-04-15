@@ -6,12 +6,20 @@ import {dispatcher} from "@cbuschka/flux";
 import {Message} from "./Message";
 import {Matrix} from "./Matrix";
 import {Logo} from "../Logo";
+import {appHistory} from "../AppHistory";
 
-const TopBar = () => {
+class TopBar extends React.Component {
 
-    return <div className="DashboardPage__OverBar_topLeft">
-        <a href="/"><Logo/></a>
-    </div>
+    render() {
+        return (<div className="DashboardPage__OverBar_topLeft">
+            <Logo onClick={this._onClick}/>
+        </div>);
+    }
+
+    _onClick = (ev) => {
+        appHistory.push("/app/login");
+        ev.preventDefault();
+    }
 }
 
 export class DashboardPage extends React.Component {

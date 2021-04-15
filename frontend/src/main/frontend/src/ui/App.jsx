@@ -3,6 +3,7 @@ import {Redirect, Route, Router, Switch} from "react-router-dom";
 import {appHistory} from "./AppHistory";
 import {DashboardPage} from "./dashboard/DashboardPage";
 import "./App.css";
+import {LoginPage} from "./login/LoginPage";
 
 class App extends React.Component {
 
@@ -11,6 +12,7 @@ class App extends React.Component {
             <div className="App">
                 <Router history={appHistory} useHistory={true}>
                     <Switch>
+                        <Route path="/app/login" exact component={LoginPage}/>
                         <Route path="/app/dashboard" exact component={DashboardPage}/>
                         <Redirect from="/" to="/app/dashboard"/>
                     </Switch>
