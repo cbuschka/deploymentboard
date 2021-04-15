@@ -4,12 +4,12 @@
     border: 0;
     margin: 0;
     padding: 0;
-    background-color: black;
 }
 
 .DashboardPage__OverBar_topLeft {
     margin: 10px;
     position: absolute;
+    z-index: 1000;
     right: 0;
     top: 0;
     width: 40px;

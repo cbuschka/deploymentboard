@@ -1,10 +1,11 @@
-
 .Matrix {
     width: 100%;
     height: 100%;
     color: white;
-    border: 3px solid black;
+    border: 0;
     border-collapse: separate;
+    margin: 0;
+    padding: 0;
 }
 
 .Matrix td {
@@ -14,23 +15,23 @@
 .Matrix_environment {
     text-transform: capitalize;
     color: white;
+    border: 0;
     width: 100px;
 }
 
 .Matrix_system {
     text-transform: capitalize;
-    border: 3px solid black;
+    border: 0;
     border-collapse: collapse;
-    background-color: black;
 }
 
 .Matrix_system_environment {
     vertical-align: top;
     text-transform: none;
     color: white;
-    border: 1px solid gray;
-    border-collapse: collapse;
+    opacity: 60%;
     background-color: black;
+    border-collapse: collapse;
     border-radius: 5px;
 }
 
