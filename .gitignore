@@ -6,3 +6,7 @@ node_modules/
 .yarn-cache/
 .eslintcache
 /*-config.yaml
+.classpath
+.factorypath
+.project
+
