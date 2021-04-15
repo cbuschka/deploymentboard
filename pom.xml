@@ -11,7 +11,7 @@
     <packaging>pom</packaging>
     <groupId>com.github.cbuschka.deploymentboard</groupId>
     <artifactId>project</artifactId>
-    <version>${revision}</version>
+    <version>0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <description>Example for processing messages from pubsub.</description>
     <properties>
@@ -159,6 +159,11 @@
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-yaml</artifactId>
                 <version>2.11.3</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.annotation</groupId>
+                <artifactId>javax.annotation-api</artifactId>
+                <version>1.3.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

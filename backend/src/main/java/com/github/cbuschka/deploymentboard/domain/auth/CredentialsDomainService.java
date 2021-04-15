@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
-public class AuthDomainService
+public class CredentialsDomainService
 {
 	@Autowired
 	private ConfigProvider configProvider;

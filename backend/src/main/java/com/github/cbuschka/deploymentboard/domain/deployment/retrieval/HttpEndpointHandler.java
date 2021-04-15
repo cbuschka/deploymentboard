@@ -1,6 +1,6 @@
 package com.github.cbuschka.deploymentboard.domain.deployment.retrieval;
 
-import com.github.cbuschka.deploymentboard.domain.auth.AuthDomainService;
+import com.github.cbuschka.deploymentboard.domain.auth.CredentialsDomainService;
 import com.github.cbuschka.deploymentboard.domain.auth.PasswordCredentials;
 import com.github.cbuschka.deploymentboard.domain.deployment.Endpoint;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import java.util.List;
 public class HttpEndpointHandler implements EndpointHandler
 {
 	@Autowired
-	private AuthDomainService authDomainService;
+	private CredentialsDomainService authDomainService;
 
 	@Override
 	public boolean handles(Endpoint endpoint)

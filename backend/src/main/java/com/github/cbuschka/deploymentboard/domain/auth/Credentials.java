@@ -10,7 +10,6 @@ import java.util.Set;
 @JsonSubTypes({
 		@JsonSubTypes.Type(name = "password", value = PasswordCredentials.class),
 		@JsonSubTypes.Type(name = "privateKey", value = PrivateKeyCredentials.class),
-		@JsonSubTypes.Type(name = "authToken", value = AuthTokenCredentials.class)
 })
 @Getter
 public abstract class Credentials

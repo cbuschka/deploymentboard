@@ -1,6 +1,6 @@
 package com.github.cbuschka.deploymentboard.domain.deployment.retrieval;
 
-import com.github.cbuschka.deploymentboard.domain.auth.AuthDomainService;
+import com.github.cbuschka.deploymentboard.domain.auth.CredentialsDomainService;
 import com.github.cbuschka.deploymentboard.domain.auth.PrivateKeyCredentials;
 import com.github.cbuschka.deploymentboard.domain.auth.PrivateKeyLoader;
 import com.github.cbuschka.deploymentboard.domain.deployment.Endpoint;
@@ -24,7 +24,7 @@ import java.util.List;
 public class ScpSftpEndpointHandler implements EndpointHandler
 {
 	@Autowired
-	private AuthDomainService authDomainService;
+	private CredentialsDomainService authDomainService;
 	@Autowired
 	private PrivateKeyLoader privateKeyLoader;
 

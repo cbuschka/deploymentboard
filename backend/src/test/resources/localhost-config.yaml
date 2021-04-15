@@ -83,3 +83,13 @@ credentials:
     allowedUsernames:
       - httpuser
     password: "asdfasdf"
+auth:
+#  type: simple
+#  users:
+#    - name: conni
+#      password: asdfasdf
+  type: ldap
+  url: "ldap://localhost:10389"
+  bindDn: "cn=%s,ou=people,dc=example,dc=com"
+  baseDn: "ou=people,dc=example,dc=com"
+  userQuery: "(&(uid=%s)(objectClass=inetOrgPerson))"

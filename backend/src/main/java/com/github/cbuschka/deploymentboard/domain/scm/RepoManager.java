@@ -1,6 +1,6 @@
 package com.github.cbuschka.deploymentboard.domain.scm;
 
-import com.github.cbuschka.deploymentboard.domain.auth.AuthDomainService;
+import com.github.cbuschka.deploymentboard.domain.auth.CredentialsDomainService;
 import com.github.cbuschka.deploymentboard.domain.auth.PasswordCredentials;
 import com.github.cbuschka.deploymentboard.domain.auth.PrivateKeyCredentials;
 import com.github.cbuschka.deploymentboard.domain.config.ConfigProvider;
@@ -26,7 +26,7 @@ import java.util.List;
 public class RepoManager
 {
 	@Autowired
-	private AuthDomainService authDomainService;
+	private CredentialsDomainService authDomainService;
 	@Autowired
 	private ConfigProvider configProvider;
 	@Autowired
