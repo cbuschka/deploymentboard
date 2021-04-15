@@ -4,59 +4,55 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 @Component
 public class GitChangeCollector
 {
-	public List<Change> collectChanges(Git git, String commitish, String optionalEndCommitish) throws Exception
-	{
-		ObjectId startObjectId = ObjectId.fromString(commitish);
-		ObjectId optionalEndObjectId = optionalEndCommitish != null ? ObjectId.fromString(optionalEndCommitish) : null;
+	private GitCommitCollector gitCommitCollector;
 
-		return collectChangesByCommitWalk(git, startObjectId, optionalEndObjectId);
+	public GitChangeCollector(GitCommitCollector gitCommitCollector)
+	{
+		this.gitCommitCollector = gitCommitCollector;
 	}
 
-	private List<Change> collectChangesByCommitWalk(Git git, ObjectId startObjectId, ObjectId optionalEndObjectId) throws IOException
+	public List<Change> collectChanges(Git git, String commitish, String optionalEndCommitish) throws IOException
+	{
+		Set<String> commitishes = collectCommits(commitish, optionalEndCommitish, git);
+
+		return toChanges(git, commitishes);
+	}
+
+	private Set<String> collectCommits(String commitish, String optionalEndCommitish, Git git) throws IOException
+	{
+		Set<String> baselineCommits = this.gitCommitCollector.collectCommits(git, commitish, true);
+		Set<String> excludedCommits = Collections.emptySet();
+		if (optionalEndCommitish != null)
+		{
+			excludedCommits = this.gitCommitCollector.collectCommits(git, optionalEndCommitish, false);
+		}
+		baselineCommits.removeAll(excludedCommits);
+		return baselineCommits;
+	}
+
+	private List<Change> toChanges(Git git, Collection<String> commitishes) throws IOException
 	{
 		List<Change> changes = new ArrayList<>();
 		try (RevWalk walk = new RevWalk(git.getRepository()))
 		{
-			RevCommit startCommit = walk.parseCommit(startObjectId);
-			List<ObjectId> traversalQueue = new LinkedList<>();
-			traversalQueue.add(0, startCommit);
-
-			Set<ObjectId> seenSet = new HashSet<>();
-			while (!traversalQueue.isEmpty())
+			for (String commitish : commitishes)
 			{
-				RevCommit commit = walk.parseCommit(traversalQueue.remove(0));
-				if (optionalEndObjectId != null && optionalEndObjectId.equals(commit.getId()))
-				{
-					continue;
-				}
-
-				if (seenSet.contains(commit.getId()))
-				{
-					continue;
-				}
-
-				commit = walk.parseCommit(commit.getId());
-
+				RevCommit commit = walk.parseCommit(ObjectId.fromString(commitish));
 				String message = commit.getRawBuffer() != null ? commit.getFullMessage() : "";
-				for (int i = 0; commit.getParents() != null && i < commit.getParentCount(); ++i)
-				{
-					RevCommit parent = commit.getParent(commit.getParentCount() - i - 1);
-					traversalQueue.add(parent.getId());
-				}
-				changes.add(new Change(commit.getId().toString(), message));
-				seenSet.add(commit.getId());
+				changes.add(new Change(commit.getId().getName(), message));
 			}
 
 			walk.dispose();

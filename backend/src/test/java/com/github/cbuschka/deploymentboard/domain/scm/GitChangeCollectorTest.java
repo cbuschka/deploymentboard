@@ -4,7 +4,6 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
@@ -22,8 +21,7 @@ class GitChangeCollectorTest
 
 	private final GitRepoHolder gitRepoHolder = new GitRepoHolder();
 
-	@InjectMocks
-	private GitChangeCollector gitChangeCollector;
+	private final GitChangeCollector gitChangeCollector = new GitChangeCollector(new GitCommitCollector());
 
 	private List<Change> changes;
 
