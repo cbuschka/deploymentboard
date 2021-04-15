@@ -170,7 +170,7 @@ public class XmlDeploymentInfoExtractionHandler implements DeploymentInfoExtract
 		{
 			if (version != null || branch != null || commitish != null)
 			{
-				return DeploymentInfo.available(system, env, commitish, version, branch, this.buildTimestamp);
+				return DeploymentInfo.available(system, env, commitish, version, branch, buildTimestamp);
 			}
 
 			return DeploymentInfo.failure(system, env, "No xml.");
