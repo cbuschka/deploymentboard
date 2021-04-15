@@ -1,7 +1,5 @@
 package com.github.cbuschka.deploymentboard.domain.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +16,8 @@ public class ConfigProvider
 	@Value("${deploymentboard.config:classpath:empty-config.yaml}")
 	private Resource configResource;
 
+	@Autowired
+	private ConfigLoader configLoader;
 	@Autowired
 	private ConfigVerifier configVerifier;
 
@@ -52,8 +52,7 @@ public class ConfigProvider
 	{
 		try
 		{
-			Config config = new ObjectMapper(new YAMLFactory()).readerFor(Config.class).readValue(this.configResource.getInputStream());
-
+			Config config = this.configLoader.loadConfig(this.configResource);
 			log.info("Config loaded from {}.", this.configResource.getURI());
 
 			this.configVerifier.verify(config);

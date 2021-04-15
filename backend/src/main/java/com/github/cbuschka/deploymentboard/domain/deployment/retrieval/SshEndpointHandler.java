@@ -3,10 +3,7 @@ package com.github.cbuschka.deploymentboard.domain.deployment.retrieval;
 import com.github.cbuschka.deploymentboard.domain.auth.AuthDomainService;
 import com.github.cbuschka.deploymentboard.domain.auth.PrivateKeyCredentials;
 import com.github.cbuschka.deploymentboard.domain.auth.PrivateKeyLoader;
-import com.github.cbuschka.deploymentboard.domain.config.Config;
-import com.github.cbuschka.deploymentboard.domain.config.ConfigProvider;
 import com.github.cbuschka.deploymentboard.domain.deployment.Endpoint;
-import com.github.cbuschka.deploymentboard.util.Integers;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
@@ -32,8 +29,6 @@ public class SshEndpointHandler implements EndpointHandler
 	private AuthDomainService authDomainService;
 	@Autowired
 	private PrivateKeyLoader privateKeyLoader;
-	@Autowired
-	private ConfigProvider configProvider;
 
 	@Override
 	public boolean handles(Endpoint endpoint)
@@ -44,8 +39,6 @@ public class SshEndpointHandler implements EndpointHandler
 	@Override
 	public byte[] getDeploymentInfo(String system, String env, Endpoint endpoint) throws URISyntaxException, JSchException, IOException
 	{
-		Config config = configProvider.getConfig();
-
 		if (endpoint.getCommand() == null)
 		{
 			throw new IllegalStateException("No command set.");
@@ -65,7 +58,7 @@ public class SshEndpointHandler implements EndpointHandler
 		}
 
 		Session session = jSch.getSession(uri.getUser(), uri.getHost(), uri.getPort() != -1 ? uri.getPort() : 22);
-		session.setTimeout(Integers.firstNonNull(endpoint.getConnectTimeoutMillis(), config.settings.getConnectTimeoutMillis(), config.defaults.connectTimeoutMillis));
+		session.setTimeout(endpoint.getConnectTimeoutMillis());
 		session.setConfig("StrictHostKeyChecking", "no");
 		session.connect();
 

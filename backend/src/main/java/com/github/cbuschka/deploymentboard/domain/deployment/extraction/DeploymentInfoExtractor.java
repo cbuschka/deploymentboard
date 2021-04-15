@@ -1,6 +1,5 @@
 package com.github.cbuschka.deploymentboard.domain.deployment.extraction;
 
-import com.github.cbuschka.deploymentboard.domain.config.ConfigProvider;
 import com.github.cbuschka.deploymentboard.domain.deployment.DeploymentInfo;
 import com.github.cbuschka.deploymentboard.domain.deployment.Endpoint;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.List;
 
 @Component

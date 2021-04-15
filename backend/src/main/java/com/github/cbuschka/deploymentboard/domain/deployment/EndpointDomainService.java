@@ -1,11 +1,8 @@
 package com.github.cbuschka.deploymentboard.domain.deployment;
 
-import com.github.cbuschka.deploymentboard.domain.config.Config;
-import com.github.cbuschka.deploymentboard.domain.config.ConfigProvider;
 import com.github.cbuschka.deploymentboard.domain.deployment.extraction.DeploymentInfoExtractor;
 import com.github.cbuschka.deploymentboard.domain.deployment.retrieval.DeploymentInfoRetriever;
 import com.github.cbuschka.deploymentboard.util.Cache;
-import com.github.cbuschka.deploymentboard.util.Integers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,19 +15,13 @@ public class EndpointDomainService
 	private DeploymentInfoRetriever retriever;
 	@Autowired
 	private DeploymentInfoExtractor extractor;
-	@Autowired
-	private ConfigProvider configProvider;
 
 	private final Cache<String, DeploymentInfo> deploymentInfoCache = new Cache<>();
 
 	public DeploymentInfo getDeploymentInfo(String system, String env, Endpoint endpoint)
 	{
-		Config config = configProvider.getConfig();
-
 		String key = system + "/" + env;
-		int expiryMillis = Integers.firstNonNull(endpoint.getRecheckTimeoutMillis(),
-				config.settings.getRecheckTimeoutMillis(),
-				config.defaults.recheckTimeoutMillis);
+		int expiryMillis = endpoint.getRecheckTimeoutMillis();
 		return this.deploymentInfoCache.get(key, expiryMillis)
 				.orElseGet(() -> loadDeploymentInfo(system, env, endpoint));
 	}

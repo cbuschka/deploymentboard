@@ -2,10 +2,7 @@ package com.github.cbuschka.deploymentboard.domain.deployment.retrieval;
 
 import com.github.cbuschka.deploymentboard.domain.auth.AuthDomainService;
 import com.github.cbuschka.deploymentboard.domain.auth.PasswordCredentials;
-import com.github.cbuschka.deploymentboard.domain.config.Config;
-import com.github.cbuschka.deploymentboard.domain.config.ConfigProvider;
 import com.github.cbuschka.deploymentboard.domain.deployment.Endpoint;
-import com.github.cbuschka.deploymentboard.util.Integers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,8 +20,6 @@ public class HttpEndpointHandler implements EndpointHandler
 {
 	@Autowired
 	private AuthDomainService authDomainService;
-	@Autowired
-	private ConfigProvider configProvider;
 
 	@Override
 	public boolean handles(Endpoint endpoint)
@@ -35,12 +30,10 @@ public class HttpEndpointHandler implements EndpointHandler
 	@Override
 	public byte[] getDeploymentInfo(String system, String env, Endpoint endpoint) throws IOException
 	{
-		Config config = configProvider.getConfig();
-
 		URL url = new URL(endpoint.getUrl());
 		HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
-		httpConn.setConnectTimeout(Integers.firstNonNull(endpoint.getConnectTimeoutMillis(), config.settings.getConnectTimeoutMillis(), config.defaults.connectTimeoutMillis));
-		httpConn.setReadTimeout(Integers.firstNonNull(endpoint.getReadTimeoutMillis(), config.settings.getReadTimeoutMillis(), config.defaults.readTimeoutMillis));
+		httpConn.setConnectTimeout(endpoint.getConnectTimeoutMillis());
+		httpConn.setReadTimeout(endpoint.getReadTimeoutMillis());
 		addBasicAuthHeaderIfAvailable(url, httpConn);
 		httpConn.setDoInput(true);
 		int responseCode = httpConn.getResponseCode();

@@ -3,10 +3,7 @@ package com.github.cbuschka.deploymentboard.domain.deployment.retrieval;
 import com.github.cbuschka.deploymentboard.domain.auth.AuthDomainService;
 import com.github.cbuschka.deploymentboard.domain.auth.PrivateKeyCredentials;
 import com.github.cbuschka.deploymentboard.domain.auth.PrivateKeyLoader;
-import com.github.cbuschka.deploymentboard.domain.config.Config;
-import com.github.cbuschka.deploymentboard.domain.config.ConfigProvider;
 import com.github.cbuschka.deploymentboard.domain.deployment.Endpoint;
-import com.github.cbuschka.deploymentboard.util.Integers;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
@@ -30,8 +27,6 @@ public class ScpSftpEndpointHandler implements EndpointHandler
 	private AuthDomainService authDomainService;
 	@Autowired
 	private PrivateKeyLoader privateKeyLoader;
-	@Autowired
-	private ConfigProvider configProvider;
 
 	@Override
 	public boolean handles(Endpoint endpoint)
@@ -42,8 +37,6 @@ public class ScpSftpEndpointHandler implements EndpointHandler
 	@Override
 	public byte[] getDeploymentInfo(String system, String env, Endpoint endpoint) throws JSchException, URISyntaxException, SftpException
 	{
-		Config config = configProvider.getConfig();
-
 		URIish uri = new URIish(endpoint.getUrl());
 		JSch jSch = new JSch();
 		List<PrivateKeyCredentials> privateKeyCredentialsList = this.authDomainService.getPrivateKeyCredentials(uri.getUser(), uri.getHost());
@@ -54,7 +47,7 @@ public class ScpSftpEndpointHandler implements EndpointHandler
 
 		Session session = jSch.getSession(uri.getUser(), uri.getHost(), uri.getPort() != -1 ? uri.getPort() : 22);
 		session.setConfig("StrictHostKeyChecking", "no");
-		session.setTimeout(Integers.firstNonNull(endpoint.getConnectTimeoutMillis(), config.settings.getConnectTimeoutMillis(), config.defaults.connectTimeoutMillis));
+		session.setTimeout(endpoint.getConnectTimeoutMillis());
 		session.connect();
 
 		Channel channel = session.openChannel("sftp");

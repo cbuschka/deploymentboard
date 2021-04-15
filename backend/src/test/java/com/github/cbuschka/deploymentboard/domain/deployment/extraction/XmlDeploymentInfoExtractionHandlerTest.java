@@ -1,7 +1,5 @@
 package com.github.cbuschka.deploymentboard.domain.deployment.extraction;
 
-import com.github.cbuschka.deploymentboard.domain.config.Config;
-import com.github.cbuschka.deploymentboard.domain.config.ConfigProvider;
 import com.github.cbuschka.deploymentboard.domain.deployment.DeploymentInfo;
 import com.github.cbuschka.deploymentboard.domain.deployment.DeploymentStatus;
 import com.github.cbuschka.deploymentboard.domain.deployment.Endpoint;
@@ -18,7 +16,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class XmlDeploymentInfoExtractionHandlerTest
@@ -30,9 +27,6 @@ class XmlDeploymentInfoExtractionHandlerTest
 	private XmlDeploymentInfoExtractionHandler handler;
 	@Mock
 	private Endpoint endpoint;
-	@Mock
-	private ConfigProvider configProvider;
-	private Config config = new Config();
 
 	private String xml;
 	private DeploymentInfo deploymentInfo;
@@ -41,8 +35,6 @@ class XmlDeploymentInfoExtractionHandlerTest
 	void init() throws ParserConfigurationException
 	{
 		this.handler.init();
-
-		when(this.configProvider.getConfig()).thenReturn(config);
 	}
 
 	@Test

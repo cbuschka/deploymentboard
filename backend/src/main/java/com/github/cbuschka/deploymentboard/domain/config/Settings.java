@@ -2,15 +2,15 @@ package com.github.cbuschka.deploymentboard.domain.config;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.Arrays;
 import java.util.List;
 
 @NoArgsConstructor
 @Getter
+@Setter
 public class Settings
 {
-	private Integer reloadTimeoutMillis;
 	private Integer connectTimeoutMillis;
 	private Integer readTimeoutMillis;
 	private Integer recheckTimeoutMillis;

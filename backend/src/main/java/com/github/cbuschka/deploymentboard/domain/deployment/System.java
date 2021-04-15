@@ -3,12 +3,14 @@ package com.github.cbuschka.deploymentboard.domain.deployment;
 import com.github.cbuschka.deploymentboard.domain.scm.CodeRepository;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Map;
 import java.util.Optional;
 
 @NoArgsConstructor
 @Getter
+@Setter
 public class System
 {
 	private String name;

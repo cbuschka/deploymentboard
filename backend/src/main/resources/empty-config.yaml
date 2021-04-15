@@ -1,13 +1,12 @@
 version: "1.0"
 defaults:
-  reloadTimeoutMillis: null
   connectTimeoutMillis: null
   readTimeoutMillis: null
   recheckTimeoutMillis: null
-  versionAliases: []
-  branchAliases: []
-  commitishAliases: []
-  buildTimestampAliases: []
+  versionAliases: [ ]
+  branchAliases: [ ]
+  commitishAliases: [ ]
+  buildTimestampAliases: [ ]
 workspace:
   dir: /tmp/deploymentboard-workspace
 environments:

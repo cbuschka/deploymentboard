@@ -14,7 +14,6 @@ import com.github.cbuschka.deploymentboard.domain.issue_tracking.Project;
 import com.github.cbuschka.deploymentboard.domain.issue_tracking.ProjectDomainService;
 import com.github.cbuschka.deploymentboard.domain.scm.CodeRepository;
 import com.github.cbuschka.deploymentboard.util.CachedValueHolder;
-import com.github.cbuschka.deploymentboard.util.Integers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,7 +51,7 @@ public class GetDashboardStateBusinessService
 	public DashboardStateResponse getDashboardState()
 	{
 		Config config = this.configProvider.getConfig();
-		int expiryMillis = Integers.firstNonNull(config.settings.getReloadTimeoutMillis(), config.defaults.reloadTimeoutMillis);
+		int expiryMillis = config.settings.getRecheckTimeoutMillis();
 
 		return this.cachedResponse.get(expiryMillis);
 	}
