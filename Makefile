@@ -7,7 +7,7 @@ start-services:
 
 stop-services:
 	@cd ${TOP_DIR} && \
-	docker-compose -p ${PROJECT_NAME} -f ${TOP_DIR}/dev-env/docker-compose-services.yml -f ${TOP_DIR}/dev-env/docker-compose-deploymentboard.yml down --remove-orphans --volumes
+	TOP_DIR=${TOP_DIR} docker-compose -p ${PROJECT_NAME} -f ${TOP_DIR}/dev-env/docker-compose-services.yml -f ${TOP_DIR}/dev-env/docker-compose-deploymentboard.yml down --remove-orphans --volumes
 
 build:
 	@cd ${TOP_DIR} && \
