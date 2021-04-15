@@ -1,5 +1,14 @@
 version: '3'
 services:
+  ldap:
+    build:
+      context: ./ldap-server
+    ports:
+      - '10389:389'
+      - '10636:636'
+    #volumes:
+    #- data_volume:/var/lib/ldap/
+
   ui-prod:
     build:
       context: ./mock-system

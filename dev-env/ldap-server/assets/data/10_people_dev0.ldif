@@ -1,0 +1,13 @@
+dn: cn=dev0,ou=people,dc=example,dc=com
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+sn: Developer0
+cn: dev0
+description: Human
+givenName: Dev0
+mail: dev0@example.com
+ou: Intern
+uid: dev0
+userPassword:: e1NTSEF9cGFsdWloUDJEeS96QXJ4dGtmUXFNZmkxOW94RGVlSmUK

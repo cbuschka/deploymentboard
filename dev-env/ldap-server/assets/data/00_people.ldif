@@ -1,0 +1,5 @@
+dn: ou=people,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+description: example.com people
+ou: people

@@ -1,0 +1,6 @@
+dn: cn=admins,ou=people,dc=example,dc=com
+objectclass: Group
+objectclass: top
+groupType: 2147483650
+cn: admins
+member: cn=admin0,ou=people,dc=example,dc=com

@@ -1,0 +1,7 @@
+dn: cn=users,ou=people,dc=example,dc=com
+objectclass: Group
+objectclass: top
+groupType: 2147483650
+cn: users
+member: cn=dev0,ou=people,dc=example,dc=com
+member: cn=dev1,ou=people,dc=example,dc=com
