@@ -4,12 +4,14 @@ import {appHistory} from "./AppHistory";
 import {DashboardPage} from "./dashboard/DashboardPage";
 import "./App.css";
 import {LoginPage} from "./login/LoginPage";
+import {AppBar} from "./AppBar";
 
 class App extends React.Component {
 
     render() {
         return (
             <div className="App">
+                <AppBar/>
                 <Router history={appHistory} useHistory={true}>
                     <Switch>
                         <Route path="/app/login" exact component={LoginPage}/>

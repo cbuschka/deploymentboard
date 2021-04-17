@@ -18,6 +18,7 @@
 
 .Matrix_leftCol.Matrix_cell {
     text-align: center;
+    vertical-align: middle;
 }
 
 .Matrix_topLine .Matrix_cell {
@@ -59,7 +60,7 @@
     text-transform: none;
     color: white;
     opacity: 0.8;
-    background-color: black;
+    background-color: #161616;
     border-collapse: collapse;
     border-radius: 5px;
 }
@@ -71,7 +72,7 @@
 
 .Matrix_system_environment_details {
     display: block;
-    padding: 4 ßpx;
+    padding: 4px;
     margin: 10px 0;
 }
 

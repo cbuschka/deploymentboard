@@ -5,22 +5,7 @@ import {loadDashboardState} from "./LoadDashboardStateAction";
 import {dispatcher} from "@cbuschka/flux";
 import {Message} from "./Message";
 import {Matrix} from "./Matrix";
-import {Logo} from "../Logo";
-import {appHistory} from "../AppHistory";
 
-class TopBar extends React.Component {
-
-    render() {
-        return (<div className="DashboardPage__OverBar_topLeft">
-            <Logo onClick={this._onClick}/>
-        </div>);
-    }
-
-    _onClick = (ev) => {
-        appHistory.push("/app/login");
-        ev.preventDefault();
-    }
-}
 
 export class DashboardPage extends React.Component {
 
@@ -61,7 +46,6 @@ export class DashboardPage extends React.Component {
         const {ok} = this.state;
 
         return <div className="DashboardPage">
-            <TopBar/>
             {ok ? this.renderMatrix() : this.renderError()}
         </div>;
     }

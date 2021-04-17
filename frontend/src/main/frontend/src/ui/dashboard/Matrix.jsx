@@ -1,7 +1,7 @@
 import React from 'react';
 import './Matrix.css';
 import classnames from 'classnames';
-import {LockFill, Unlock, UnlockFill} from 'react-bootstrap-icons';
+import {Lock, LockFill, UnlockFill} from 'react-bootstrap-icons';
 
 const InfoBlock = ({text}) => {
     if (!text) {
@@ -22,7 +22,7 @@ const LockStatus = ({value, disabled = true}) => {
         case "LOCKED":
             return <div className={classnames("LockStatus", value, disabled ? "disabled" : "")}><LockFill/></div>;
         case "NOT_LOCKABLE":
-            return <div className={classnames("LockStatus", value, "disabled")}><Unlock/></div>;
+            return <div className={classnames("LockStatus", value, "disabled")}><Lock/></div>;
         default:
             return "";
     }
