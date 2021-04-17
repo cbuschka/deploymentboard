@@ -78,7 +78,7 @@ public class GetDashboardStateBusinessService
 				{
 					response.withSystemEnvironment(env.getName(), system.getName(),
 							new DashboardStateResponse.SystemEnvironment(deploymentInfo.getStatus(), deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
-									deploymentInfo.getBranch(), deploymentInfo.getBuildTimestamp(), Collections.emptyList(), deploymentInfo.getMessage()));
+									deploymentInfo.getBranch(), deploymentInfo.getBuildTimestamp(), Collections.emptyList(), deploymentInfo.getMessage(), prodCommitish == null ? DashboardStateResponse.LockStatus.NOT_LOCKABLE : DashboardStateResponse.LockStatus.UNLOCKED));
 					prodCommitish = deploymentInfo.getCommitish();
 				}
 				else
@@ -87,7 +87,7 @@ public class GetDashboardStateBusinessService
 					response.withSystemEnvironment(env.getName(), system.getName(),
 							new DashboardStateResponse.SystemEnvironment(deploymentInfo.getStatus(), deploymentInfo.getVersion(), deploymentInfo.getCommitish(),
 									deploymentInfo.getBranch(), deploymentInfo.getBuildTimestamp(), issues.stream().map(this::toIssue).collect(toList()),
-									deploymentInfo.getMessage()));
+									deploymentInfo.getMessage(), DashboardStateResponse.LockStatus.UNLOCKED));
 				}
 			}
 		}

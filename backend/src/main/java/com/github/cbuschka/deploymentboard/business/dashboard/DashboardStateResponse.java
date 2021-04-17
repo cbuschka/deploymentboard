@@ -31,6 +31,10 @@ public class DashboardStateResponse
 		env.put(system, systemEnvironment);
 	}
 
+	public enum LockStatus {
+		NOT_LOCKABLE, LOCKED, UNLOCKED;
+	}
+
 	public static class SystemEnvironment
 	{
 		public boolean ok;
@@ -41,8 +45,9 @@ public class DashboardStateResponse
 		public List<Issue> issues;
 		public String message;
 		public String buildTimestamp;
+		public LockStatus lockStatus;
 
-		public SystemEnvironment(DeploymentStatus status, String version, String commitish, String branch, String buildTimestamp, List<Issue> issues, String message)
+		public SystemEnvironment(DeploymentStatus status, String version, String commitish, String branch, String buildTimestamp, List<Issue> issues, String message, LockStatus lockStatus)
 		{
 			this.ok = status == DeploymentStatus.OK;
 			this.status = status;
@@ -52,6 +57,7 @@ public class DashboardStateResponse
 			this.issues = issues;
 			this.message = message;
 			this.buildTimestamp = buildTimestamp;
+			this.lockStatus = lockStatus;
 		}
 	}
 
