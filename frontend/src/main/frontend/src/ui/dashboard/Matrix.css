@@ -12,6 +12,7 @@
 .Matrix_cell {
     padding: 1px;
     display: table-cell;
+    height: 100%;
     background: transparent;
 }
 
