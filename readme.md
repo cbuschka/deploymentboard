@@ -1,6 +1,6 @@
 # Deployment Board
 
-[![Build](https://github.com/cbuschka/deploymentboard/workflows/build/badge.svg)](https://github.com/cbuschka/deploymentboard) [![License](https://img.shields.io/github/license/cbuschka/deploymentboard.svg)](https://github.com/cbuschka/deploymentboard/blob/main/license.txt)
+[![Build](https://github.com/cbuschka/deploymentboard/workflows/build/badge.svg)](https://github.com/cbuschka/deploymentboard) [![Docker Image](https://img.shields.io/badge/docker.io-cbuschka%2Fdeploymentboard-yellowgreen)](https://hub.docker.com/repository/registry-1.docker.io/cbuschka/deploymentboard/tags?page=1&ordering=last_updated) [![License](https://img.shields.io/github/license/cbuschka/deploymentboard.svg)](https://github.com/cbuschka/deploymentboard/blob/main/license.txt)
 
 ### Deployment dashboard to display which story is deployed where
 
