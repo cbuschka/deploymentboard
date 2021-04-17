@@ -18,6 +18,11 @@ public class CachedValueHolder<ValueType>
 		this.executor = executor;
 	}
 
+	public synchronized void setDefault(ValueType value)
+	{
+		this.value = value;
+	}
+
 	public synchronized ValueType get(int expiryMillis)
 	{
 		if (this.value == null)
@@ -46,7 +51,12 @@ public class CachedValueHolder<ValueType>
 		set(value);
 	}
 
-	private boolean hasExpired(int expiryMillis)
+	public synchronized boolean isAvailable()
+	{
+		return this.value != null;
+	}
+
+	public synchronized boolean hasExpired(int expiryMillis)
 	{
 		return System.currentTimeMillis() > this.loadTimeMillis + expiryMillis;
 	}

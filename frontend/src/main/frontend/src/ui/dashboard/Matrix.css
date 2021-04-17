@@ -137,7 +137,7 @@
     border: 1px solid darkgreen;
 }
 
-.Matrix_StatusBadge.UNCONFIGURED {
+.Matrix_StatusBadge.UNCONFIGURED, .Matrix_StatusBadge.UNKNOWN {
     background-color: #646464;
     border: 1px solid #4f4f4f;
     color: lightgray;

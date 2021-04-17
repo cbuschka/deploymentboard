@@ -4,6 +4,7 @@ import com.github.cbuschka.deploymentboard.domain.config.Config;
 import com.github.cbuschka.deploymentboard.domain.config.ConfigProvider;
 import com.github.cbuschka.deploymentboard.domain.deployment.DeploymentInfo;
 import com.github.cbuschka.deploymentboard.domain.deployment.DeploymentInfoDomainService;
+import com.github.cbuschka.deploymentboard.domain.deployment.DeploymentStatus;
 import com.github.cbuschka.deploymentboard.domain.deployment.Environment;
 import com.github.cbuschka.deploymentboard.domain.deployment.EnvironmentDomainService;
 import com.github.cbuschka.deploymentboard.domain.deployment.System;
@@ -16,8 +17,10 @@ import com.github.cbuschka.deploymentboard.domain.scm.CodeRepository;
 import com.github.cbuschka.deploymentboard.util.CachedValueHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -46,14 +49,37 @@ public class GetDashboardStateBusinessService
 	@Autowired
 	private ConfigProvider configProvider;
 
-	private final CachedValueHolder<DashboardStateResponse> cachedResponse = new CachedValueHolder<>(this::calculateDashboardState, Executors.newSingleThreadExecutor());
+	private final CachedValueHolder<DashboardStateResponse> stateResponseCachedValueHolder = new CachedValueHolder<>(this::calculateDashboardState, Executors.newSingleThreadExecutor());
 
+	@PostConstruct
+	private void init()
+	{
+		this.stateResponseCachedValueHolder.setDefault(getEmptyState());
+	}
+
+	@Scheduled(fixedDelay = 1_000)
 	public DashboardStateResponse getDashboardState()
 	{
 		Config config = this.configProvider.getConfig();
-		int expiryMillis = config.settings.getRecheckTimeoutMillis();
+		return this.stateResponseCachedValueHolder.get(config.settings.getConnectTimeoutMillis());
+	}
 
-		return this.cachedResponse.get(expiryMillis);
+	private DashboardStateResponse getEmptyState()
+	{
+		List<Environment> envs = this.environmentDomainService.getEnvironments();
+		List<System> systems = this.systemDomainService.getSystems();
+
+		DashboardStateResponse response = DashboardStateResponse.newWithEnvironments(envs.stream().map(Environment::getName).toArray(String[]::new));
+		for (System system : systems)
+		{
+			for (Environment env : envs)
+			{
+				response.withSystemEnvironment(env.getName(), system.getName(),
+						new DashboardStateResponse.SystemEnvironment(DeploymentStatus.UNKNOWN, null, null, null, null, Collections.emptyList(), null, DashboardStateResponse.LockStatus.NOT_LOCKABLE));
+			}
+		}
+
+		return response;
 	}
 
 	private DashboardStateResponse calculateDashboardState()
