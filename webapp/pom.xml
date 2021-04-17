@@ -55,6 +55,9 @@
                     <plugin>
                         <groupId>com.google.cloud.tools</groupId>
                         <artifactId>jib-maven-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>buildDockerImageAndPush</id>
