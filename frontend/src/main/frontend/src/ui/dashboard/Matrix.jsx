@@ -1,7 +1,9 @@
 import React from 'react';
 import './Matrix.css';
 import classnames from 'classnames';
-import {Lock, LockFill, UnlockFill} from 'react-bootstrap-icons';
+import {Table} from "reactstrap";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faLock, faLockOpen} from '@fortawesome/free-solid-svg-icons'
 
 const InfoBlock = ({text}) => {
     if (!text) {
@@ -18,11 +20,14 @@ const LockStatus = ({value, disabled = true}) => {
 
     switch (value) {
         case "UNLOCKED":
-            return <div className={classnames("LockStatus", value, disabled ? "disabled" : "")}><UnlockFill/></div>;
+            return <div className={classnames("LockStatus", value, disabled ? "disabled" : "")}><FontAwesomeIcon
+                icon={faLockOpen}/></div>;
         case "LOCKED":
-            return <div className={classnames("LockStatus", value, disabled ? "disabled" : "")}><LockFill/></div>;
+            return <div className={classnames("LockStatus", value, disabled ? "disabled" : "")}><FontAwesomeIcon
+                icon={faLock}/></div>;
         case "NOT_LOCKABLE":
-            return <div className={classnames("LockStatus", value, "disabled")}><Lock/></div>;
+            return <div className={classnames("LockStatus", value, "disabled")}><FontAwesomeIcon
+                icon={faLock}/></div>;
         default:
             return "";
     }
@@ -106,30 +111,35 @@ export class Matrix extends React.Component {
         const colWidth = Math.floor(95.0 / systemNames.length);
 
         return (
-            <div className="Matrix">
-                <div className="Matrix_topLine">
-                    <div className="Matrix_cell Matrix_leftCol">&nbsp;</div>
+            <Table className="Matrix">
+                <thead>
+                <tr className="Matrix_topLine">
+                    <th className="Matrix_cell Matrix_leftCol">&nbsp;</th>
                     {systemNames.map(systemName => {
-                        return <div className="Matrix_cell " style={{"width": colWidth + "%"}}
-                                    key={systemName}>{systemName}</div>
+                        return <th className="Matrix_cell " style={{"width": colWidth + "%"}}
+                                   key={systemName}>{systemName}</th>
                     })}
-                </div>
+                </tr>
+                </thead>
+                <tbody>
                 {envNames.map(envName => {
                     const env = environments[envName];
 
-                    return <div className="Matrix_environment" key={envName}>
-                        <div className="Matrix_cell Matrix_leftCol">{envName}</div>
+                    return <tr className="Matrix_environment" key={envName}>
+                        <td className="Matrix_cell Matrix_leftCol">{envName}</td>
                         {systemNames.map(systemName => {
                             const systemEnv = env[systemName];
 
-                            return <div className="Matrix_cell" style={{"width": colWidth + "%"}} key={systemName}>
-                                <DeploymentInfo
+                            return <td className="Matrix_cell" style={{"width": colWidth + "%"}} key={systemName}>
+                                <div className="Matrix_cellFill"><DeploymentInfo
                                     key={systemName + "_" + envName}
                                     systemEnv={systemEnv}/></div>
+                            </td>
                         })}
-                    </div>
+                    </tr>
                 })}
-            </div>
+                </tbody>
+            </Table>
         );
     }
 }

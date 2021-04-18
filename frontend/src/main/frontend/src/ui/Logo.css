@@ -21,5 +21,6 @@
 .Logo__label {
     display: inline-block;
     text-align: left;
-    font-size: 12px;
+    font-size: 14px;
+    color: gray;
 }

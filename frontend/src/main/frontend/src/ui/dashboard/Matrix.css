@@ -1,45 +1,39 @@
 .Matrix {
-    display: table;
     width: 100%;
     height: 100%;
-    color: white;
     border: 0;
     border-collapse: separate;
     margin: 0;
     padding: 0;
 }
 
-.Matrix_cell {
+
+.Matrix_cellFill {
+    border-radius: 5px;
     padding: 1px;
-    display: table-cell;
+    width: 100%;
     height: 100%;
-    background: transparent;
+    background-color: whitesmoke;
 }
 
 .Matrix_leftCol.Matrix_cell {
+    padding: 1px;
     text-align: center;
     vertical-align: middle;
 }
 
 .Matrix_topLine .Matrix_cell {
-    padding: 1px;
-    display: table-cell;
-    background: transparent;
     text-align: center;
 }
 
 .Matrix_topLine {
-    display: table-row;
     text-transform: capitalize;
-    color: white;
     border: 0;
     width: 100px;
 }
 
 .Matrix_environment {
-    display: table-row;
     text-transform: capitalize;
-    color: white;
     border: 0;
     width: 100px;
 }
@@ -53,14 +47,10 @@
 .Matrix_system_environment {
     width: 100%;
     height: 100%;
-    padding: 4px;
     margin: 0;
     display: block;
     vertical-align: top;
     text-transform: none;
-    color: white;
-    opacity: 0.8;
-    background-color: #161616;
     border-collapse: collapse;
     border-radius: 5px;
 }
@@ -86,40 +76,36 @@
     font-size: 0.8em;
     display: block;
     text-transform: none;
-    color: gray;
+    color: #161616;
 }
 
 .Matrix_system_environment_issue {
     display: inline-block;
     border: 1px solid gray;
-    margin: 2px;
     border-radius: 5px;
     padding: 4px;
-    margin-right: 4px;
+    margin: 2px 4px 2px 2px;
+    color: white;
 }
 
 .Matrix_system_environment_issue.MISSING {
     border: 1px solid lightgray;
     background-color: gray;
-    color: white;
 }
 
 .Matrix_system_environment_issue.UNKNOWN {
     border: 1px solid lightgray;
     background-color: gray;
-    color: white;
 }
 
 .Matrix_system_environment_issue.CLOSED {
     border: 1px solid lightgreen;
     background-color: green;
-    color: white;
 }
 
 .Matrix_system_environment_issue.OPEN {
     border: 1px solid orange;
     background-color: darkorange;
-    color: white;
 }
 
 .Matrix_system_environment_warning {
@@ -127,7 +113,7 @@
 }
 
 .Matrix_StatusBadge {
-    padding: 5px;
+    padding: 5px 8px;
     font-size: 1em;
     display: inline-block;
     color: white;
@@ -161,18 +147,15 @@
     display: block;
     width: 100%;
     height: 100%;
-    padding: 0 40px 40px 40px;
+    padding: 0 20px 20px 20px;
     margin: 0;
     vertical-align: top;
     text-transform: none;
-    color: white;
-    opacity: 0.8;
 }
 
 .LockStatus {
     padding: 4px;
     display: inline-block;
-    background-color: black;
     border-radius: 5px;
     height: 2em;
     width: 2em;
@@ -189,7 +172,7 @@
 }
 
 .LockStatus.NOT_LOCKABLE {
-    color: #4e555b;
+    color: lightgrey;
 }
 
 .LockStatus.UNLOCKED {

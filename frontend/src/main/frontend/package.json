@@ -9,6 +9,9 @@
   "dependencies": {
     "@cbuschka/data-utils": "^1.4.0",
     "@cbuschka/flux": "^4.0.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -17,11 +20,9 @@
     "dexie": "^3.0.3",
     "query-string": "^6.13.8",
     "react": "^17.0.1",
-    "react-bootstrap-icons": "^1.4.0",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
-    "react-social-login-buttons": "^3.1.0",
     "reactstrap": "^8.8.1",
     "uuid": "^8.3.2",
     "web-vitals": "^0.2.4"
