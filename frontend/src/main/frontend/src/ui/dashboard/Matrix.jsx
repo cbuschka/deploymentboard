@@ -5,6 +5,11 @@ import {Table} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLock, faLockOpen} from '@fortawesome/free-solid-svg-icons'
 
+const Issue = ({issue, className}) => {
+    const {issueNo, status, title} = issue;
+    return <span className={classnames(className, status)}>{issueNo}{!!title ? <>:<br/>{title}</> : null}</span>;
+};
+
 const InfoBlock = ({text}) => {
     if (!text) {
         return null;
@@ -85,8 +90,7 @@ class DeploymentInfo extends React.Component {
                 </div>
 
                 {issues.map(issue => {
-                    return <span key={issue.issueNo}
-                                 className={classnames("Matrix_system_environment_issue", issue.status)}>{issue.issueNo}</span>;
+                    return <Issue key={issue.issueNo} issue={issue} className="Matrix_system_environment_issue"/>;
                 })}
             </div>
         </>);
