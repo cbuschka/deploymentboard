@@ -53,3 +53,9 @@ services:
       context: ./git-server
     ports:
       - "10122:22"
+
+  mock-jira:
+    build:
+      context: ./mock-jira
+    ports:
+      - "9084:80"
