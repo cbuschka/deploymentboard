@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectDomainService
@@ -14,17 +16,12 @@ public class ProjectDomainService
 	@Autowired
 	private ConfigProvider configProvider;
 
-	Optional<Project> getProjectFor(String issueNo)
+	public Set<String> getAllIssuePrefixes()
 	{
-		return getProjects()
+		return this.configProvider.getConfig()
+				.issueTrackers
 				.stream()
-				.filter((p) -> issueNo.startsWith(p.getIssuePrefix()))
-				.findFirst();
-	}
-
-	public List<Project> getProjects()
-	{
-		return Optional.ofNullable(configProvider.getConfig().projects)
-				.orElseGet(Collections::emptyList);
+				.flatMap((t) -> t.projects.stream().map(Project::getIssuePrefix))
+				.collect(Collectors.toSet());
 	}
 }

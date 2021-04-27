@@ -36,10 +36,14 @@ systems:
       stage:
         format: yaml
         command: 'exit 1'
-projects:
-  - issuePrefix: "UI-"
-  - issuePrefix: "UIX-"
-  - issuePrefix: "BE-"
+issueTrackers:
+  - type: jira
+    url: 'http://localhost:9084'
+    # username: anonymous
+    projects:
+      - issuePrefix: "UI-"
+      - issuePrefix: "UIX-"
+      - issuePrefix: "BE-"
 credentials:
   - type: privateKey
     allowedUsernames:

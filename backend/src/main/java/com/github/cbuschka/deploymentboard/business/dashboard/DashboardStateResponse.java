@@ -31,7 +31,8 @@ public class DashboardStateResponse
 		env.put(system, systemEnvironment);
 	}
 
-	public enum LockStatus {
+	public enum LockStatus
+	{
 		NOT_LOCKABLE, LOCKED, UNLOCKED;
 	}
 
@@ -65,11 +66,15 @@ public class DashboardStateResponse
 	{
 		public String issueNo;
 		public IssueStatus status;
+		public String title;
+		public String link;
 
-		public Issue(String issueNo, IssueStatus status)
+		public Issue(String issueNo, IssueStatus status, String title, String link)
 		{
 			this.issueNo = issueNo;
 			this.status = status;
+			this.title = title;
+			this.link = link;
 		}
 	}
 }

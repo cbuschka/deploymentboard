@@ -10,8 +10,7 @@ import com.github.cbuschka.deploymentboard.domain.deployment.EnvironmentDomainSe
 import com.github.cbuschka.deploymentboard.domain.deployment.System;
 import com.github.cbuschka.deploymentboard.domain.deployment.SystemDomainService;
 import com.github.cbuschka.deploymentboard.domain.issue_tracking.IssueDomainService;
-import com.github.cbuschka.deploymentboard.domain.issue_tracking.IssueStatus;
-import com.github.cbuschka.deploymentboard.domain.issue_tracking.Project;
+import com.github.cbuschka.deploymentboard.domain.issue_tracking.IssueInfo;
 import com.github.cbuschka.deploymentboard.domain.issue_tracking.ProjectDomainService;
 import com.github.cbuschka.deploymentboard.domain.scm.CodeRepository;
 import com.github.cbuschka.deploymentboard.util.CachedValueHolder;
@@ -26,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -88,7 +86,7 @@ public class GetDashboardStateBusinessService
 
 		List<Environment> envs = this.environmentDomainService.getEnvironments();
 		List<System> systems = this.systemDomainService.getSystems();
-		Set<String> issuePrefixes = projectDomainService.getProjects().stream().map(Project::getIssuePrefix).collect(Collectors.toSet());
+		Set<String> issuePrefixes = projectDomainService.getAllIssuePrefixes();
 
 		DashboardStateResponse response = DashboardStateResponse.newWithEnvironments(envs.stream().map(Environment::getName).toArray(String[]::new));
 
@@ -129,7 +127,7 @@ public class GetDashboardStateBusinessService
 
 	private DashboardStateResponse.Issue toIssue(String issueNo)
 	{
-		IssueStatus status = this.issueDomainService.getIssueStatus(issueNo);
-		return new DashboardStateResponse.Issue(issueNo, status);
+		IssueInfo info = this.issueDomainService.getIssueInfo(issueNo);
+		return new DashboardStateResponse.Issue(issueNo, info.issueStatus, info.title, info.url);
 	}
 }

@@ -29,6 +29,15 @@ public class ConfigPostProcessor
 		completeEnvironments(config);
 		completeEndpoints(config);
 		completeCredentials(config);
+		completeIssueTrackers(config);
+	}
+
+	private void completeIssueTrackers(Config config)
+	{
+		if (config.issueTrackers == null)
+		{
+			config.issueTrackers = new ArrayList<>();
+		}
 	}
 
 	private void completeCredentials(Config config)
