@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.cbuschka.deploymentboard.domain.auth.Credentials;
 import com.github.cbuschka.deploymentboard.domain.deployment.Environment;
 import com.github.cbuschka.deploymentboard.domain.deployment.System;
+import com.github.cbuschka.deploymentboard.domain.feature.FeatureConfig;
 import com.github.cbuschka.deploymentboard.domain.issue_tracking.IssueTracker;
 import com.github.cbuschka.deploymentboard.domain.issue_tracking.Project;
 
@@ -28,4 +29,6 @@ public class Config
 	public List<Credentials> credentials;
 
 	public List<IssueTracker> issueTrackers;
+
+	public List<FeatureConfig> features = new ArrayList<>();
 }
