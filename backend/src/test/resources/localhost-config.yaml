@@ -39,12 +39,18 @@ systems:
 issueTrackers:
   - type: jira
     url: 'http://localhost:9084'
-    # username: anonymous
+    username: anonymous
     projects:
       - issuePrefix: "UI-"
       - issuePrefix: "UIX-"
       - issuePrefix: "BE-"
 credentials:
+  - type: password
+    allowedUsernames:
+      - anonymous
+    allowedHostnames:
+      - localhost
+    password: 'asdfasdf'
   - type: privateKey
     allowedUsernames:
       - git

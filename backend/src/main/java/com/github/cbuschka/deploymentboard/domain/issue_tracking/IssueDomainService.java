@@ -51,9 +51,4 @@ public class IssueDomainService
 				.filter(Optional::isPresent)
 				.findFirst().orElseGet(Optional::empty);
 	}
-
-	private IssueStatus getIssueStatusFor(String issueCode, Project project)
-	{
-		return IssueStatus.OPEN;
-	}
 }

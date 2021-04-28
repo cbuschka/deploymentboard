@@ -14,7 +14,9 @@ import java.util.Optional;
 
 public class JiraClient
 {
-	private static ObjectMapper objectMapper = new ObjectMapper().disable(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES);
+	private static ObjectMapper objectMapper = new ObjectMapper().disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+
+	private JiraIssueStatusMapper jiraIssueStatusMapper = new JiraIssueStatusMapper();
 
 	private int connectTimeoutMillis = 10_000;
 	private int readTimeoutMillis = 30_000;
@@ -28,14 +30,9 @@ public class JiraClient
 
 	private IssueInfo toIssueInfo(String baseUrl, JiraGetIssueResponse response)
 	{
-		String browseUrl = String.format("%s/browser/%s", baseUrl, URLEncoder.encode(response.key, StandardCharsets.UTF_8));
-		return new IssueInfo(response.key, response.fields != null ? toIssueStatus(response.fields.status) : IssueStatus.UNKNOWN,
-				response.fields != null ? response.fields.summary : "n/a", browseUrl);
-	}
-
-	private IssueStatus toIssueStatus(JiraGetIssueResponse.Status status)
-	{
-		return IssueStatus.UNKNOWN;
+		String browseUrl = String.format("%s/browse/%s", baseUrl, URLEncoder.encode(response.key, StandardCharsets.UTF_8));
+		return new IssueInfo(response.key, response.fields != null ? this.jiraIssueStatusMapper.map(response.fields.status) : IssueStatus.UNKNOWN,
+				response.fields != null ? response.fields.summary : null, browseUrl);
 	}
 
 	private Optional<JiraGetIssueResponse> fetch(URL url, String username, PasswordCredentials passwordCredentials) throws IOException
@@ -43,9 +40,11 @@ public class JiraClient
 		HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
 		httpConn.setConnectTimeout(this.connectTimeoutMillis);
 		httpConn.setReadTimeout(this.readTimeoutMillis);
+		httpConn.setRequestMethod("GET");
 		addBasicAuthHeaderIfAvailable(httpConn, username, passwordCredentials);
 		httpConn.addRequestProperty("Accept", "application/json");
 		httpConn.setDoInput(true);
+		httpConn.setDoOutput(false);
 		int responseCode = httpConn.getResponseCode();
 		if (responseCode == 404)
 		{
@@ -70,6 +69,6 @@ public class JiraClient
 
 		String usernameColonPassword = String.format("%s:%s", username, passwordCredentials.getPassword());
 		String authHeader = "Basic " + Base64.getEncoder().encodeToString(usernameColonPassword.getBytes(StandardCharsets.UTF_8));
-		httpConn.addRequestProperty("Authentication", authHeader);
+		httpConn.addRequestProperty("Authorization", authHeader);
 	}
 }

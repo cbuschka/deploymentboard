@@ -1,8 +1,10 @@
 package com.github.cbuschka.deploymentboard.domain.issue_tracking;
 
 import lombok.AllArgsConstructor;
+import lombok.ToString;
 
 @AllArgsConstructor
+@ToString
 public class IssueInfo
 {
 	public String issueNo;
