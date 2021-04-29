@@ -4,11 +4,7 @@ import classnames from 'classnames';
 import {Table} from "reactstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faLock, faLockOpen} from '@fortawesome/free-solid-svg-icons'
-
-const Issue = ({issue, className}) => {
-    const {issueNo, status, title} = issue;
-    return <span className={classnames(className, status)}>{issueNo}{!!title ? <>:<br/>{title}</> : null}</span>;
-};
+import {Issue} from "./Issue";
 
 const InfoBlock = ({text}) => {
     if (!text) {

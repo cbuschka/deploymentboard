@@ -79,35 +79,6 @@
     color: #161616;
 }
 
-.Matrix_system_environment_issue {
-    display: inline-block;
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 4px;
-    margin: 2px 4px 2px 2px;
-    color: white;
-}
-
-.Matrix_system_environment_issue.MISSING {
-    border: 1px solid lightgray;
-    background-color: gray;
-}
-
-.Matrix_system_environment_issue.UNKNOWN {
-    border: 1px solid lightgray;
-    background-color: gray;
-}
-
-.Matrix_system_environment_issue.CLOSED {
-    border: 1px solid lightgreen;
-    background-color: green;
-}
-
-.Matrix_system_environment_issue.OPEN {
-    border: 1px solid orange;
-    background-color: darkorange;
-}
-
 .Matrix_system_environment_warning {
     color: gray;
 }

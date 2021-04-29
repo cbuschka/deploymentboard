@@ -1,0 +1,47 @@
+.Issue {
+    display: inline-block;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 4px;
+    margin: 2px 4px 2px 2px;
+    color: white;
+}
+
+.Issue.MISSING {
+    border: 1px solid lightgray;
+    background-color: gray;
+}
+
+.Issue.UNKNOWN {
+    border: 1px solid lightgray;
+    background-color: gray;
+}
+
+.Issue.CLOSED {
+    border: 1px solid lightgreen;
+    background-color: green;
+}
+
+.Issue.OPEN {
+    border: 1px solid orange;
+    background-color: darkorange;
+}
+
+.Issue__title_issueNo {
+    display: inline-block;
+    text-align: left;
+}
+
+
+.Issue__title_issueStatus {
+    display: inline-block;
+    text-align: right;
+    text-transform: lowercase;
+    font-size: 10px;
+}
+
+.Issue__title_issueSummary {
+    display: block;
+}
+
+
