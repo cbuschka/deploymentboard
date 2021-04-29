@@ -5,10 +5,9 @@ import com.github.cbuschka.deploymentboard.domain.config.ConfigProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class ProjectDomainService
@@ -19,16 +18,13 @@ public class ProjectDomainService
 	public Set<String> getAllIssuePrefixes()
 	{
 		Config config = this.configProvider.getConfig();
-		return config
-				.issueTrackers
-				.stream()
-				.flatMap((t) -> t.projects
+		return Stream.concat(config
+						.issueTrackers
 						.stream()
-						.map(Project::getIssuePrefix))
-				.flatMap((projects) -> Optional.ofNullable(config.projects)
-						.orElseGet(Collections::emptyList)
-						.stream()
-						.map(Project::getIssuePrefix))
+						.flatMap((t) -> t.projects.stream().map(Project::getIssuePrefix)),
+				this.configProvider.getConfig()
+						.projects
+						.stream().map(Project::getIssuePrefix))
 				.collect(Collectors.toSet());
 	}
 }
