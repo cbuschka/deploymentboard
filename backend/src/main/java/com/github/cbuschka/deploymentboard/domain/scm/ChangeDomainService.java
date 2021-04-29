@@ -55,7 +55,7 @@ public class ChangeDomainService
 
 		try (Git git = Git.wrap(repo))
 		{
-			return this.gitChangeCollector.collectChanges(git, commitish, optionalEndCommitish);
+			return Collections.unmodifiableList(this.gitChangeCollector.collectChanges(git, commitish, optionalEndCommitish));
 		}
 	}
 
