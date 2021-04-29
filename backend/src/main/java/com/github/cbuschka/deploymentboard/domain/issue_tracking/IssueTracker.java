@@ -20,4 +20,10 @@ public class IssueTracker
 				.findFirst()
 				.orElse(Boolean.FALSE);
 	}
+
+	@Override
+	public String toString()
+	{
+		return "IssueTracker{type=" + type + ",url=" + url + "}";
+	}
 }

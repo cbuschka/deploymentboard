@@ -30,4 +30,10 @@ public class Endpoint
 	private Set<String> commitishAliases;
 
 	private Set<String> buildTimestampAliases;
+
+	@Override
+	public String toString()
+	{
+		return "Endpoint{url=" + url + "}";
+	}
 }

@@ -77,7 +77,7 @@ public class RepoManager
 				.setCredentialsProvider(credentialsProvider)
 				.setRemote("origin").call();
 
-		log.debug("Updated repo {}.", repositoryUri);
+		log.info("Updated repo {}.", repositoryUri);
 	}
 
 	private Repository createRepositoryIfNotExists(CodeRepository codeRepository) throws IOException

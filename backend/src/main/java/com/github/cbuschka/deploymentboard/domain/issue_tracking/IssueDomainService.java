@@ -2,12 +2,14 @@ package com.github.cbuschka.deploymentboard.domain.issue_tracking;
 
 import com.github.cbuschka.deploymentboard.domain.config.ConfigProvider;
 import com.github.cbuschka.deploymentboard.util.Cache;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class IssueDomainService
 {
@@ -49,6 +51,7 @@ public class IssueDomainService
 				.filter((h) -> h.handles(issueTracker))
 				.map((h) -> h.getIssueInfoFor(issueCode, issueTracker))
 				.filter(Optional::isPresent)
+				.peek((ii) -> log.info("Got issue info for {} from {}.", issueCode, issueTracker))
 				.findFirst().orElseGet(Optional::empty);
 	}
 }

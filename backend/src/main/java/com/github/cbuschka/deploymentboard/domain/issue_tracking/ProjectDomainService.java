@@ -1,11 +1,11 @@
 package com.github.cbuschka.deploymentboard.domain.issue_tracking;
 
+import com.github.cbuschka.deploymentboard.domain.config.Config;
 import com.github.cbuschka.deploymentboard.domain.config.ConfigProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,10 +18,17 @@ public class ProjectDomainService
 
 	public Set<String> getAllIssuePrefixes()
 	{
-		return this.configProvider.getConfig()
+		Config config = this.configProvider.getConfig();
+		return config
 				.issueTrackers
 				.stream()
-				.flatMap((t) -> t.projects.stream().map(Project::getIssuePrefix))
+				.flatMap((t) -> t.projects
+						.stream()
+						.map(Project::getIssuePrefix))
+				.flatMap((projects) -> Optional.ofNullable(config.projects)
+						.orElseGet(Collections::emptyList)
+						.stream()
+						.map(Project::getIssuePrefix))
 				.collect(Collectors.toSet());
 	}
 }
