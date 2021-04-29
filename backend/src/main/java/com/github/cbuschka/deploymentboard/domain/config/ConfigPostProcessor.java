@@ -132,6 +132,11 @@ public class ConfigPostProcessor
 						repository.getConnectTimeoutMillis(),
 						config.settings.getConnectTimeoutMillis(),
 						defaults.connectTimeoutMillis));
+		repository.setRecheckTimeoutMillis(
+				Integers.firstNonNull(
+						repository.getRecheckTimeoutMillis(),
+						config.settings.getRecheckTimeoutMillis(),
+						defaults.recheckTimeoutMillis));
 
 	}
 

@@ -12,4 +12,6 @@ public class CodeRepository
 	private String url;
 
 	private Integer connectTimeoutMillis;
+
+	private Integer recheckTimeoutMillis;
 }
