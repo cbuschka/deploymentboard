@@ -7,6 +7,15 @@
     color: white;
 }
 
+.Issue__linked {
+    cursor: pointer;
+}
+
+.Issue__linked:hover {
+    opacity: 0.8;
+}
+
+
 .Issue.MISSING {
     border: 1px solid lightgray;
     background-color: gray;
