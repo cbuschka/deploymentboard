@@ -6,7 +6,7 @@ import java.util.List;
 public class JiraIssueStatusMapper
 {
 	private static final List<String> OPEN_NAMES = Arrays.asList("OPEN", "READY", "STARTED", "IN PROGRESS", "IN REVIEW", "TESTING", "IN TEST", "IN WORK");
-	private static final List<String> CLOSED_NAMES = Arrays.asList("FINISHED", "DONE", "CLOSED", "IN RELEASE", "REJECTED", "ABORTED", "REVOKED");
+	private static final List<String> CLOSED_NAMES = Arrays.asList("FINISHED", "DONE", "CLOSED", "IN RELEASE", "REJECTED", "ABORTED", "REVOKED", "RESOLVED", "SOLVED");
 
 	public IssueStatus map(JiraGetIssueResponse.Status status)
 	{
