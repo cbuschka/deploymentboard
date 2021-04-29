@@ -14,7 +14,7 @@ public class DeploymentInfoRetriever
 	@Autowired
 	private List<EndpointHandler> endpointHandlers;
 
-	public byte[] extractDeploymentInfoFrom(String system, String env, Endpoint endpoint) throws Exception
+	public byte[] retrieveDeploymentInfoFrom(String system, String env, Endpoint endpoint) throws Exception
 	{
 		byte[] bytes = retrieveDeploymentInfoInternal(system, env, endpoint);
 		log.info("Got deployment info for {}/{} from {}.", system, env, endpoint);

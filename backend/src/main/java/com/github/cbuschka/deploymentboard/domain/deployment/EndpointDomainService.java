@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
+import java.util.Optional;
 
 @Service
 public class EndpointDomainService
@@ -16,26 +17,29 @@ public class EndpointDomainService
 	@Autowired
 	private DeploymentInfoExtractor extractor;
 
-	private final Cache<String, DeploymentInfo> deploymentInfoCache = new Cache<>();
+	private final Cache<SystemEnvironment, DeploymentInfo> deploymentInfoCache = new Cache<>();
 
 	public DeploymentInfo getDeploymentInfo(String system, String env, Endpoint endpoint)
 	{
-		String key = system + "/" + env;
 		int expiryMillis = endpoint.getRecheckTimeoutMillis();
-		return this.deploymentInfoCache.get(key, expiryMillis)
-				.orElseGet(() -> loadDeploymentInfo(system, env, endpoint));
+		return this.deploymentInfoCache.get(new SystemEnvironment(system, env),
+				expiryMillis,
+				(systemEnvironment) -> this.loadDeploymentInfo(systemEnvironment, endpoint),
+				(systemEnvironment) -> DeploymentInfo.failure(systemEnvironment.getSystem(), systemEnvironment.getEnvironment(), "Not reachable."));
 	}
 
-	private DeploymentInfo loadDeploymentInfo(String system, String env, Endpoint endpoint)
+	private Optional<DeploymentInfo> loadDeploymentInfo(SystemEnvironment systemEnvironment, Endpoint endpoint)
 	{
+		String system = systemEnvironment.getSystem();
+		String env = systemEnvironment.getEnvironment();
 		try
 		{
-			byte[] result = this.retriever.extractDeploymentInfoFrom(system, env, endpoint);
-			return this.extractor.extractDeploymentInfoFrom(new ByteArrayInputStream(result), system, env, endpoint);
+			byte[] result = this.retriever.retrieveDeploymentInfoFrom(system, env, endpoint);
+			return Optional.of(this.extractor.extractDeploymentInfoFrom(new ByteArrayInputStream(result), system, env, endpoint));
 		}
 		catch (Exception ex)
 		{
-			return DeploymentInfo.failure(system, env, ex.getMessage());
+			return Optional.of(DeploymentInfo.failure(system, env, ex.getMessage()));
 		}
 	}
 }

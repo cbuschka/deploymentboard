@@ -23,11 +23,13 @@ public class IssueDomainService
 	public IssueInfo getIssueInfo(String issueCode)
 	{
 		int expiryMillis = this.configProvider.getConfig().settings.getRecheckTimeoutMillis();
-		return this.issueInfoCache.get(issueCode, expiryMillis)
-				.orElseGet(() -> getIssueInfoInternal(issueCode));
+		return this.issueInfoCache.get(issueCode,
+				expiryMillis,
+				this::getIssueInfoInternal,
+				this::unknownIssueInfo);
 	}
 
-	private IssueInfo getIssueInfoInternal(String issueCode)
+	private Optional<IssueInfo> getIssueInfoInternal(String issueCode)
 	{
 		return configProvider.getConfig().issueTrackers
 				.stream()
@@ -35,8 +37,7 @@ public class IssueDomainService
 				.map((t) -> getIssueInfoFor(issueCode, t))
 				.filter(Optional::isPresent)
 				.map(Optional::get)
-				.findFirst()
-				.orElseGet(() -> unknownIssueInfo(issueCode));
+				.findFirst();
 	}
 
 	private IssueInfo unknownIssueInfo(String issueCode)

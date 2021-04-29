@@ -3,26 +3,25 @@ package com.github.cbuschka.deploymentboard.util;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 public class Cache<Key, Value>
 {
 	private final Map<Key, Entry<Value>> entries = new ConcurrentHashMap<>();
 
-	public void put(Key key, Value value)
-	{
-		this.entries.put(key, new Entry<>(value, System.currentTimeMillis()));
-	}
-
-	public Optional<Value> get(Key key, int expiryMillis)
+	public Value get(Key key, int expiryMillis, Function<Key, Optional<Value>> loadingFunction, Function<Key, Value> defaultSupplier)
 	{
 		Entry<Value> entry = this.entries.get(key);
-		if (entry == null || entry.hasExpired(expiryMillis))
+		if (entry != null && !entry.hasExpired(expiryMillis))
 		{
-			this.entries.remove(key);
-			return Optional.empty();
+			return entry.value;
 		}
 
-		return Optional.of(entry.value);
+		return loadingFunction.apply(key)
+				.stream()
+				.peek((v) -> this.entries.put(key, new Entry<>(v, System.currentTimeMillis())))
+				.findFirst()
+				.orElseGet(() -> defaultSupplier.apply(key));
 	}
 
 
