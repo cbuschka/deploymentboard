@@ -29,7 +29,7 @@ public class ChangeDomainService
 			return Collections.emptyList();
 		}
 
-		return this.changeCache.get(new CommitRange(startCommitish, optionalEndCommitish), codeRepository.getConnectTimeoutMillis(),
+		return this.changeCache.get(new CommitRange(startCommitish, optionalEndCommitish), codeRepository.getRecheckTimeoutMillis(),
 				(cr) -> getChangesInternal(cr, codeRepository),
 				(cr) -> Collections.emptyList()
 		);
