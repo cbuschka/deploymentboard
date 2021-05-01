@@ -1,10 +1,15 @@
 package com.github.cbuschka.deploymentboard.domain.scm;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+import org.eclipse.jgit.util.io.NullOutputStream;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -33,14 +38,31 @@ public class GitChangeCollector
 
 	private Set<String> collectCommits(String commitish, String optionalEndCommitish, Git git) throws IOException
 	{
-		Set<String> baselineCommits = this.gitCommitCollector.collectCommits(git, commitish, true);
-		Set<String> excludedCommits = Collections.emptySet();
-		if (optionalEndCommitish != null)
+		if (optionalEndCommitish == null)
 		{
-			excludedCommits = this.gitCommitCollector.collectCommits(git, optionalEndCommitish, false);
+			return this.gitCommitCollector.collectCommits(git, commitish, true);
 		}
-		baselineCommits.removeAll(excludedCommits);
-		return baselineCommits;
+
+		ObjectId oldTree = git.getRepository().resolve(commitish + "^{tree}");
+		ObjectId newTree = git.getRepository().resolve(optionalEndCommitish + "^{tree}");
+
+		ObjectReader reader = git.getRepository().newObjectReader();
+		CanonicalTreeParser oldTreeIter = new CanonicalTreeParser();
+		oldTreeIter.reset(reader, oldTree);
+		CanonicalTreeParser newTreeIter = new CanonicalTreeParser();
+		newTreeIter.reset(reader, newTree);
+
+		DiffFormatter df = new DiffFormatter(NullOutputStream.INSTANCE);
+		df.setRepository(git.getRepository());
+		List<DiffEntry> entries = df.scan(oldTreeIter, newTreeIter);
+		for (DiffEntry entry : entries)
+		{
+			AbbreviatedObjectId oldId = entry.getId(DiffEntry.Side.OLD);
+			AbbreviatedObjectId newId = entry.getId(DiffEntry.Side.NEW);
+			System.out.println(entry+"; "+oldId+" "+newId);
+		}
+
+		return Collections.emptySet();
 	}
 
 	private List<Change> toChanges(Git git, Collection<String> commitishes) throws IOException
