@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -16,7 +17,7 @@ import java.util.Optional;
 public class ChangeDomainService
 {
 	@Autowired
-	private GitChangeCollector gitChangeCollector;
+	private List<GitChangeCollector> gitChangeCollectors;
 	@Autowired
 	private RepoManager repoManager;
 
@@ -55,8 +56,18 @@ public class ChangeDomainService
 
 		try (Git git = Git.wrap(repo))
 		{
-			return Collections.unmodifiableList(this.gitChangeCollector.collectChanges(git, commitish, optionalEndCommitish));
+			GitChangeCollector handler = getHandlerFor(ChangeDetectionAlgorithm.simple);
+			return Collections.unmodifiableList(handler.collectChanges(git, commitish, optionalEndCommitish));
 		}
+	}
+
+	private GitChangeCollector getHandlerFor(ChangeDetectionAlgorithm algorithm)
+	{
+		return this.gitChangeCollectors
+				.stream()
+				.filter((h) -> h.handles(algorithm))
+				.findFirst()
+				.orElseThrow(() -> new NoSuchElementException("No handler for " + algorithm + "."));
 	}
 
 }

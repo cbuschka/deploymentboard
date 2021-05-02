@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-class GitChangeCollectorTest
+class SimpleGitChangeCollectorTest
 {
 	private static final String FIRST_COMMENT = "ISSUE-1";
 	private static final String SECOND_COMMENT = "ISSUE-2";
@@ -21,7 +21,7 @@ class GitChangeCollectorTest
 
 	private final GitRepoHolder gitRepoHolder = new GitRepoHolder();
 
-	private final GitChangeCollector gitChangeCollector = new GitChangeCollector(new GitCommitCollector());
+	private final GitChangeCollector gitChangeCollector = new SimpleGitChangeCollector(new GitCommitCollector());
 
 	private List<Change> changes;
 
