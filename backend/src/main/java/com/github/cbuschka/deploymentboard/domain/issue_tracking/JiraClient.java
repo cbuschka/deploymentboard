@@ -31,7 +31,7 @@ public class JiraClient
 	private IssueInfo toIssueInfo(String baseUrl, JiraGetIssueResponse response)
 	{
 		String browseUrl = String.format("%s/browse/%s", baseUrl, URLEncoder.encode(response.key, StandardCharsets.UTF_8));
-		return new IssueInfo(response.key, response.fields != null ? this.jiraIssueStatusMapper.map(response.fields.status) : IssueStatus.UNKNOWN,
+		return new IssueInfo(response.key, response.fields != null ? this.jiraIssueStatusMapper.map(response.fields.status) : new IssueStatus("UNKNOWN", "Unknown"),
 				response.fields != null ? response.fields.summary : null, browseUrl);
 	}
 

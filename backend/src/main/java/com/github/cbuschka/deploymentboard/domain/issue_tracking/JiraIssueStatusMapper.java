@@ -12,14 +12,14 @@ public class JiraIssueStatusMapper
 	{
 		if (status == null || status.name == null)
 		{
-			return IssueStatus.UNKNOWN;
+			return new IssueStatus("UNKNOWN", "Unknown");
 		}
 
 		for (String name : OPEN_NAMES)
 		{
 			if (name.equalsIgnoreCase(status.name))
 			{
-				return IssueStatus.OPEN;
+				return new IssueStatus("OPEN", status.name);
 			}
 		}
 
@@ -27,10 +27,10 @@ public class JiraIssueStatusMapper
 		{
 			if (name.equalsIgnoreCase(status.name))
 			{
-				return IssueStatus.CLOSED;
+				return new IssueStatus("CLOSED", status.name);
 			}
 		}
 
-		return IssueStatus.UNKNOWN;
+		return new IssueStatus("UNKNOWN", status.name);
 	}
 }

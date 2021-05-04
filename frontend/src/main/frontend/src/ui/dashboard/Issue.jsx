@@ -6,10 +6,10 @@ export class Issue extends React.Component {
 
     render() {
         const {issue: {issueNo, status, title, link}, className} = this.props;
-        return <span className={classnames("Issue", className, status, !!link ? "Issue__linked" : null)}
+        return <span className={classnames("Issue", className, status.type, !!link ? "Issue__linked" : null)}
                      onClick={this._onClick}>
         <span className="Issue__title_issueNo">{issueNo}</span>
-        <span className="Issue__title_issueStatus">&nbsp;({status})</span>
+        <span className="Issue__title_issueStatus">&nbsp;({status.label})</span>
             {!!title ? <span className="Issue__title_issueSummary">{title}</span> : null}</span>;
     }
 

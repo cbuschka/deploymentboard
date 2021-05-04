@@ -1,6 +1,13 @@
 package com.github.cbuschka.deploymentboard.domain.issue_tracking;
 
-public enum IssueStatus
+public class IssueStatus
 {
-	OPEN, CLOSED, UNKNOWN, MISSING;
+	public final String type;
+	public final String label;
+
+	public IssueStatus(String type, String label)
+	{
+		this.type = type;
+		this.label = label;
+	}
 }

@@ -42,7 +42,7 @@ public class IssueDomainService
 
 	private IssueInfo unknownIssueInfo(String issueCode)
 	{
-		return new IssueInfo(issueCode, IssueStatus.UNKNOWN, null, null);
+		return new IssueInfo(issueCode, new IssueStatus("UNKNOWN", "Unknown"), null, null);
 	}
 
 	private Optional<IssueInfo> getIssueInfoFor(String issueCode, IssueTracker issueTracker)
