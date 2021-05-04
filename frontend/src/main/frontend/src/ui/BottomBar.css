@@ -1,0 +1,21 @@
+.BottomBar {
+    font-family: "Courier New", serif;
+    font-size: 10px;
+    display: block;
+    width: 100%;
+    background: transparent;
+    color: grey;
+    padding: 4px;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    text-align: right;
+}
+
+.BottomBar a {
+    color: grey;
+}
+
+.BottomBar a:visited {
+    color: grey;
+}

@@ -5,10 +5,44 @@ import {DashboardPage} from "./dashboard/DashboardPage";
 import "./App.css";
 import {LoginPage} from "./login/LoginPage";
 import {AppBar} from "./AppBar";
+import {appStore} from './AppStore';
+import {dispatcher} from "@cbuschka/flux";
+import {loadAppState} from "./LoadAppStateAction";
+import {BottomBar} from "./BottomBar";
 
 class App extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {version: {}, features: {}};
+    }
+
+    componentDidMount() {
+        dispatcher.addHandler(appStore);
+        dispatcher.subscribe(this._onChange);
+        this._reloadAppState();
+    }
+
+    componentWillUnmount() {
+        dispatcher.unsubscribe(this._onChange);
+        dispatcher.removeHandler(appStore);
+    }
+
+    _reloadAppState = () => {
+        loadAppState()
+            .finally(() => {
+                this.reloadTimer = window.setTimeout(this._reloadAppState, 30 * 1000);
+            });
+    }
+
+    _onChange = ({data}) => {
+        const {app: {features, version}} = data;
+        this.setState({features, version})
+    };
+
     render() {
+        const {version: {version}} = this.state;
+
         return (
             <div className="App">
                 <AppBar/>
@@ -19,6 +53,7 @@ class App extends React.Component {
                         <Redirect from="/" to="/app/dashboard"/>
                     </Switch>
                 </Router>
+                <BottomBar version={version}/>
             </div>
         );
     }
