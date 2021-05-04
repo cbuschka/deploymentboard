@@ -16,6 +16,54 @@
         <finalName>deploymentboard-webapp</finalName>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                        <configuration>
+                            <buildNumberPropertyName>build.commitish</buildNumberPropertyName>
+                            <scmBranchPropertyName>build.branch</scmBranchPropertyName>
+                            <timestampPropertyName>build.timestamp</timestampPropertyName>
+                            <timestampFormat>{0,date,yyyy-MM-dd'T'hh:mm:ss:ZZZ}</timestampFormat>
+                            <items>
+                                <item>scmVersion</item>
+                                <item>timestamp</item>
+                                <item>buildNumber</item>
+                            </items>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-version-properties</id>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <target>
+                                <mkdir dir="${project.build.directory}/classes/"/>
+                                <propertyfile file="${project.build.directory}/classes/build-info.properties"
+                                              comment="version info">
+                                    <entry key="build-info.version" value="${project.version}"/>
+                                    <entry key="build-info.timestamp" value="${build.timestamp}"/>
+                                    <entry key="build-info.commitish" value="${build.commitish}"/>
+                                    <entry key="build-info.branch" value="${build.branch}"/>
+                                </propertyfile>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
