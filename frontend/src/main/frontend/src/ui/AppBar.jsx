@@ -1,8 +1,8 @@
 import React from 'react';
 import "./AppBar.css";
-import {Logo} from "./Logo";
 import {appHistory} from "./AppHistory";
-import {Container, Navbar, NavbarBrand} from "reactstrap";
+import {Nav, Navbar, NavbarBrand, NavItem, NavLink} from "reactstrap";
+import {Logo} from "./Logo";
 
 
 export class AppBar extends React.Component {
@@ -15,11 +15,14 @@ export class AppBar extends React.Component {
 
 
     render() {
-        return (<Navbar className="AppBar" full>
-            <Container fluid>
-                <NavbarBrand><Logo withLabel/></NavbarBrand>
-            </Container>
-        </Navbar>);
+        return (<div className="AppBar">
+            <NavbarBrand><Logo withLabel/></NavbarBrand>
+            <Nav className="AppBar__Nav" tabs>
+                <NavItem className="AppBar__NavItem" active>
+                    <NavLink className="AppBar__NavLink" active href="/app/deployments">Deployments</NavLink>
+                </NavItem>
+            </Nav>
+        </div>);
     }
 
     _onClick = (ev) => {

@@ -1,0 +1,25 @@
+.AppBar {
+    padding: 0;
+    background-color: whitesmoke;
+}
+
+.AppBar .navbar-brand {
+    display: inline-block;
+    padding: 8px;
+}
+
+.AppBar__Nav.nav.nav-tabs {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+.AppBar__NavItem.nav-item {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+.AppBar__NavLink.nav-link {
+    margin-bottom: 0;
+}
