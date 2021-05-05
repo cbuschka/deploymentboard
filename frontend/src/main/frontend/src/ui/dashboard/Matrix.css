@@ -7,7 +7,6 @@
     padding: 0;
 }
 
-
 .Matrix_cellFill {
     border-radius: 5px;
     padding: 1px;
@@ -42,110 +41,4 @@
     text-transform: capitalize;
     border: 0;
     border-collapse: collapse;
-}
-
-.Matrix_system_environment {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    display: block;
-    vertical-align: top;
-    text-transform: none;
-    border-collapse: collapse;
-    border-radius: 5px;
-}
-
-.Matrix_system_environment_headline {
-    font-size: 1.2em;
-    display: block;
-}
-
-.Matrix_system_environment_details {
-    display: block;
-    padding: 4px;
-    margin: 10px 0;
-}
-
-.Matrix_system_environment_branchAndCommitish {
-    font-size: 0.8em;
-    display: block;
-    text-transform: none;
-}
-
-.Matrix_InfoBlock {
-    font-size: 0.8em;
-    display: block;
-    text-transform: none;
-    color: #161616;
-}
-
-.Matrix_system_environment_warning {
-    color: gray;
-}
-
-.Matrix_StatusBadge {
-    padding: 5px 8px;
-    font-size: 1em;
-    display: inline-block;
-    color: white;
-    border-radius: 5px;
-}
-
-.Matrix_StatusBadge.OK {
-    background-color: green;
-    border: 1px solid darkgreen;
-}
-
-.Matrix_StatusBadge.UNCONFIGURED, .Matrix_StatusBadge.UNKNOWN {
-    background-color: #646464;
-    border: 1px solid #4f4f4f;
-    color: lightgray;
-}
-
-.Matrix_StatusBadge.FAILURE {
-    background-color: red;
-    border: 1px solid darkred;
-}
-
-.Matrix_system_environment_toolLine {
-    display: block;
-    width: 100%;
-    min-height: 10px;
-    text-align: right;
-}
-
-.Matrix_system_environment_content {
-    display: block;
-    width: 100%;
-    height: 100%;
-    padding: 0 20px 20px 20px;
-    margin: 0;
-    vertical-align: top;
-    text-transform: none;
-}
-
-.LockStatus {
-    padding: 4px;
-    display: inline-block;
-    border-radius: 5px;
-    height: 2em;
-    width: 2em;
-    text-align: center;
-}
-
-.LockStatus:not(.disabled):hover {
-    background-color: darkgray;
-    cursor: pointer;
-}
-
-.LockStatus.LOCKED {
-    color: red;
-}
-
-.LockStatus.NOT_LOCKABLE {
-    color: lightgrey;
-}
-
-.LockStatus.UNLOCKED {
-    color: green;
 }

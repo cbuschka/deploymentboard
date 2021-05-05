@@ -1,0 +1,55 @@
+.Matrix_system_environment {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: block;
+    vertical-align: top;
+    text-transform: none;
+    border-collapse: collapse;
+    border-radius: 5px;
+}
+
+.Matrix_system_environment_headline {
+    font-size: 1.2em;
+    display: block;
+}
+
+.Matrix_system_environment_details {
+    display: block;
+    padding: 4px;
+    margin: 10px 0;
+}
+
+.Matrix_system_environment_branchAndCommitish {
+    font-size: 0.8em;
+    display: block;
+    text-transform: none;
+}
+
+.Matrix_InfoBlock {
+    font-size: 0.8em;
+    display: block;
+    text-transform: none;
+    color: #161616;
+}
+
+.Matrix_system_environment_warning {
+    color: gray;
+}
+
+.Matrix_system_environment_toolLine {
+    display: block;
+    width: 100%;
+    min-height: 10px;
+    text-align: right;
+}
+
+.Matrix_system_environment_content {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0 20px 20px 20px;
+    margin: 0;
+    vertical-align: top;
+    text-transform: none;
+}

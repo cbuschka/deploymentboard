@@ -1,0 +1,23 @@
+.StatusBadge {
+    padding: 5px 8px;
+    font-size: 1em;
+    display: inline-block;
+    color: white;
+    border-radius: 5px;
+}
+
+.StatusBadge.OK {
+    background-color: green;
+    border: 1px solid darkgreen;
+}
+
+.StatusBadge.UNCONFIGURED, .StatusBadge.UNKNOWN {
+    background-color: #646464;
+    border: 1px solid #4f4f4f;
+    color: lightgray;
+}
+
+.StatusBadge.FAILURE {
+    background-color: red;
+    border: 1px solid darkred;
+}
