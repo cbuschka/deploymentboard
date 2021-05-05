@@ -23,8 +23,8 @@ export class AppBar extends React.Component {
     }
 
     _onClick = (ev) => {
-        if (window.location.pathname !== "/app/dashboard") {
-            appHistory.push("/app/dashboard");
+        if (window.location.pathname !== "/app/deployments") {
+            appHistory.push("/app/deployments");
         }
         ev.preventDefault();
     }

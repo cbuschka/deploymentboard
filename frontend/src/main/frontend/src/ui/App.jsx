@@ -47,8 +47,8 @@ class App extends React.Component {
                 <AppBar/>
                 <Router history={appHistory} useHistory={true}>
                     <Switch>
-                        <Route path="/app/dashboard" exact component={DashboardPage}/>
-                        <Redirect from="/" to="/app/dashboard"/>
+                        <Route path="/app/deployments" exact component={DashboardPage}/>
+                        <Redirect from="/" to="/app/deployments"/>
                     </Switch>
                 </Router>
                 <BottomBar version={version}/>
