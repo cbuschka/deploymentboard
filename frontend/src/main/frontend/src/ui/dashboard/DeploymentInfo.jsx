@@ -1,6 +1,6 @@
 import React from 'react';
 import './Matrix.css';
-import {Issue} from "./Issue";
+import {Issue} from "../lib/Issue";
 import {StatusBadge} from "./StatusBadge";
 import {InfoBlock} from "./InfoBlock";
 import './DeploymentInfo.css';

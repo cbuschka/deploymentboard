@@ -1,4 +1,4 @@
-.Matrix {
+.IssuesMatrix {
     width: 100%;
     height: 100%;
     border: 0;
@@ -7,7 +7,7 @@
     padding: 0;
 }
 
-.Matrix_cellFill {
+.IssuesMatrix_cellFill {
     border-radius: 5px;
     padding: 1px;
     width: 100%;
@@ -15,29 +15,29 @@
     background-color: whitesmoke;
 }
 
-.Matrix_leftCol.Matrix_cell {
+.IssuesMatrix_leftCol.IssuesMatrix_cell {
     padding: 1px;
     text-align: center;
     vertical-align: middle;
 }
 
-.Matrix_topLine .Matrix_cell {
+.IssuesMatrix_topLine .IssuesMatrix_cell {
     text-align: center;
 }
 
-.Matrix_topLine {
+.IssuesMatrix_topLine {
     text-transform: capitalize;
     border: 0;
     width: 100px;
 }
 
-.Matrix_environment {
+.IssuesMatrix_environment {
     text-transform: capitalize;
     border: 0;
     width: 100px;
 }
 
-.Matrix_system {
+.IssuesMatrix_system {
     text-transform: capitalize;
     border: 0;
     border-collapse: collapse;

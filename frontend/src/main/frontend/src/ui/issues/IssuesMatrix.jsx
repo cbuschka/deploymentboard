@@ -1,9 +1,9 @@
 import React from 'react';
-import './Matrix.css';
+import './IssuesMatrix.css';
 import {Table} from "reactstrap";
-import {Issue} from "./Issue";
+import {Issue} from "../lib/Issue";
 
-export class Matrix extends React.Component {
+export class IssuesMatrix extends React.Component {
 
     render() {
         const {systems = []} = this.props;
@@ -11,24 +11,24 @@ export class Matrix extends React.Component {
         const colWidth = Math.floor(95.0 / systems.length);
 
         return (
-            <Table className="Matrix">
+            <Table className="IssuesMatrix">
                 <thead>
-                <tr className="Matrix_topLine">
-                    <th className="Matrix_cell Matrix_leftCol">&nbsp;</th>
+                <tr className="IssuesMatrix_topLine">
+                    <th className="IssuesMatrix_cell IssuesMatrix_leftCol">&nbsp;</th>
                     {systems.map(system => {
-                        return <th className="Matrix_cell " style={{"width": colWidth + "%"}}
+                        return <th className="IssuesMatrix_cell " style={{"width": colWidth + "%"}}
                                    key={system.name}>{system.name}</th>
                     })}
                 </tr>
                 </thead>
                 <tbody>
-                <tr className="Matrix_environment">
-                    <td className="Matrix_cell Matrix_leftCol">Issues</td>
+                <tr className="IssuesMatrix_environment">
+                    <td className="IssuesMatrix_cell IssuesMatrix_leftCol">Issues</td>
                     {systems.map(system => {
                         const systemIssues = system.issues || [];
 
-                        return <td className="Matrix_cell" style={{"width": colWidth + "%"}} key={system.name}>
-                            <div className="Matrix_cellFill">
+                        return <td className="IssuesMatrix_cell" style={{"width": colWidth + "%"}} key={system.name}>
+                            <div className="IssuesMatrix_cellFill">
                                 {systemIssues.map(issue => {
                                     return <Issue key={issue.issueNo} issue={issue}/>;
                                 })}

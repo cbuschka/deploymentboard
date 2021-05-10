@@ -2,7 +2,7 @@ import React from 'react';
 import {dispatcher} from "@cbuschka/flux";
 import {issuesStore} from "./IssuesStore";
 import {loadIssues} from "./LoadIssuesAction";
-import {Matrix} from "./Matrix";
+import {IssuesMatrix} from "./IssuesMatrix";
 import './IssuesPage.css';
 
 export class IssuesPage extends React.Component {
@@ -42,7 +42,7 @@ export class IssuesPage extends React.Component {
         const {systems} = this.state;
 
         return <div className="IssuesPage">
-            <Matrix systems={systems}/>
+            <IssuesMatrix systems={systems}/>
         </div>;
     }
 }

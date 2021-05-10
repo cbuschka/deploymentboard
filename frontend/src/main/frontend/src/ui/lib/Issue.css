@@ -1,12 +1,10 @@
 .Issue {
     display: block;
-    width: 100%;
     border: 1px solid gray;
     border-radius: 5px;
     padding: 4px;
     margin: 2px 4px 2px 2px;
     color: white;
-    min-height: 4em;
 }
 
 .Issue__linked {
@@ -53,6 +51,7 @@
 
 .Issue__title_issueSummary {
     display: block;
+    text-transform: none;
 }
 
 
