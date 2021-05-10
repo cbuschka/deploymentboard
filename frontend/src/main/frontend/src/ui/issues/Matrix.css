@@ -1,0 +1,44 @@
+.Matrix {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-collapse: separate;
+    margin: 0;
+    padding: 0;
+}
+
+.Matrix_cellFill {
+    border-radius: 5px;
+    padding: 1px;
+    width: 100%;
+    height: 100%;
+    background-color: whitesmoke;
+}
+
+.Matrix_leftCol.Matrix_cell {
+    padding: 1px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.Matrix_topLine .Matrix_cell {
+    text-align: center;
+}
+
+.Matrix_topLine {
+    text-transform: capitalize;
+    border: 0;
+    width: 100px;
+}
+
+.Matrix_environment {
+    text-transform: capitalize;
+    border: 0;
+    width: 100px;
+}
+
+.Matrix_system {
+    text-transform: capitalize;
+    border: 0;
+    border-collapse: collapse;
+}

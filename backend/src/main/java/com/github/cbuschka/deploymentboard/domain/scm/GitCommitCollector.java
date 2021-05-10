@@ -7,6 +7,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -18,13 +19,18 @@ public class GitCommitCollector
 {
 	public Set<String> collectCommits(Git git, String commitish, boolean ordered) throws IOException
 	{
-		ObjectId startObjectId = ObjectId.fromString(commitish);
+		ObjectId startObjectId = git.getRepository().resolve(commitish);
 
 		return collectCommitsByCommitWalk(git, startObjectId, ordered);
 	}
 
 	private Set<String> collectCommitsByCommitWalk(Git git, ObjectId startObjectId, boolean ordered) throws IOException
 	{
+		if (startObjectId == null)
+		{
+			return Collections.emptySet();
+		}
+
 		Set<String> commits = ordered ? new LinkedHashSet<>() : new HashSet<>();
 		try (RevWalk walk = new RevWalk(git.getRepository()))
 		{

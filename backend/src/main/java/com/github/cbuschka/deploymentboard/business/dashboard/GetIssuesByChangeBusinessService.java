@@ -7,6 +7,7 @@ import com.github.cbuschka.deploymentboard.domain.scm.CodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -22,6 +23,11 @@ public class GetIssuesByChangeBusinessService
 
 	public Set<String> getIssuesFor(Set<String> issuePrefixes, String startCommitish, String optionalEndCommitish, CodeRepository codeRepository)
 	{
+		if (codeRepository == null)
+		{
+			return Collections.emptySet();
+		}
+
 		List<Change> changes = this.changeDomainService.getChangesFrom(startCommitish, optionalEndCommitish, codeRepository);
 		return changes.stream()
 				.map(Change::getComment)

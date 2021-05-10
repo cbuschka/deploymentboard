@@ -56,10 +56,15 @@ public class GetDashboardStateBusinessService
 	}
 
 	@Scheduled(fixedDelay = 1_000)
+	public void reloadDashboardState()
+	{
+		getDashboardState();
+	}
+
 	public DashboardStateResponse getDashboardState()
 	{
 		Config config = this.configProvider.getConfig();
-		return this.stateResponseCachedValueHolder.get(config.settings.getConnectTimeoutMillis());
+		return this.stateResponseCachedValueHolder.get(config.settings.getRecheckTimeoutMillis());
 	}
 
 	private DashboardStateResponse getEmptyState()

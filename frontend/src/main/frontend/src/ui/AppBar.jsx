@@ -1,7 +1,7 @@
 import React from 'react';
 import "./AppBar.css";
 import {appHistory} from "./AppHistory";
-import {Nav, Navbar, NavbarBrand, NavItem, NavLink} from "reactstrap";
+import {Nav, NavbarBrand, NavItem, NavLink} from "reactstrap";
 import {Logo} from "./Logo";
 
 
@@ -18,8 +18,13 @@ export class AppBar extends React.Component {
         return (<div className="AppBar">
             <NavbarBrand><Logo withLabel/></NavbarBrand>
             <Nav className="AppBar__Nav" tabs>
-                <NavItem className="AppBar__NavItem" active>
-                    <NavLink className="AppBar__NavLink" active href="/app/deployments">Deployments</NavLink>
+                <NavItem className="AppBar__NavItem" active={window.location.pathname === "/app/deployments"}>
+                    <NavLink className="AppBar__NavLink" active={window.location.pathname === "/app/deployments"}
+                             href="/app/deployments">Deployments</NavLink>
+                </NavItem>
+                <NavItem className="AppBar__NavItem" active={window.location.pathname === "/app/issues"}>
+                    <NavLink className="AppBar__NavLink" href="/app/issues"
+                             active={window.location.pathname === "/app/issues"}>Issues</NavLink>
                 </NavItem>
             </Nav>
         </div>);

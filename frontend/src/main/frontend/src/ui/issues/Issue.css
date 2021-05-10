@@ -1,11 +1,11 @@
 .Issue {
     display: block;
+    width: 100%;
     border: 1px solid gray;
     border-radius: 5px;
     padding: 4px;
     margin: 2px 4px 2px 2px;
     color: white;
-    width: 100%;
     min-height: 4em;
 }
 

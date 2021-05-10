@@ -19,6 +19,13 @@ public class System
 
 	private Map<String, Endpoint> endpoints;
 
+	private String mainBranch = "origin/main";
+
+	public String getMainBranch()
+	{
+		return this.mainBranch;
+	}
+
 	public Optional<Endpoint> getEndpoint(String env)
 	{
 		if (this.endpoints == null)

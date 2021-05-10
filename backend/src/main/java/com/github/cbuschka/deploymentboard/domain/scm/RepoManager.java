@@ -44,7 +44,7 @@ public class RepoManager
 		JschConfigSessionFactory.setInstance(sshSessionContextAwareJschConfigSessionFactory);
 	}
 
-	public Repository updateRepo(CodeRepository codeRepository) throws Exception
+	public synchronized Repository updateRepo(CodeRepository codeRepository) throws Exception
 	{
 		URIish repositoryUri = new URIish(codeRepository.getUrl());
 

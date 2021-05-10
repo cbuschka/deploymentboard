@@ -23,3 +23,7 @@
 .AppBar__NavLink.nav-link {
     margin-bottom: 0;
 }
+
+.AppBar__NavLink.nav-link:not(.active) {
+    color: #495057;
+}
