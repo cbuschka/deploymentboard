@@ -6,8 +6,8 @@ export const loadIssues = async () => {
   return httpClient.doGet("/issues/state")
     .then(res => res.json())
     .then(res => {
-      const {systems} = res;
-      return dispatcher.dispatch({"type": "issuesLoaded", data: {systems}});
+      const {issueStreams} = res;
+      return dispatcher.dispatch({"type": "issuesLoaded", data: {issueStreams}});
     })
     .catch((e) => {
       return dispatcher.dispatch({"type": "loadingIssuesFailed", data: {message: e.message}});

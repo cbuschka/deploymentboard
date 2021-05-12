@@ -4,14 +4,14 @@ class IssuesStore {
     this.state = {
       ok: true,
       message: '',
-      systems: [],
+      issueStreams: [],
       issues: {}
     };
   }
 
   onIssuesLoaded({data}) {
-    const {systems, issues} = data;
-    this.state = {systems, issues};
+    const {issueStreams, issues} = data;
+    this.state = {issueStreams, issues};
   }
 
   onLoadingIssuesFailed({data}) {

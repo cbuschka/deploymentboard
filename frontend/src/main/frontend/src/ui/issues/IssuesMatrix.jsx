@@ -6,30 +6,30 @@ import {Issue} from "../lib/Issue";
 export class IssuesMatrix extends React.Component {
 
     render() {
-        const {systems = []} = this.props;
+        const {issueStreams = []} = this.props;
 
-        const colWidth = Math.floor(95.0 / systems.length);
+        const colWidth = Math.floor(99.0 / issueStreams.length);
 
         return (
             <Table className="IssuesMatrix">
                 <thead>
                 <tr className="IssuesMatrix_topLine">
-                    <th className="IssuesMatrix_cell IssuesMatrix_leftCol">&nbsp;</th>
-                    {systems.map(system => {
-                        return <th className="IssuesMatrix_cell " style={{"width": colWidth + "%"}}
-                                   key={system.name}>{system.name}</th>
+                    {issueStreams.map(issueStream => {
+                        return <th className="IssuesMatrix_cell" style={{"width": colWidth + "%"}}
+                                   key={issueStream.system}>{issueStream.system}</th>
                     })}
                 </tr>
                 </thead>
                 <tbody>
                 <tr className="IssuesMatrix_environment">
-                    <td className="IssuesMatrix_cell IssuesMatrix_leftCol">Issues</td>
-                    {systems.map(system => {
-                        const systemIssues = system.issues || [];
+                    {issueStreams.map(issueStream => {
+                        const issues = issueStream.issues || [];
 
-                        return <td className="IssuesMatrix_cell" style={{"width": colWidth + "%"}} key={system.name}>
-                            <div className="IssuesMatrix_cellFill">
-                                {systemIssues.map(issue => {
+                        return <td className="IssuesMatrix_cell" style={{"width": colWidth + "%"}}
+                                   key={issueStream.system}>
+                            <div className="IssuesMatrix_cellFill IssuesMatrix_issues">
+                                <div className="IssuesMatrix_issueStream_branch">{issueStream.branch}</div>
+                                {issues.map(issue => {
                                     return <Issue key={issue.issueNo} issue={issue}/>;
                                 })}
                             </div>

@@ -15,30 +15,35 @@
     background-color: whitesmoke;
 }
 
-.IssuesMatrix_leftCol.IssuesMatrix_cell {
-    padding: 1px;
-    text-align: center;
-    vertical-align: middle;
-}
-
 .IssuesMatrix_topLine .IssuesMatrix_cell {
     text-align: center;
 }
 
 .IssuesMatrix_topLine {
-    text-transform: capitalize;
     border: 0;
     width: 100px;
 }
 
 .IssuesMatrix_environment {
-    text-transform: capitalize;
     border: 0;
     width: 100px;
 }
 
 .IssuesMatrix_system {
-    text-transform: capitalize;
     border: 0;
     border-collapse: collapse;
+}
+
+.IssuesMatrix_issues {
+    border: 0;
+    border-collapse: collapse;
+    padding: 20px;
+}
+
+
+.IssuesMatrix_issueStream_branch {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
 }

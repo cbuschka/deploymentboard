@@ -33,16 +33,16 @@ export class IssuesPage extends React.Component {
     }
 
     _onChange = ({data}) => {
-        const {issues: {systems}} = data;
-        this.setState({systems});
+        const {issues: {issueStreams}} = data;
+        this.setState({issueStreams});
     };
 
 
     render() {
-        const {systems} = this.state;
+        const {issueStreams} = this.state;
 
         return <div className="IssuesPage">
-            <IssuesMatrix systems={systems}/>
+            <IssuesMatrix issueStreams={issueStreams}/>
         </div>;
     }
 }

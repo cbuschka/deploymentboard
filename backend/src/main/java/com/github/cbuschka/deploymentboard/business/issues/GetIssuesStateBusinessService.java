@@ -73,15 +73,15 @@ public class GetIssuesStateBusinessService
 
 	private GetIssuesStateResponse calculateIssuesState()
 	{
-		List<GetIssuesStateResponse.System> systems = this.systemDomainService.getSystems()
+		List<GetIssuesStateResponse.IssueStream> issueStreams = this.systemDomainService.getSystems()
 				.stream()
-				.map(this::getSystemWithIssuesFor).collect(Collectors.toList());
-		return new GetIssuesStateResponse(systems);
+				.map(this::getIssueStreamFor).collect(Collectors.toList());
+		return new GetIssuesStateResponse(issueStreams);
 	}
 
-	private GetIssuesStateResponse.System getSystemWithIssuesFor(System system)
+	private GetIssuesStateResponse.IssueStream getIssueStreamFor(System system)
 	{
-		return new GetIssuesStateResponse.System(system.getName(), getIssuesFor(system));
+		return new GetIssuesStateResponse.IssueStream(system.getName(), system.getMainBranch(), getIssuesFor(system));
 	}
 
 	private List<GetIssuesStateResponse.Issue> getIssuesFor(System system)

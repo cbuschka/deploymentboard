@@ -45,13 +45,11 @@
 .Issue__title_issueStatus {
     display: inline-block;
     text-align: right;
-    text-transform: lowercase;
     font-size: 10px;
 }
 
 .Issue__title_issueSummary {
     display: block;
-    text-transform: none;
 }
 
 

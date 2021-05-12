@@ -26,19 +26,16 @@
 }
 
 .Matrix_topLine {
-    text-transform: capitalize;
     border: 0;
     width: 100px;
 }
 
 .Matrix_environment {
-    text-transform: capitalize;
     border: 0;
     width: 100px;
 }
 
 .Matrix_system {
-    text-transform: capitalize;
     border: 0;
     border-collapse: collapse;
 }

@@ -4,7 +4,6 @@
     margin: 0;
     display: block;
     vertical-align: top;
-    text-transform: none;
     border-collapse: collapse;
     border-radius: 5px;
 }
@@ -23,13 +22,11 @@
 .Matrix_system_environment_branchAndCommitish {
     font-size: 0.8em;
     display: block;
-    text-transform: none;
 }
 
 .Matrix_InfoBlock {
     font-size: 0.8em;
     display: block;
-    text-transform: none;
     color: #161616;
 }
 
@@ -51,5 +48,4 @@
     padding: 0 20px 20px 20px;
     margin: 0;
     vertical-align: top;
-    text-transform: none;
 }

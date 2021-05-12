@@ -8,12 +8,13 @@ import java.util.List;
 @AllArgsConstructor
 public class GetIssuesStateResponse
 {
-	public final List<GetIssuesStateResponse.System> systems;
+	public final List<GetIssuesStateResponse.IssueStream> issueStreams;
 
 	@AllArgsConstructor
-	public static class System
+	public static class IssueStream
 	{
-		public String name;
+		public String system;
+		public String branch;
 		public List<Issue> issues;
 	}
 
