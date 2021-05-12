@@ -1,4 +1,4 @@
-package com.github.cbuschka.deploymentboard.business.issues;
+package com.github.cbuschka.deploymentboard.business.issueStreams;
 
 import com.github.cbuschka.deploymentboard.domain.issue_tracking.IssueStatus;
 import lombok.AllArgsConstructor;
@@ -6,9 +6,9 @@ import lombok.AllArgsConstructor;
 import java.util.List;
 
 @AllArgsConstructor
-public class GetIssuesStateResponse
+public class GetIssueStreamsStateResponse
 {
-	public final List<GetIssuesStateResponse.IssueStream> issueStreams;
+	public final List<GetIssueStreamsStateResponse.IssueStream> issueStreams;
 
 	@AllArgsConstructor
 	public static class IssueStream

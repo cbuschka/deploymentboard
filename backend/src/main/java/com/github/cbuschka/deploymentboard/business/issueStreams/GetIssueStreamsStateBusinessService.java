@@ -1,4 +1,4 @@
-package com.github.cbuschka.deploymentboard.business.issues;
+package com.github.cbuschka.deploymentboard.business.issueStreams;
 
 import com.github.cbuschka.deploymentboard.business.dashboard.GetIssuesByChangeBusinessService;
 import com.github.cbuschka.deploymentboard.domain.config.Config;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class GetIssuesStateBusinessService
+public class GetIssueStreamsStateBusinessService
 {
 	@Autowired
 	private SystemDomainService systemDomainService;
@@ -46,7 +46,7 @@ public class GetIssuesStateBusinessService
 	@Autowired
 	private ConfigProvider configProvider;
 
-	private final CachedValueHolder<GetIssuesStateResponse> issuesStateResponseCachedValueHolder = new CachedValueHolder<>(this::calculateIssuesState, Executors.newSingleThreadExecutor());
+	private final CachedValueHolder<GetIssueStreamsStateResponse> issuesStateResponseCachedValueHolder = new CachedValueHolder<>(this::calculateIssuesState, Executors.newSingleThreadExecutor());
 
 	@PostConstruct
 	private void init()
@@ -54,9 +54,9 @@ public class GetIssuesStateBusinessService
 		this.issuesStateResponseCachedValueHolder.setDefault(getEmptyIssuesState());
 	}
 
-	private GetIssuesStateResponse getEmptyIssuesState()
+	private GetIssueStreamsStateResponse getEmptyIssuesState()
 	{
-		return new GetIssuesStateResponse(Collections.emptyList());
+		return new GetIssueStreamsStateResponse(Collections.emptyList());
 	}
 
 	@Scheduled(fixedDelay = 1_000)
@@ -65,26 +65,26 @@ public class GetIssuesStateBusinessService
 		getIssuesState();
 	}
 
-	public GetIssuesStateResponse getIssuesState()
+	public GetIssueStreamsStateResponse getIssuesState()
 	{
 		Config config = this.configProvider.getConfig();
 		return this.issuesStateResponseCachedValueHolder.get(config.settings.getRecheckTimeoutMillis());
 	}
 
-	private GetIssuesStateResponse calculateIssuesState()
+	private GetIssueStreamsStateResponse calculateIssuesState()
 	{
-		List<GetIssuesStateResponse.IssueStream> issueStreams = this.systemDomainService.getSystems()
+		List<GetIssueStreamsStateResponse.IssueStream> issueStreams = this.systemDomainService.getSystems()
 				.stream()
 				.map(this::getIssueStreamFor).collect(Collectors.toList());
-		return new GetIssuesStateResponse(issueStreams);
+		return new GetIssueStreamsStateResponse(issueStreams);
 	}
 
-	private GetIssuesStateResponse.IssueStream getIssueStreamFor(System system)
+	private GetIssueStreamsStateResponse.IssueStream getIssueStreamFor(System system)
 	{
-		return new GetIssuesStateResponse.IssueStream(system.getName(), system.getMainBranch(), getIssuesFor(system));
+		return new GetIssueStreamsStateResponse.IssueStream(system.getName(), system.getMainBranch(), getIssuesFor(system));
 	}
 
-	private List<GetIssuesStateResponse.Issue> getIssuesFor(System system)
+	private List<GetIssueStreamsStateResponse.Issue> getIssuesFor(System system)
 	{
 		List<Environment> envs = this.environmentDomainService.getEnvironments();
 		Set<String> issuePrefixes = projectDomainService.getAllIssuePrefixes();
@@ -105,9 +105,9 @@ public class GetIssuesStateBusinessService
 		return issueNos.stream().map(this::toIssue).collect(Collectors.toList());
 	}
 
-	private GetIssuesStateResponse.Issue toIssue(String issueNo)
+	private GetIssueStreamsStateResponse.Issue toIssue(String issueNo)
 	{
 		IssueInfo info = this.issueDomainService.getIssueInfo(issueNo);
-		return new GetIssuesStateResponse.Issue(issueNo, info.issueStatus, info.title, info.url);
+		return new GetIssueStreamsStateResponse.Issue(issueNo, info.issueStatus, info.title, info.url);
 	}
 }

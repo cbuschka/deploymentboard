@@ -8,7 +8,7 @@ import {appStore} from './AppStore';
 import {dispatcher} from "@cbuschka/flux";
 import {loadAppState} from "./LoadAppStateAction";
 import {BottomBar} from "./BottomBar";
-import {IssuesPage} from "./issues/IssuesPage";
+import {IssueStreamsPage} from "./issueStreams/IssueStreamsPage";
 
 class App extends React.Component {
 
@@ -49,7 +49,7 @@ class App extends React.Component {
                 <Router history={appHistory} useHistory={true}>
                     <Switch>
                         <Route path="/app/deployments" exact component={DashboardPage}/>
-                        <Route path="/app/issues" exact component={IssuesPage}/>
+                        <Route path="/app/issueStreams" exact component={IssueStreamsPage}/>
                         <Redirect from="/" to="/app/deployments"/>
                     </Switch>
                 </Router>

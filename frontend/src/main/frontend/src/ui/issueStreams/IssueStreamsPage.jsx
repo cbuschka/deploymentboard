@@ -1,11 +1,11 @@
 import React from 'react';
 import {dispatcher} from "@cbuschka/flux";
-import {issuesStore} from "./IssuesStore";
-import {loadIssues} from "./LoadIssuesAction";
+import {issueStreamsStore} from "./IssueStreamsStore";
+import {loadIssueStreams} from "./LoadIssueStreamsAction";
 import {IssuesMatrix} from "./IssuesMatrix";
-import './IssuesPage.css';
+import './IssueStreamsPage.css';
 
-export class IssuesPage extends React.Component {
+export class IssueStreamsPage extends React.Component {
 
     constructor(props) {
         super(props);
@@ -14,7 +14,7 @@ export class IssuesPage extends React.Component {
     }
 
     componentDidMount() {
-        dispatcher.addHandler(issuesStore);
+        dispatcher.addHandler(issueStreamsStore);
         dispatcher.subscribe(this._onChange);
         this._reloadIssues();
     }
@@ -22,18 +22,18 @@ export class IssuesPage extends React.Component {
     componentWillUnmount() {
         window.clearTimeout(this.reloadTimer);
         dispatcher.unsubscribe(this._onChange);
-        dispatcher.removeHandler(issuesStore);
+        dispatcher.removeHandler(issueStreamsStore);
     }
 
     _reloadIssues = () => {
-        loadIssues()
+        loadIssueStreams()
             .finally(() => {
                 this.reloadTimer = window.setTimeout(this._reloadIssues, 5000);
             });
     }
 
     _onChange = ({data}) => {
-        const {issues: {issueStreams}} = data;
+        const {issueStreams: {issueStreams}} = data;
         this.setState({issueStreams});
     };
 

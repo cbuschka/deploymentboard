@@ -1,4 +1,4 @@
-class IssuesStore {
+class IssueStreamsStore {
 
   constructor() {
     this.state = {
@@ -9,19 +9,19 @@ class IssuesStore {
     };
   }
 
-  onIssuesLoaded({data}) {
+  onIssueStreamsLoaded({data}) {
     const {issueStreams, issues} = data;
     this.state = {issueStreams, issues};
   }
 
-  onLoadingIssuesFailed({data}) {
+  onLoadingIssueStreamsFailed({data}) {
     const {message} = data;
     this.state = {ok: false, message};
   }
 
   appendDataTo(target) {
-    target.issues = {...this.state};
+    target.issueStreams = {...this.state};
   }
 }
 
-export const issuesStore = new IssuesStore();
+export const issueStreamsStore = new IssueStreamsStore();

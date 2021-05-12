@@ -22,9 +22,9 @@ export class AppBar extends React.Component {
                     <NavLink className="AppBar__NavLink" active={window.location.pathname === "/app/deployments"}
                              href="/app/deployments">Deployments</NavLink>
                 </NavItem>
-                <NavItem className="AppBar__NavItem" active={window.location.pathname === "/app/issues"}>
-                    <NavLink className="AppBar__NavLink" href="/app/issues"
-                             active={window.location.pathname === "/app/issues"}>Issues</NavLink>
+                <NavItem className="AppBar__NavItem" active={window.location.pathname === "/app/issueStreams"}>
+                    <NavLink className="AppBar__NavLink" href="/app/issueStreams"
+                             active={window.location.pathname === "/app/issueStreams"}>Issue Streams</NavLink>
                 </NavItem>
             </Nav>
         </div>);
