@@ -1,6 +1,10 @@
 TOP_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 PROJECT_NAME := deploymentboard
 
+start-dev-server:
+	@cd ${TOP_DIR} && \
+	TOP_DIR=${TOP_DIR} cd ${TOP_DIR}/frontend/src/main/frontend && yarn run start
+
 start-services:
 	@cd ${TOP_DIR} && \
 	TOP_DIR=${TOP_DIR} docker-compose -p ${PROJECT_NAME} -f ${TOP_DIR}/dev-env/docker-compose-services.yml up -d --build
