@@ -3,7 +3,7 @@ PROJECT_NAME := deploymentboard
 
 start-dev-server:
 	@cd ${TOP_DIR} && \
-	TOP_DIR=${TOP_DIR} cd ${TOP_DIR}/frontend/src/main/frontend && yarn run start
+	TOP_DIR=${TOP_DIR} cd ${TOP_DIR}/frontend/ && yarn run start
 
 start-services:
 	@cd ${TOP_DIR} && \
