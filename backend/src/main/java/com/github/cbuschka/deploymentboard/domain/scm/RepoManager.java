@@ -44,7 +44,7 @@ public class RepoManager
 		JschConfigSessionFactory.setInstance(sshSessionContextAwareJschConfigSessionFactory);
 	}
 
-	public synchronized Repository updateRepo(CodeRepository codeRepository) throws Exception
+	public synchronized Repository openRepo(CodeRepository codeRepository) throws Exception
 	{
 		URIish repositoryUri = new URIish(codeRepository.getUrl());
 
@@ -52,22 +52,22 @@ public class RepoManager
 		List<PrivateKeyCredentials> privateKeyCredentialsList = this.authDomainService.getPrivateKeyCredentials(repositoryUri.getUser(), repositoryUri.getHost());
 		new SshSessionContext<List<Change>>(repositoryUri, codeRepository, privateKeyCredentialsList)
 				.run(() -> {
-					updateRepo(repositoryUri, repo);
+					openRepo(repositoryUri, repo);
 					return null;
 				});
 		return repo;
 	}
 
-	private void updateRepo(URIish repositoryUri, Repository repo) throws Exception
+	private void openRepo(URIish repositoryUri, Repository repo) throws Exception
 	{
 		CredentialsProvider credentialsProvider = getCredentialsProvider(repositoryUri);
 		try (Git git = Git.wrap(repo))
 		{
-			updateRepo(repositoryUri, credentialsProvider, git);
+			openRepo(repositoryUri, credentialsProvider, git);
 		}
 	}
 
-	private void updateRepo(URIish repositoryUri, CredentialsProvider credentialsProvider, Git git) throws GitAPIException
+	private void openRepo(URIish repositoryUri, CredentialsProvider credentialsProvider, Git git) throws GitAPIException
 	{
 		log.debug("Updating repo {}...", repositoryUri);
 

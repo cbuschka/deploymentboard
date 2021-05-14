@@ -52,12 +52,13 @@ public class ChangeDomainService
 
 	private List<Change> listChanges(String commitish, String optionalEndCommitish, CodeRepository codeRepository) throws Exception
 	{
-		Repository repo = this.repoManager.updateRepo(codeRepository);
-
-		try (Git git = Git.wrap(repo))
+		try (Repository repo = this.repoManager.openRepo(codeRepository);)
 		{
-			GitChangeCollector handler = getHandlerFor(ChangeDetectionAlgorithm.simple);
-			return Collections.unmodifiableList(handler.collectChanges(git, commitish, optionalEndCommitish));
+			try (Git git = Git.wrap(repo))
+			{
+				GitChangeCollector handler = getHandlerFor(ChangeDetectionAlgorithm.simple);
+				return Collections.unmodifiableList(handler.collectChanges(git, commitish, optionalEndCommitish));
+			}
 		}
 	}
 
