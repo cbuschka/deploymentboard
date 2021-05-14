@@ -58,32 +58,51 @@ public class SshEndpointHandler implements EndpointHandler
 		}
 
 		Session session = jSch.getSession(uri.getUser(), uri.getHost(), uri.getPort() != -1 ? uri.getPort() : 22);
-		session.setTimeout(endpoint.getConnectTimeoutMillis());
-		session.setConfig("StrictHostKeyChecking", "no");
-		session.connect();
-
-		Channel channel = session.openChannel("exec");
-		ChannelExec execChannel = (ChannelExec) channel;
-		execChannel.setCommand(endpoint.getCommand());
-		execChannel.setInputStream(null);
-		ByteArrayOutputStream stderrOut = new ByteArrayOutputStream();
-		execChannel.setErrStream(stderrOut);
-		ByteArrayOutputStream stdoutOut = new ByteArrayOutputStream();
-		execChannel.connect();
-		execChannel.start();
-
-		readResponseInto(channel, execChannel, stdoutOut);
-
-		int exitStatus = execChannel.getExitStatus();
-		if (exitStatus != 0)
+		try
 		{
-			throw new IOException("Command exit code: " + exitStatus + "; " + stderrOut.toString(StandardCharsets.UTF_8));
+			session.setTimeout(endpoint.getConnectTimeoutMillis());
+			session.setConfig("StrictHostKeyChecking", "no");
+			session.connect();
+
+			Channel channel = session.openChannel("exec");
+			ChannelExec execChannel = (ChannelExec) channel;
+			execChannel.setCommand(endpoint.getCommand());
+			execChannel.setInputStream(null);
+			ByteArrayOutputStream stderrOut = new ByteArrayOutputStream();
+			execChannel.setErrStream(stderrOut);
+			ByteArrayOutputStream stdoutOut = new ByteArrayOutputStream();
+			execChannel.connect();
+			execChannel.start();
+
+			readResponseInto(channel, execChannel, stdoutOut);
+
+			int exitStatus = execChannel.getExitStatus();
+			if (exitStatus != 0)
+			{
+				throw new IOException("Command exit code: " + exitStatus + "; " + stderrOut.toString(StandardCharsets.UTF_8));
+			}
+
+			execChannel.disconnect();
+			session.disconnect();
+
+			return stdoutOut.toByteArray();
 		}
+		finally
+		{
+			closeQuietly(session);
+		}
+	}
 
-		execChannel.disconnect();
-		session.disconnect();
-
-		return stdoutOut.toByteArray();
+	private void closeQuietly(Session session)
+	{
+		try
+		{
+			session.disconnect();
+		}
+		catch (Exception ex)
+		{
+			log.warn("Closing ssh session failed.", ex);
+		}
 	}
 
 	private void readResponseInto(Channel channel, ChannelExec execChannel, ByteArrayOutputStream bytesOut) throws IOException

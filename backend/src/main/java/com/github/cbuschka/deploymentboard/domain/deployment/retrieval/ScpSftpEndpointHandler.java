@@ -46,19 +46,38 @@ public class ScpSftpEndpointHandler implements EndpointHandler
 		}
 
 		Session session = jSch.getSession(uri.getUser(), uri.getHost(), uri.getPort() != -1 ? uri.getPort() : 22);
-		session.setConfig("StrictHostKeyChecking", "no");
-		session.setTimeout(endpoint.getConnectTimeoutMillis());
-		session.connect();
+		try
+		{
+			session.setConfig("StrictHostKeyChecking", "no");
+			session.setTimeout(endpoint.getConnectTimeoutMillis());
+			session.connect();
 
-		Channel channel = session.openChannel("sftp");
-		channel.connect();
-		ChannelSftp sftpChannel = (ChannelSftp) channel;
-		ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
-		sftpChannel.get(uri.getPath(), bytesOut);
-		sftpChannel.exit();
+			Channel channel = session.openChannel("sftp");
+			channel.connect();
+			ChannelSftp sftpChannel = (ChannelSftp) channel;
+			ByteArrayOutputStream bytesOut = new ByteArrayOutputStream();
+			sftpChannel.get(uri.getPath(), bytesOut);
+			sftpChannel.exit();
 
-		session.disconnect();
+			session.disconnect();
 
-		return bytesOut.toByteArray();
+			return bytesOut.toByteArray();
+		}
+		finally
+		{
+			closeQuietly(session);
+		}
+	}
+
+	private void closeQuietly(Session session)
+	{
+		try
+		{
+			session.disconnect();
+		}
+		catch (Exception ex)
+		{
+			log.warn("Closing ssh session failed.", ex);
+		}
 	}
 }
