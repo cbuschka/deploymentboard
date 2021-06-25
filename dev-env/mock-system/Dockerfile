@@ -1,4 +1,4 @@
-FROM nginx:1.19.9
+FROM nginx:mainline
 
 ENV VERSION_RESPONSE "{}"
 ENV TZ=Europe/Berlin
