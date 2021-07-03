@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:20.10
 
 RUN export DEBIAN_FRONTEND=noninteractive; apt-get update \
 	&& apt-get install --yes --no-install-recommends locales curl procps unzip zip inotify-tools vim dnsutils openssh-server supervisor net-tools apt-utils less sudo git \
