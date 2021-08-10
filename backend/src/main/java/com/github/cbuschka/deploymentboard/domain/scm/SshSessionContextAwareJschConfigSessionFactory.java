@@ -45,6 +45,7 @@ public class SshSessionContextAwareJschConfigSessionFactory extends JschConfigSe
 	{
 		SshSessionContext<Object> current = SshSessionContext.current();
 		List<PrivateKeyCredentials> privateKeyCredentialsList = current.getPrivateKeyCredentialsList();
+		preventNPExInJsch();
 		JSch jsch = super.getJSch(hc, fs);
 		jsch.removeAllIdentity();
 		for (PrivateKeyCredentials c : privateKeyCredentialsList)
@@ -52,5 +53,18 @@ public class SshSessionContextAwareJschConfigSessionFactory extends JschConfigSe
 			jsch.addIdentity("", privateKeyLoader.getAsciiArmoredBytesUTF8(c), null, privateKeyLoader.getPasswordBytesUTF8(c));
 		}
 		return jsch;
+	}
+
+	private void preventNPExInJsch()
+	{
+		if (JSch.getConfig("signature.dss") == null)
+		{
+			JSch.setConfig("signature.dss", "com.jcraft.jsch.jce.SignatureDSA");
+		}
+		
+		if (JSch.getConfig("signature.rsa") == null)
+		{
+			JSch.setConfig("signature.rsa", "com.jcraft.jsch.jce.SignatureRSA");
+		}
 	}
 }
