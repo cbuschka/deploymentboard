@@ -41,6 +41,11 @@ public class Cache<Key, Value>
 				.orElseGet(() -> defaultSupplier.apply(key));
 	}
 
+	public int getEntryCount() {
+		synchronized(entries) {
+			return this.entries.size();
+		}
+	}
 
 	private static class Entry<Value>
 	{

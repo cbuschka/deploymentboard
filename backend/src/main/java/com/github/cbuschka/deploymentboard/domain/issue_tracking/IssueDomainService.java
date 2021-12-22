@@ -2,6 +2,8 @@ package com.github.cbuschka.deploymentboard.domain.issue_tracking;
 
 import com.github.cbuschka.deploymentboard.domain.config.ConfigProvider;
 import com.github.cbuschka.deploymentboard.util.Cache;
+import com.github.cbuschka.deploymentboard.util.CacheStats;
+import com.github.cbuschka.deploymentboard.util.CacheStatsProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +13,7 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class IssueDomainService
+public class IssueDomainService implements CacheStatsProvider
 {
 	@Autowired
 	private List<IssueTrackerHandler> issueTrackerHandlers;
@@ -19,6 +21,11 @@ public class IssueDomainService
 	private ConfigProvider configProvider;
 
 	private final Cache<String, IssueInfo> issueInfoCache = new Cache<>();
+
+	@Override
+	public CacheStats getCacheStats() {
+		return new CacheStats("issueInfoCache", issueInfoCache.getEntryCount());
+	}
 
 	public IssueInfo getIssueInfo(String issueCode)
 	{

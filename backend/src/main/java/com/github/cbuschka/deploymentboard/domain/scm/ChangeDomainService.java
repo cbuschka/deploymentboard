@@ -1,20 +1,19 @@
 package com.github.cbuschka.deploymentboard.domain.scm;
 
 import com.github.cbuschka.deploymentboard.util.Cache;
+import com.github.cbuschka.deploymentboard.util.CacheStats;
+import com.github.cbuschka.deploymentboard.util.CacheStatsProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Slf4j
-public class ChangeDomainService
+public class ChangeDomainService implements CacheStatsProvider
 {
 	@Autowired
 	private List<GitChangeCollector> gitChangeCollectors;
@@ -22,6 +21,11 @@ public class ChangeDomainService
 	private RepoManager repoManager;
 
 	private final Cache<CommitRange, List<Change>> changeCache = new Cache<>();
+
+	@Override
+	public CacheStats getCacheStats() {
+		return new CacheStats("changeCache", changeCache.getEntryCount());
+	}
 
 	public List<Change> getChangesFrom(String startCommitish, String optionalEndCommitish, CodeRepository codeRepository)
 	{

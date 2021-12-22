@@ -3,6 +3,8 @@ package com.github.cbuschka.deploymentboard.domain.deployment;
 import com.github.cbuschka.deploymentboard.domain.deployment.extraction.DeploymentInfoExtractor;
 import com.github.cbuschka.deploymentboard.domain.deployment.retrieval.DeploymentInfoRetriever;
 import com.github.cbuschka.deploymentboard.util.Cache;
+import com.github.cbuschka.deploymentboard.util.CacheStats;
+import com.github.cbuschka.deploymentboard.util.CacheStatsProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +12,7 @@ import java.io.ByteArrayInputStream;
 import java.util.Optional;
 
 @Service
-public class EndpointDomainService
+public class EndpointDomainService implements CacheStatsProvider
 {
 	@Autowired
 	private DeploymentInfoRetriever retriever;
@@ -18,6 +20,11 @@ public class EndpointDomainService
 	private DeploymentInfoExtractor extractor;
 
 	private final Cache<SystemEnvironment, DeploymentInfo> deploymentInfoCache = new Cache<>();
+
+	@Override
+	public CacheStats getCacheStats() {
+		return new CacheStats("deploymentInfoCache", deploymentInfoCache.getEntryCount());
+	}
 
 	public DeploymentInfo getDeploymentInfo(String system, String env, Endpoint endpoint)
 	{

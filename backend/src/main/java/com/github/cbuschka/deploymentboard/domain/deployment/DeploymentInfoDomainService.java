@@ -11,8 +11,6 @@ import java.util.Map;
 public class DeploymentInfoDomainService
 {
 	@Autowired
-	private SystemDomainService systemDomainService;
-	@Autowired
 	private EnvironmentDomainService environmentDomainService;
 	@Autowired
 	private EndpointDomainService endpointDomainService;
