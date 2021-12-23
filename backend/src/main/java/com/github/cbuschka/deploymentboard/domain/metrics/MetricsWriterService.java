@@ -16,7 +16,7 @@ public class MetricsWriterService {
 
 	private final List<CacheStatsProvider> cacheStatsProviders;
 
-	@Scheduled(cron = "0 */5 * * * *")
+	@Scheduled(cron = "0 * * * * *")
 	public void writeMetrics() {
 		for (CacheStatsProvider provider : cacheStatsProviders) {
 			CacheStats cacheStats = provider.getCacheStats();
