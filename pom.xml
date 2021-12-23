@@ -96,7 +96,7 @@
                 <configuration>
                     <skip>true</skip>
                     <from>
-                        <image>openjdk:11-jdk-slim</image>
+                        <image>openjdk:17-jdk-slim</image>
                     </from>
                     <to>
                         <image>docker.io/cbuschka/deploymentboard</image>
